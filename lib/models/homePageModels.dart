@@ -1,4 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:youmusic2/client/client.dart';
+
+import '../main.dart';
 
 class LoadModel extends ChangeNotifier{
   var finished = false;
@@ -15,4 +18,51 @@ class LoadModel extends ChangeNotifier{
       notifyListeners();
     }
   }
+}
+
+class AnimatedListModel{
+
+  var _list = <Widget>[];
+  final GlobalKey<SliverAnimatedListState> listKey = GlobalKey<SliverAnimatedListState>();
+  final loadModel;
+  var _subscription;
+
+  AnimatedListModel({@required this.loadModel});
+
+  void consume(){
+    if (!loadModel.finished){
+      _subscription?.cancel();
+      _removeAnimatedAll();
+    }
+    loadModel.start();
+
+    final rowStream = HomePageStream().stream;
+    _subscription = rowStream.listen(
+      (json) => _insert(json),
+      onDone: () => loadModel.finish()
+    );
+  }
+
+  void _insert(Map<String, dynamic> json) {
+    _list.add(HomeRow(json: json));
+    listKey.currentState
+        .insertItem(_list.length-1, duration:const Duration(milliseconds: 600));
+  }
+
+  void resetList(){
+    _removeAnimatedAll();
+    consume();
+  }
+
+  void _removeAnimatedAll(){
+    for (var i = _list.length-1; i>=0; i--){
+      listKey.currentState.removeItem(i, (context, animation) => Container());
+    }
+    _list = <Widget>[];
+  }
+  int get length => _list.length;
+
+  Widget operator [](int index) => _list[index];
+
+  int indexOf(Widget item) => _list.indexOf(item);
 }

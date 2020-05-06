@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -9,6 +11,7 @@ import 'package:youmusic2/test/data.dart';
 
 import 'client/client.dart';
 import 'models/homePageModels.dart';
+import 'package:flutter/physics.dart';
 
 void main() => runApp(MyApp());
 
@@ -45,8 +48,13 @@ class HomeScaffold extends StatelessWidget {
 //    final lstJson = RowData;
 //    print(MyMap);
 
-    return Scaffold(
-      body: homeScrollView
+    return Provider(
+      create: (context){
+        return AnimatedListModel(loadModel: Provider.of<LoadModel>(context, listen: false));
+      },
+      child: Scaffold(
+        body: homeScrollView
+      ),
     );
   }
 }
@@ -59,24 +67,29 @@ class HomeScrollView extends StatefulWidget{
 class _HomeScrollViewState extends State<HomeScrollView> {
   @override
   Widget build(BuildContext context) {
-    final loadModel = Provider.of<LoadModel>(context, listen: false);
-    final stateRef = Reference();
+    final listModel = Provider.of<AnimatedListModel>(context, listen: false);
 
-    return RefreshIndicator(
-      onRefresh: () async{
-        stateRef.current.resetList();
-        return null;
-      },
-      child: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            title: Text('YouMuisc', style: Theme.of(context).textTheme.title),
-            floating: true,
-          ),
-          HomePageListView(loadModel: loadModel, stateRef: stateRef),
-          MyOtherSliverList()
-        ],
-      ),
+    return CustomScrollView(
+      physics:
+        const AlwaysScrollableScrollPhysics(parent: const CustomScrollPhysics()),
+      slivers: <Widget>[
+        SliverAppBar(
+          title: Text('YouMuisc', style: Theme.of(context).textTheme.title),
+          floating: true,
+        ),
+        CupertinoSliverRefreshControl(
+          refreshTriggerPullDistance: 100,
+          refreshIndicatorExtent: 0,
+          builder: buildSimpleRefreshIndicator,
+          onRefresh: () async {
+            listModel.resetList();
+//            stateRef.current.resetList();
+//            await Future.delayed(Duration(seconds: 2));
+          },
+        ),
+        HomePageListView(listModel: listModel),
+        MyOtherSliverList()
+      ],
     );
   }
 }
@@ -85,20 +98,67 @@ class Reference{
   var current;
 }
 
-class HomePageListView extends StatefulWidget {
+Widget buildSimpleRefreshIndicator(context, refreshState, pulledExtent,
+    refreshTriggerPullDistance, refreshIndicatorExtent) {
+  const Curve opacityCurve = Interval(0.4, 0.8, curve: Curves.easeInOut);
 
-  final loadModel;
-  final stateRef;
-  
-  HomePageListView({@required this.loadModel, @required this.stateRef});
+  if (refreshState == RefreshIndicatorMode.drag){
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 16.0),
+        child: Opacity(
+          opacity: opacityCurve.transform(
+              min(pulledExtent / refreshTriggerPullDistance, 1.0)
+          ),
+          child: Icon(
+            CupertinoIcons.down_arrow,
+            color: CupertinoDynamicColor.resolve(CupertinoColors.inactiveGray, context),
+            size: 50.0,
+          ),
+        )
+      )
+    );
+  }else{
+    return Container(color:Colors.blue, height: 0);
+  }
+}
+
+class CustomScrollPhysics extends BouncingScrollPhysics{
+
+  const CustomScrollPhysics({ ScrollPhysics parent }) : super(parent: parent);
 
   @override
-  _HomePageListViewState createState() {
-    final state = _HomePageListViewState();
-    stateRef.current = state;
-    return state;
-  }
+  SpringDescription get spring => SpringDescription.withDampingRatio(
+    mass: 0.3,
+    stiffness: 500.0,
+    ratio: 1.1,
+  );
+////
+//  @override
+//  Tolerance get tolerance =>  Tolerance(distance: 0.1,time: 2, velocity: 2);
 
+  @override
+  double get maxFlingVelocity => 4000;
+//
+//  @override
+//  double get minFlingVelocity => 10000;
+//  @override
+//  double get dragStartDistanceMotionThreshold => 100.5;
+  @override
+  CustomScrollPhysics applyTo(ScrollPhysics ancestor) {
+    return CustomScrollPhysics(parent: buildParent(ancestor));
+  }
+}
+
+class HomePageListView extends StatefulWidget {
+
+  final listModel;
+
+  HomePageListView({@required this.listModel});
+
+  @override
+  _HomePageListViewState createState() => _HomePageListViewState();
 }
 
 class _HomePageListViewState extends State<HomePageListView> {
@@ -111,50 +171,18 @@ class _HomePageListViewState extends State<HomePageListView> {
   @override
   void initState() {
     super.initState();
-    _list = [];
-    _consume();
+    widget.listModel.consume();
   }
 
-  void _consume(){
-    widget.loadModel.start();
-
-    final rowStream = HomePageStream().stream;
-    rowStream.listen(
-      (json) => _insert(json),
-      onDone: () => widget.loadModel.finish()
-    );
-  }
-
-  void _insert(Map<String, dynamic> json) {
-    _list.add(HomeRow(json: json));
-    _listKey.currentState
-        .insertItem(_list.length-1, duration:const Duration(milliseconds: 1000));
-  }
-
-  void resetList(){
-    _removeAnimatedAll();
-    _list = [];
-    _consume();
-  }
-
-  void _removeAnimatedAll(){
-    for (var i = _list.length-1; i>=0; i--){
-      _listKey.currentState.removeItem(i, (context, animation) => Container());
-    }
-  }
   
   Widget _buildItem(BuildContext context, int index, Animation<double> animation) {
 
-    if (index >= _list.length){
-      print('idx: ${index.toString()}, but length: ${_list.length.toString()}');
-      return Container();
-    }
     return SizeTransition( // Todo: change
       sizeFactor: animation,
       axisAlignment: 1.0,
       child: FadeTransition(
           opacity: animation,
-          child: _list[index]
+          child: widget.listModel[index]
       ),
     );
   }
@@ -163,8 +191,8 @@ class _HomePageListViewState extends State<HomePageListView> {
   Widget build(BuildContext context) {
     print('[CustomScrollView]');
     return SliverAnimatedList(
-      key: _listKey,
-      initialItemCount: _list.length, // Todo: change
+      key: widget.listModel.listKey,
+      initialItemCount: widget.listModel.length, // Todo: change
       itemBuilder: _buildItem,
     );
   }
@@ -191,7 +219,9 @@ class ActivityIndicatorContainer extends StatelessWidget{
         visible: !loadModel.finished,
         child: Container(
             height: 128,
-            child: const Center(child: CircularProgressIndicator(backgroundColor: Colors.white))
+            child: const Center(child: CircularProgressIndicator(
+              valueColor: const AlwaysStoppedAnimation<Color>(Colors.white70),
+            ))
         )
     );
   }
