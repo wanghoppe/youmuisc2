@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:youmusic2/client/client.dart';
+import 'package:youmusic2/client/homeUtils.dart';
+import 'package:youmusic2/views/homeView.dart';
 
-import '../main.dart';
 
 class LoadModel extends ChangeNotifier{
   var finished = false;
@@ -23,7 +23,7 @@ class LoadModel extends ChangeNotifier{
 class AnimatedListModel{
 
   var _list = <Widget>[];
-  final GlobalKey<SliverAnimatedListState> listKey = GlobalKey<SliverAnimatedListState>();
+  final listKey = GlobalKey<SliverAnimatedListState>();
   final loadModel;
   var _subscription;
 

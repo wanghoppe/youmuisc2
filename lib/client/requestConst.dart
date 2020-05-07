@@ -4,7 +4,7 @@ const queryParaBase = {
 };
 
 
-const contiBodyMap = {
+const continueBodyMap = {
   'context': {
     'client': {
       'clientName': 'WEB_REMIX',
