@@ -4,25 +4,28 @@ const queryParaBase = {
 };
 
 
-const continueBodyMap = {
+const bodyClientMap = {
+  'clientName': 'WEB_REMIX',
+  'clientVersion': '0.1',
+  'hl': 'en',
+  'gl': 'US',
+  'experimentIds': [],
+  'experimentsToken': '',
+//      'utcOffsetMinutes': 480,
+  'locationInfo': {
+    'locationPermissionAuthorizationStatus': 'LOCATION_PERMISSION_AUTHORIZATION_STATUS_UNSUPPORTED'
+  },
+  'musicAppInfo': {
+    'musicActivityMasterSwitch': 'MUSIC_ACTIVITY_MASTER_SWITCH_INDETERMINATE',
+    'musicLocationMasterSwitch': 'MUSIC_LOCATION_MASTER_SWITCH_INDETERMINATE',
+    'pwaInstallabilityStatus': 'PWA_INSTALLABILITY_STATUS_CAN_BE_INSTALLED'
+  }
+};
+
+
+const bodyMap = {
   'context': {
-    'client': {
-      'clientName': 'WEB_REMIX',
-      'clientVersion': '0.1',
-      'hl': 'en',
-      'gl': 'CA',
-      'experimentIds': [],
-      'experimentsToken': '',
-      'utcOffsetMinutes': 480,
-      'locationInfo': {
-        'locationPermissionAuthorizationStatus': 'LOCATION_PERMISSION_AUTHORIZATION_STATUS_UNSUPPORTED'
-      },
-      'musicAppInfo': {
-        'musicActivityMasterSwitch': 'MUSIC_ACTIVITY_MASTER_SWITCH_INDETERMINATE',
-        'musicLocationMasterSwitch': 'MUSIC_LOCATION_MASTER_SWITCH_INDETERMINATE',
-        'pwaInstallabilityStatus': 'PWA_INSTALLABILITY_STATUS_CAN_BE_INSTALLED'
-      }
-    },
+    'client': bodyClientMap,
     'capabilities': {},
     'request': {
       'internalExperimentFlags': [
@@ -62,23 +65,7 @@ const getHeaderMap = <String, String>{
 
 const firstBodyMap = <String, dynamic>{
   'context': {
-    'client': {
-      'clientName': 'WEB_REMIX',
-      'clientVersion': '0.1',
-      'hl': 'en',
-      'gl': 'CA',
-      'experimentIds': [],
-      'experimentsToken': '',
-      'utcOffsetMinutes': 480,
-      'locationInfo': {
-        'locationPermissionAuthorizationStatus': 'LOCATION_PERMISSION_AUTHORIZATION_STATUS_UNSUPPORTED'
-      },
-      'musicAppInfo': {
-        'musicActivityMasterSwitch': 'MUSIC_ACTIVITY_MASTER_SWITCH_INDETERMINATE',
-        'musicLocationMasterSwitch': 'MUSIC_LOCATION_MASTER_SWITCH_INDETERMINATE',
-        'pwaInstallabilityStatus': 'PWA_INSTALLABILITY_STATUS_UNKNOWN'
-      }
-    },
+    'client': bodyClientMap,
     'capabilities': {},
     'request': {
       'internalExperimentFlags': [

@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/physics.dart';
 import 'package:youmusic2/models/homeModels.dart';
+import 'package:youmusic2/views/playlistView.dart';
 
 
 class HomeScaffold extends StatelessWidget {
@@ -14,12 +15,19 @@ class HomeScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Provider(
-      create: (context){
-        return AnimatedListModel(loadModel: Provider.of<LoadModel>(context, listen: false));
-      },
-      child: Scaffold(
-          body: homeScrollView
+    return ChangeNotifierProvider<LoadModel>(
+      create: (context) => LoadModel(),
+      child: Builder(
+        builder: (context)  {
+          return Provider(
+            create: (context){
+              return AnimatedListModel(loadModel: Provider.of<LoadModel>(context, listen: false));
+            },
+            child: Scaffold(
+                body: homeScrollView
+            ),
+          );
+        },
       ),
     );
   }
@@ -230,6 +238,7 @@ class CardItem extends StatelessWidget{
   final subtitle;
   final navigationEndpoint;
 
+
   CardItem({@required json}):
         thumbnail = json['thumbnails'].last['url'],
         width = widthMap[json['aspectRatio']],
@@ -237,40 +246,59 @@ class CardItem extends StatelessWidget{
         subtitle = json['subtitleList'].join(' '),
         navigationEndpoint = json['navigationEndpoint'];
 
+  void onCardTap(BuildContext context){
+    Navigator.pushNamed(
+      context,
+      '/playlist',
+      arguments: PlaylistScreenArgs(
+        title,
+        subtitle,
+        thumbnail,
+        navigationEndpoint
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     print('[CardItem] $title');
-    return Padding(
-      padding: EdgeInsets.all(8.0),
-      child: Container(
+    return InkWell(
+      onTap: () => onCardTap(context),
+      child: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Container(
 //        color: Colors.blue,
-        height: 250,
-        width: width,
+          height: 250,
+          width: width,
 //        color: Colors.green,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  thumbnail,
-                  width: width,
-                  height: 150,
-                )),
-            SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2),
-              child: Text('$title',
-                  style: Theme.of(context).textTheme.subtitle,
-                  maxLines: 2
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Hero(
+                tag: thumbnail,
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      thumbnail,
+                      width: width,
+                      height: 150,
+                    )),
               ),
-            ),
-            SizedBox(height: 3),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2),
-              child: Text('$subtitle', maxLines: 2),
-            )
-          ],
+              SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2),
+                child: Text('$title',
+                      style: Theme.of(context).textTheme.subtitle,
+                    maxLines: 2
+                ),
+              ),
+              SizedBox(height: 3),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2),
+                child: Text('$subtitle', maxLines: 2),
+              )
+            ],
+          ),
         ),
       ),
     );

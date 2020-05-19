@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:youmusic2/client/utils.dart';
 import 'dart:convert';
 import 'requestConst.dart' as c;
 
@@ -12,7 +14,11 @@ class ApiClient{
   static const BROWSE = '/youtubei/v1/browse';
   var partialHeader;
 
-  ApiClient();
+  Future isReady;
+
+  ApiClient(){
+    isReady = getPartialHeader();
+  }
 
   Future<void> getPartialHeader() async{
     var response = await http.get(
@@ -30,6 +36,7 @@ class ApiClient{
   }
 
   Future<String> getFirstResponse() async{
+    await isReady;
     assert(partialHeader != null);
     var response = await http.post(
         Uri.https(URL, BROWSE, c.queryParaBase),
@@ -41,6 +48,7 @@ class ApiClient{
   }
 
   Future<String> getContinueResponse(String continuation, String itct) async{
+    await isReady;
     assert(partialHeader != null);
     final para = {
       'ctoken': continuation,
@@ -51,9 +59,31 @@ class ApiClient{
     var response = await http.post(
         Uri.https(URL, BROWSE, para),
         headers: {...c.headerMapBase, ...partialHeader},
-        body: jsonEncode(c.continueBodyMap)
+        body: jsonEncode(c.bodyMap)
     );
     // print(response.statusCode);
+    assert(response.statusCode == 200);
+    return response.body;
+  }
+
+  Future<String> getPlaylistResponse(Map navigationEndpoint) async{
+    await isReady;
+    final requestBody = {
+      'context': {
+        ...c.bodyMap['context'],
+        'clickTracking': {
+          'clickTrackingParams': navigationEndpoint['clickTrackingParams']
+        }
+      },
+      ...navigationEndpoint['browseEndpoint']
+    };
+    var response = await http.post(
+        Uri.https(URL, BROWSE, c.queryParaBase),
+        headers: {...c.headerMapBase, ...partialHeader},
+        body: jsonEncode(requestBody)
+    );
+//    prettyWrite(File('output/playlist/requestbody.json'),requestBody);
+//    print(response.statusCode);
     assert(response.statusCode == 200);
     return response.body;
   }

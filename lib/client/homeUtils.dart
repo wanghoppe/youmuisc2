@@ -6,15 +6,13 @@ import 'client.dart';
 
 class HomePageStream{
   final _controller = StreamController<Map>();
+  ApiClient client;
 
-  HomePageStream(){
+  HomePageStream({@required this.client}){
     _init();
   }
 
   void _init() async{
-    final client = ApiClient();
-    await client.getPartialHeader();
-
     var resString = await client.getFirstResponse();
     var resMap = await compute(getFirstInfoFromStr, resString);
     for (var row in resMap['list']){
@@ -109,10 +107,4 @@ Map<String, dynamic> _parseItem(item){
   itemMap['subtitleList'] = content['subtitle']['runs']?.map((it) => it['text'])?.toList();
   itemMap['navigationEndpoint'] = content['navigationEndpoint'];
   return itemMap;
-}
-
-void prettyWrite(File file, Map m){
-  final encoder = JsonEncoder.withIndent('  ');
-  final prettyPrint = encoder.convert(m);
-  file.writeAsStringSync(prettyPrint);
 }

@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:youmusic2/client/client.dart';
 import 'package:youmusic2/client/homeUtils.dart';
 import 'package:youmusic2/views/homeView.dart';
+
+import '../main.dart';
 
 
 class LoadModel extends ChangeNotifier{
@@ -36,7 +39,7 @@ class AnimatedListModel{
     }
     loadModel.start();
 
-    final rowStream = HomePageStream().stream;
+    final rowStream = HomePageStream(client: getIt<ApiClient>()).stream;
     _subscription = rowStream.listen(
       (json) => _insert(json),
       onDone: () => loadModel.finish()
