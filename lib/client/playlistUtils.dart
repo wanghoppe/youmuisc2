@@ -8,7 +8,7 @@ import 'package:youmusic2/client/utils.dart';
 
 
 void main(){
-  test2();
+  test3();
 }
 
 void test() async{
@@ -42,8 +42,52 @@ void test2() async{
 
   final infoList = getInfoListFromStr(str);
   prettyWrite(File('output/playlist/example1.json'), {'info': infoList});
-
 }
+
+// read output/playlist/album.json
+void test3() async{
+  final navi = {'clickTrackingParams': 'CCoQoLMCGAUiEwjK2rqzicvpAhWHksQKHbW1AXU=',
+    'browseEndpoint': {'browseId': 'MPREb_OPkowziTdzc', 'params': 'ggMrGilPTEFLNXV5X240UnVhYWJ3dnFSclNhUEdIa0xBejVpM1YzUHRXSE40VQ%3D%3D',
+      'browseEndpointContextSupportedConfigs': {'browseEndpointContextMusicConfig':
+    {'pageType': 'MUSIC_PAGE_TYPE_ALBUM'}}}};
+  final client = ApiClient();
+  final str = await client.getPlaylistResponse(navi);
+  prettyWrite(File('output/playlist/album_raw.json'), jsonDecode(str));
+//  final str = File('output/playlist/album_raw.json').readAsStringSync();
+  final infoList = getAlbumFromStr(str);
+  prettyWrite(File('output/playlist/album_out.json'), {'info': infoList});
+}
+
+List<Map<String, dynamic>> getAlbumFromStr(String str){
+
+  final json = jsonDecode(str);
+  List<Map> content = json['frameworkUpdates']['entityBatchUpdate']
+  ['mutations'].cast<Map>();
+
+  final infoList = content
+    .where((row) => row['payload'].containsKey('musicTrack'))
+    .map<Map<String, dynamic>>(getAlbumItem).toList();
+  return infoList;
+}
+
+Map<String, dynamic> getAlbumItem(Map row){
+
+  String ms2Min(String ms){
+    final num = (int.parse(ms)/ 1000).floor();
+    final min = (num/60).floor();
+    final sec = num % 60;
+    final leading = (sec < 10)?'0':'';
+    return '$min:$leading$sec';
+  }
+
+  final itemMap = <String, dynamic>{};
+  row = row['payload']['musicTrack'];
+  itemMap['title'] = row['title'];
+  itemMap['videoId'] = row['videoId'];
+  itemMap['subtitle'] = row['artistNames'] + ' • ' + ms2Min(row['lengthMs']);
+  return itemMap;
+}
+
 
 List<Map<String, dynamic>> getInfoListFromStr(String str){
 

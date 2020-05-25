@@ -31,7 +31,8 @@ class ApiClient{
       'X-YouTube-Device': _deviceReg.firstMatch(html)?.group(1)
           ?.replaceAll('\\u0026', '\u0026'),
       'X-YouTube-Page-Label': _pageLabelReg.firstMatch(html)?.group(1),
-      'X-Goog-Visitor-Id': _visitorReg.firstMatch(html)?.group(1)
+      'X-Goog-Visitor-Id': _visitorReg.firstMatch(html)?.group(1),
+//      ...c.headerTest //todo
     };
   }
 
@@ -43,7 +44,11 @@ class ApiClient{
         headers: {...c.headerMapBase, ...partialHeader},
         body: jsonEncode(c.firstBodyMap)
     );
-    assert(response.statusCode == 200);
+//    assert(response.statusCode == 200);
+    if(response.statusCode != 200){
+      print(response.body);
+      throw(Error);
+    }
     return response.body;
   }
 
@@ -68,6 +73,7 @@ class ApiClient{
 
   Future<String> getPlaylistResponse(Map navigationEndpoint) async{
     await isReady;
+//    print(navigationEndpoint);
     final requestBody = {
       'context': {
         ...c.bodyMap['context'],
@@ -82,7 +88,7 @@ class ApiClient{
         headers: {...c.headerMapBase, ...partialHeader},
         body: jsonEncode(requestBody)
     );
-//    prettyWrite(File('output/playlist/requestbody.json'),requestBody);
+//    prettyWrite(File('output/playlist/album_raw.json'),jsonDecode(response.body));
 //    print(response.statusCode);
     assert(response.statusCode == 200);
     return response.body;

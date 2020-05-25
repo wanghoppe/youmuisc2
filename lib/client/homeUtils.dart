@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'client.dart';
 
+
 class HomePageStream{
   final _controller = StreamController<Map>();
   ApiClient client;

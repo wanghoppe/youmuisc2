@@ -14,13 +14,56 @@ class PlaylistScreenArgs{
   final String thumbnail;
   final String title;
   final String subtitle;
+  final String rowName;
 
   PlaylistScreenArgs(
+    this.rowName,
     this.title,
     this.subtitle,
     this.thumbnail,
     this.navigationEndPoint
   );
+}
+
+class PlaylistUnderScaffold extends StatelessWidget{
+
+  final PlaylistScreenArgs args;
+
+  PlaylistUnderScaffold(this.args, {Key key}): super(key:key);
+
+  @override
+  Widget build(BuildContext context) {
+    final mediaData = MediaQuery.of(context);
+    return MultiProvider(
+      providers: [
+        Provider<OpacityController>(
+            create: (_) => OpacityController()
+        ),
+        Provider<InfolistModel>(
+            create: (_) => InfolistModel(args.navigationEndPoint)
+        ),
+        Provider<PlaylistScreenArgs>.value(value: args)
+      ],
+      child: Stack(children:[
+        PlaylistSliver(),
+        Positioned(
+          left: 5,
+          height: mediaData.padding.top * 2 + kToolbarHeight,
+          child: IconButton(
+            icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: 26),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ),
+        Positioned(
+          right: 5,
+          height: mediaData.padding.top * 2 + kToolbarHeight,
+          child: IconButton(
+              icon: Icon(Icons.search, color: Colors.white, size:26)
+          ),
+        )
+      ]),
+    );
+  }
 }
 
 
@@ -77,9 +120,10 @@ class PlaylistSliver extends StatelessWidget{
   Widget build(BuildContext context) {
 
     final opController = Provider.of<OpacityController>(context, listen: false);
+    final infoListModel = Provider.of<InfolistModel>(context);
 
     return ChangeNotifierProvider(
-      create: (_) => DisableButtonModel(Provider.of<InfolistModel>(context).futureList),
+      create: (_) => DisableButtonModel(infoListModel.futureList),
       child: NotificationListener<ScrollUpdateNotification>(
         onNotification: (notification){
           opController.changeScrollPos(notification.metrics.pixels);
@@ -93,10 +137,10 @@ class PlaylistSliver extends StatelessWidget{
             OpacitySliverHead(),
             SliverPlayButtons(),
             FutureBuilder(
-              future: Provider.of<InfolistModel>(context).futureList,
+              future: infoListModel.futureList,
               builder: (context, snapshot){
                 if (snapshot.hasData){
-                  return MainSliverList(snapshot.data);
+                  return MainSliverList(snapshot.data, isAlbum: infoListModel.isAlbum);
                 }else{
                   return SliverToBoxAdapter(
                     child: AlwaysActivityIndicator(),
@@ -163,14 +207,17 @@ class OpacitySliverHead extends StatelessWidget{
 class MainSliverList extends StatelessWidget{
 
   final List<Map> infoList;
+  final bool isAlbum;
 
-  MainSliverList(this.infoList);
+  MainSliverList(this.infoList, {@required this.isAlbum});
 
   @override
   Widget build(BuildContext context) {
     return SliverList(
       delegate: SliverChildBuilderDelegate((context, idx){
-        return PlaylistItem(json: infoList[idx]);
+        return isAlbum?
+            AlbumItem(json: infoList[idx], index: idx + 1)
+            :PlaylistItem(json: infoList[idx]);
       },
       childCount: infoList.length),
     );
@@ -184,16 +231,17 @@ class SliverHead extends StatelessWidget{
   Widget build(BuildContext context) {
     print('building silver head');
     final screenArgs = Provider.of<PlaylistScreenArgs>(context, listen: false);
+    print(screenArgs.rowName + screenArgs.title);
     return SliverToBoxAdapter(
       child: Container(
-        height: 200,
+        height: 210,
 //        color: Colors.black26,
         child: Padding(
           padding: EdgeInsets.all(15),
           child: Row(
             children: <Widget>[
               Hero(
-                tag: screenArgs.thumbnail,
+                tag: screenArgs.rowName + screenArgs.title,
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(
@@ -206,7 +254,6 @@ class SliverHead extends StatelessWidget{
               SizedBox(width: 16),
               Expanded(
                 child: Container(
-                  height: 150,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -215,7 +262,7 @@ class SliverHead extends StatelessWidget{
                         style: GoogleFonts.lato(
                           textStyle: Theme.of(context).textTheme.headline5
                         ),
-                        maxLines: 2
+                        maxLines: 3
                       ),
                       Text(screenArgs.subtitle, //todo
                           style: Theme.of(context).textTheme.bodyText2,
@@ -345,7 +392,50 @@ class PlaylistItem extends StatelessWidget{
       ),
     );
   }
+}
 
+class AlbumItem extends StatelessWidget{
+
+  final String title;
+  final String subtitle;
+  final String videoId;
+  final int index;
+
+  AlbumItem({@required json, @required this.index}):
+        title = json['title'],
+        subtitle = json['subtitle'],
+        videoId = json['videoId'];
+
+  @override
+  Widget build(BuildContext context) {
+
+    return ListTile(
+      dense: true,
+//      isThreeLine: true,
+      leading: Container(
+        width: 40,
+        child: Center(child:
+        Text(index.toString(), style: Theme.of(context).textTheme.headline6))
+      ),
+      title: Text(title,
+        style: Theme.of(context).textTheme.bodyText1,
+        maxLines: 2,
+      ),
+      subtitle: Text(subtitle,
+        style: Theme.of(context).textTheme.bodyText2,
+        maxLines: 1,
+      ),
+      trailing: Container(
+        width: 30,
+//        color: Colors.black,
+        child: IconButton(
+          iconSize: 24,
+          icon: Icon(Icons.more_vert),
+          onPressed: ()=>{},
+        ),
+      ),
+    );
+  }
 }
 
 class AlwaysActivityIndicator extends StatelessWidget{

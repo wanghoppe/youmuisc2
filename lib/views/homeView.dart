@@ -9,6 +9,58 @@ import 'package:youmusic2/models/homeModels.dart';
 import 'package:youmusic2/views/playlistView.dart';
 
 
+
+class HomeUnderTab extends StatelessWidget{
+  Route _generateRoute(RouteSettings settings){
+    if (settings.name == '/playlist') {
+
+      final PlaylistScreenArgs args = settings.arguments;
+//      return MaterialPageRoute(builder: (context) => PlaylistUnderScaffold(args));
+      return PageRouteBuilder(
+        pageBuilder: (context , animation , secondaryAnimation) =>
+            PlayListScaffold(args) ,
+        transitionsBuilder: (context , animation , secondaryAnimation , child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child ,
+          );
+        } ,
+      );
+    }else{
+      return MaterialPageRoute(builder: (context) => HomeUnderScaffold());
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Navigator(
+//      initialRoute: '/Home',
+      onGenerateRoute: _generateRoute
+    );
+  }
+}
+
+
+
+class HomeUnderScaffold extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider<LoadModel>(
+      create: (context) => LoadModel(),
+      child: Builder(
+        builder: (context)  {
+          return Provider(
+            create: (context){
+              return AnimatedListModel(loadModel: Provider.of<LoadModel>(context, listen: false));
+            },
+            child: HomeScrollView()
+          );
+        },
+      ),
+    );
+  }
+}
+
 class HomeScaffold extends StatelessWidget {
 
   final homeScrollView = HomeScrollView();
@@ -24,10 +76,37 @@ class HomeScaffold extends StatelessWidget {
               return AnimatedListModel(loadModel: Provider.of<LoadModel>(context, listen: false));
             },
             child: Scaffold(
-                body: homeScrollView
+                body: homeScrollView,
+                bottomSheet: BottomSheetTest(),
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class BottomSheetTest extends StatefulWidget{
+  @override
+  _BottomSheetTestState createState() => _BottomSheetTestState();
+}
+
+class _BottomSheetTestState extends State<BottomSheetTest> {
+
+  var height = 100.0;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: Duration(seconds: 1),
+      color: Colors.blue,
+      height: height,
+      child: Expanded(
+        child: IconButton(icon: Icon(Icons.arrow_back_ios),onPressed: (){
+          setState(() {
+            height = 500.0;
+          });
+        },),
       ),
     );
   }
@@ -71,25 +150,27 @@ class _HomeScrollViewState extends State<HomeScrollView> {
   Widget build(BuildContext context) {
     final listModel = Provider.of<AnimatedListModel>(context, listen: false);
 
-    return CustomScrollView(
-      physics:
-      const AlwaysScrollableScrollPhysics(parent: const CustomScrollPhysics()),
-      slivers: <Widget>[
-        SliverAppBar(
-          title: Text('YouMuisc', style: Theme.of(context).textTheme.title),
-          floating: true,
-        ),
-        CupertinoSliverRefreshControl(
-          refreshTriggerPullDistance: 100,
-          refreshIndicatorExtent: 0,
-          builder: buildSimpleRefreshIndicator,
-          onRefresh: () async {
-            listModel.resetList();
-          },
-        ),
-        HomePageListView(listModel: listModel),
-        MyOtherSliverList()
-      ],
+    return SafeArea(
+      child: CustomScrollView(
+        physics:
+        const AlwaysScrollableScrollPhysics(parent: const CustomScrollPhysics()),
+        slivers: <Widget>[
+          SliverAppBar(
+            title: Text('YouMuisc', style: Theme.of(context).textTheme.title),
+            floating: true,
+          ),
+          CupertinoSliverRefreshControl(
+            refreshTriggerPullDistance: 100,
+            refreshIndicatorExtent: 0,
+            builder: buildSimpleRefreshIndicator,
+            onRefresh: () async {
+              listModel.resetList();
+            },
+          ),
+          HomePageListView(listModel: listModel),
+          MyOtherSliverList()
+        ],
+      ),
     );
   }
 }
@@ -209,7 +290,7 @@ class _HomeRowState extends State<HomeRow> with AutomaticKeepAliveClientMixin {
                 padding: EdgeInsets.symmetric(horizontal: 8.0),
                 sliver: SliverList(
                     delegate: SliverChildBuilderDelegate((context, idx) {
-                      return CardItem(json: widget.itemList[idx]);
+                      return CardItem(widget.title, json: widget.itemList[idx]);
                     },
                         childCount: widget.itemList.length
                     )
@@ -231,31 +312,70 @@ class CardItem extends StatelessWidget{
     'MUSIC_TWO_ROW_ITEM_THUMBNAIL_ASPECT_RATIO_SQUARE' :150,
     'MUSIC_TWO_ROW_ITEM_THUMBNAIL_ASPECT_RATIO_RECTANGLE_16_9': 266
   };
+  static const watchLst = ['watchEndpoint', 'watchPlaylistEndpoint'];
 
+  final rowName;
   final thumbnail;
   final width;
   final title;
   final subtitle;
   final navigationEndpoint;
+  final watchable;
 
 
-  CardItem({@required json}):
+  CardItem(this.rowName, {@required json}):
         thumbnail = json['thumbnails'].last['url'],
         width = widthMap[json['aspectRatio']],
         title = json['title'],
         subtitle = json['subtitleList'].join(' '),
-        navigationEndpoint = json['navigationEndpoint'];
+        navigationEndpoint = json['navigationEndpoint'],
+        watchable = watchLst.any(
+                (element) => json['navigationEndpoint'].containsKey(element));
 
   void onCardTap(BuildContext context){
     Navigator.pushNamed(
       context,
       '/playlist',
       arguments: PlaylistScreenArgs(
+        rowName,
         title,
         subtitle,
         thumbnail,
         navigationEndpoint
       ),
+    );
+  }
+
+  Widget _buildImage(BuildContext context){
+    final image =  ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Stack(
+          children: [
+            Image.network(
+              thumbnail,
+              width: width,
+              height: 150,
+            ),
+            watchable ? Container(
+              width: width,
+              height: 150,
+              color: Color.fromRGBO(0, 0, 0, 0.3),
+              child: Center(
+                child: Icon(Icons.play_arrow, size: 50),
+              ),
+            ): Container()
+          ],
+        )
+    );
+    print(watchable);
+//    return watchable ? image : Hero(
+//      tag: rowName + title,
+//      child: image
+//    );
+    print(rowName + title);
+    return Hero(
+        tag: rowName + title,
+        child: image
     );
   }
 
@@ -274,16 +394,7 @@ class CardItem extends StatelessWidget{
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Hero(
-                tag: thumbnail,
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      thumbnail,
-                      width: width,
-                      height: 150,
-                    )),
-              ),
+              _buildImage(context),
               SizedBox(height: 8),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 2),

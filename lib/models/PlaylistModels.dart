@@ -11,14 +11,22 @@ class InfolistModel{
   final client = getIt<ApiClient>();
   final Map navigationEndPoint;
   Future<List> futureList;
+  final bool isAlbum;
 
-  InfolistModel(this.navigationEndPoint){
-    futureList = getFutureList();
+  InfolistModel(this.navigationEndPoint):
+      isAlbum = navigationEndPoint['browseEndpoint']
+      ['browseEndpointContextSupportedConfigs']
+      ['browseEndpointContextMusicConfig']
+      ['pageType'] == 'MUSIC_PAGE_TYPE_ALBUM'
+  {
+    futureList = getPlaylist();
   }
 
-  Future<List> getFutureList() async{
+  Future<List> getPlaylist() async{
     final str = await client.getPlaylistResponse(navigationEndPoint);
-    final infoList = await compute(getInfoListFromStr, str);
+    List infoList;
+    if (isAlbum) infoList = await compute(getAlbumFromStr, str);
+    else infoList = await compute(getInfoListFromStr, str);
     return infoList;
   }
 }
