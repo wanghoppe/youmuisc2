@@ -56,12 +56,12 @@ class MyApp extends StatelessWidget {
           bodyText2: TextStyle(color: Colors.white54),
         ),
       ),
-//      initialRoute: '/',
+      initialRoute: '/',
 //      routes: {
 //        '/' : (context) => HomeScaffold(),
 ////        '/playlist' : (context) => PlayListScaffold()
 //      },
-//      onGenerateRoute: onGenRoute,
+      onGenerateRoute: onGenRoute,
       home: AppScaffold(),
     );
   }
@@ -146,6 +146,7 @@ class _HomeBottomNavigationBarState extends State<HomeBottomNavigationBar> {
     final tabController = Provider.of<TabControllerModel>(context, listen: false)
         .tabController;
     return BottomNavigationBar(
+      selectedItemColor: Colors.white,
       backgroundColor: Theme.of(context).appBarTheme.color ,
       type: BottomNavigationBarType.fixed ,
       items: [

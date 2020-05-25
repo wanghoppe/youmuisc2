@@ -10,7 +10,25 @@ import 'package:youmusic2/views/playlistView.dart';
 
 
 
-class HomeUnderTab extends StatelessWidget{
+class HomeUnderTab extends StatefulWidget{
+  @override
+  _HomeUnderTabState createState() => _HomeUnderTabState();
+}
+
+class _HomeUnderTabState extends State<HomeUnderTab> {
+
+  HeroController _heroController;
+
+  @override
+  void initState() {
+    super.initState();
+    _heroController = HeroController(createRectTween: _createRectTween);
+  }
+
+  RectTween _createRectTween(Rect begin, Rect end) {
+    return MaterialRectArcTween(begin: begin, end: end);
+  }
+
   Route _generateRoute(RouteSettings settings){
     if (settings.name == '/playlist') {
 
@@ -34,7 +52,7 @@ class HomeUnderTab extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Navigator(
-//      initialRoute: '/Home',
+      observers: [_heroController],
       onGenerateRoute: _generateRoute
     );
   }
