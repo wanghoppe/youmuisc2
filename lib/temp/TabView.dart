@@ -16,7 +16,7 @@ class _TabViewAppScaffoldState extends State<TabViewAppScaffold> {
         body: TabBarView(
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              HomeUnderScaffold(),
+              HomeScaffold(),
               Icon(Icons.directions_transit),
               Icon(Icons.directions_bike),
             ]),

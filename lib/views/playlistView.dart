@@ -25,47 +25,6 @@ class PlaylistScreenArgs{
   );
 }
 
-class PlaylistUnderScaffold extends StatelessWidget{
-
-  final PlaylistScreenArgs args;
-
-  PlaylistUnderScaffold(this.args, {Key key}): super(key:key);
-
-  @override
-  Widget build(BuildContext context) {
-    final mediaData = MediaQuery.of(context);
-    return MultiProvider(
-      providers: [
-        Provider<OpacityController>(
-            create: (_) => OpacityController()
-        ),
-        Provider<InfolistModel>(
-            create: (_) => InfolistModel(args.navigationEndPoint)
-        ),
-        Provider<PlaylistScreenArgs>.value(value: args)
-      ],
-      child: Stack(children:[
-        PlaylistSliver(),
-        Positioned(
-          left: 5,
-          height: mediaData.padding.top * 2 + kToolbarHeight,
-          child: IconButton(
-            icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: 26),
-            onPressed: () => Navigator.pop(context),
-          ),
-        ),
-        Positioned(
-          right: 5,
-          height: mediaData.padding.top * 2 + kToolbarHeight,
-          child: IconButton(
-              icon: Icon(Icons.search, color: Colors.white, size:26)
-          ),
-        )
-      ]),
-    );
-  }
-}
-
 
 class PlayListScaffold extends StatelessWidget{
 
@@ -76,12 +35,8 @@ class PlayListScaffold extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     final mediaData = MediaQuery.of(context);
-//    print(mediaData.padding.top);
-//    final args = PlaylistScreenArgs(navi, headMap);
-//    final PlaylistScreenArgs args = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
-//      backgroundColor: Colors.black87,
       body: MultiProvider(
         providers: [
           Provider<OpacityController>(

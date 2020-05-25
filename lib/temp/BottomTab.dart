@@ -14,7 +14,7 @@ class _AppScaffoldState extends State<AppScaffoldBottomTab> {
   Route generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case "Account":
-        return MaterialPageRoute(builder: (context) => HomeUnderScaffold());
+        return MaterialPageRoute(builder: (context) => HomeScaffold());
       case "Settings":
         return MaterialPageRoute(builder: (context) =>
             Container(

@@ -8,77 +8,6 @@ import 'package:flutter/physics.dart';
 import 'package:youmusic2/models/homeModels.dart';
 import 'package:youmusic2/views/playlistView.dart';
 
-
-
-class HomeUnderTab extends StatefulWidget{
-  @override
-  _HomeUnderTabState createState() => _HomeUnderTabState();
-}
-
-class _HomeUnderTabState extends State<HomeUnderTab> {
-
-  HeroController _heroController;
-
-  @override
-  void initState() {
-    super.initState();
-    _heroController = HeroController(createRectTween: _createRectTween);
-  }
-
-  RectTween _createRectTween(Rect begin, Rect end) {
-    return MaterialRectArcTween(begin: begin, end: end);
-  }
-
-  Route _generateRoute(RouteSettings settings){
-    if (settings.name == '/playlist') {
-
-      final PlaylistScreenArgs args = settings.arguments;
-//      return MaterialPageRoute(builder: (context) => PlaylistUnderScaffold(args));
-      return PageRouteBuilder(
-        pageBuilder: (context , animation , secondaryAnimation) =>
-            PlayListScaffold(args) ,
-        transitionsBuilder: (context , animation , secondaryAnimation , child) {
-          return FadeTransition(
-            opacity: animation,
-            child: child ,
-          );
-        } ,
-      );
-    }else{
-      return MaterialPageRoute(builder: (context) => HomeUnderScaffold());
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Navigator(
-      observers: [_heroController],
-      onGenerateRoute: _generateRoute
-    );
-  }
-}
-
-
-
-class HomeUnderScaffold extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider<LoadModel>(
-      create: (context) => LoadModel(),
-      child: Builder(
-        builder: (context)  {
-          return Provider(
-            create: (context){
-              return AnimatedListModel(loadModel: Provider.of<LoadModel>(context, listen: false));
-            },
-            child: HomeScrollView()
-          );
-        },
-      ),
-    );
-  }
-}
-
 class HomeScaffold extends StatelessWidget {
 
   final homeScrollView = HomeScrollView();
@@ -95,36 +24,9 @@ class HomeScaffold extends StatelessWidget {
             },
             child: Scaffold(
                 body: homeScrollView,
-                bottomSheet: BottomSheetTest(),
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-class BottomSheetTest extends StatefulWidget{
-  @override
-  _BottomSheetTestState createState() => _BottomSheetTestState();
-}
-
-class _BottomSheetTestState extends State<BottomSheetTest> {
-
-  var height = 100.0;
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: Duration(seconds: 1),
-      color: Colors.blue,
-      height: height,
-      child: Expanded(
-        child: IconButton(icon: Icon(Icons.arrow_back_ios),onPressed: (){
-          setState(() {
-            height = 500.0;
-          });
-        },),
       ),
     );
   }
