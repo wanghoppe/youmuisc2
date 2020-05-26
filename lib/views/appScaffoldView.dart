@@ -84,46 +84,19 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
   }
 }
 
-class AnimateScaffold extends StatefulWidget {
+class AnimateScaffold extends StatelessWidget{
   final topPadding;
 
-  const AnimateScaffold({Key key, this.topPadding}) : super(key: key);
+  AnimateScaffold({Key key, this.topPadding}) : super(key: key);
 
-  @override
-  _AnimateScaffoldState createState() => _AnimateScaffoldState();
-}
+  final controllerProvider = getIt<BottomSheetControllerProvider>();
 
-class _AnimateScaffoldState extends State<AnimateScaffold>
-    with SingleTickerProviderStateMixin {
-
-  static const double maxSlide = 800;
-  static const double minDragStartEdge = 60;
-  static const double maxDragStartEdge = maxSlide - 16;
-  AnimationController _controller;
-  bool _canBeDragged = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 300));
-//    _controller.forward();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _onTap() {
-    if (_controller.isDismissed) {
-//      _controller.forward();
-      _controller.animateTo(0.5);
-    } else if (_controller.isCompleted) {
-      _controller.reverse();
-    }
-  }
+  Widget imgWidget = TestImg();
+  Widget widgetClosedTitle = ClosedTitle();
+  Widget widgetOpenedTitle = OpenedTitle();
+  Widget widgetOpenedSlider = OpenedSlider();
+  Widget widgetButtonGroups = ButtonGroups();
+  Widget widgetAppBottomNavigationBar = AppBottomNavigationBar();
 
   double getOpenOpacity(double animatedVal) {
     return max((1 - animatedVal * 3), 0);
@@ -132,57 +105,13 @@ class _AnimateScaffoldState extends State<AnimateScaffold>
   double getCloseOpacity(double animatedVal) {
     return max(1 - (1 - animatedVal) * 2, 0);
   }
-
-  void _onDragStart(DragStartDetails details) {
-    bool isDragOpenFromLeft = _controller.isDismissed &&
-        details.globalPosition.dx < minDragStartEdge;
-    bool isDragCloseFromRight = _controller.isCompleted &&
-        details.globalPosition.dx > maxDragStartEdge;
-
-    _canBeDragged = isDragOpenFromLeft || isDragCloseFromRight;
-    _canBeDragged = true;
-
-  }
-
-  void _onDragUpdate(DragUpdateDetails details) {
-    if (_canBeDragged) {
-      double delta = details.primaryDelta / maxSlide;
-      _controller.value += delta;
-    }
-  }
-
-  void _onDragEnd(DragEndDetails details) {
-    //I have no idea what it means, copied from Drawer
-    double _kMinFlingVelocity = 365.0;
-
-    if (_controller.isDismissed || _controller.isCompleted) {
-      return;
-    }
-    if (details.velocity.pixelsPerSecond.dx.abs() >= _kMinFlingVelocity) {
-      double visualVelocity = details.velocity.pixelsPerSecond.dx /
-          MediaQuery.of(context).size.height;
-
-      _controller.fling(velocity: visualVelocity);
-    } else if (_controller.value < 0.5) {
-      _controller.reverse();
-    } else {
-      _controller.forward();
-    }
-  }
-
-  Widget imgWidget = TestImg();
-  Widget widgetClosedTitle = ClosedTitle();
-  Widget widgetOpenedTitle = OpenedTitle();
-  Widget widgetOpenedSlider = OpenedSlider();
-  Widget widgetButtonGroups = ButtonGroups();
-  Widget widgetAppBottomNavigationBar = AppBottomNavigationBar();
   
 
   @override
   Widget build(BuildContext context) {
     final mediaData = MediaQuery.of(context);
     final screenWidth = mediaData.size.width;
-    final screenHeight = mediaData.size.height - widget.topPadding;
+    final screenHeight = mediaData.size.height - topPadding;
     final imgHeight = screenWidth / 16 * 9;
 
     var myTween = Tween<double>(
@@ -195,16 +124,16 @@ class _AnimateScaffoldState extends State<AnimateScaffold>
 
     return AnimatedBuilder(
       child: TestImg(),
-      animation: _controller,
+      animation: controllerProvider.controller,
       builder: (context, child) {
-        var animatedVal = _controller.value;
+        var animatedVal = controllerProvider.controller.value;
         var transVal = itemTransformTween.transform(animatedVal);
         final width = MediaQuery.of(context).padding.top;
         return GestureDetector(
-          onVerticalDragStart: _onDragStart,
-          onVerticalDragUpdate: _onDragUpdate,
-          onVerticalDragEnd: _onDragEnd,
-          onTap:_controller.isCompleted ?_onTap: () => {},
+          onVerticalDragStart: controllerProvider.onDragStart,
+          onVerticalDragUpdate: controllerProvider.onDragUpdate,
+          onVerticalDragEnd: controllerProvider.onDragEnd,
+          onTap:controllerProvider.controller.isCompleted ? controllerProvider.onTap: () => {},
           child: Stack(children: [
             Container(
               height: myTween.transform(animatedVal),
@@ -250,13 +179,13 @@ class _AnimateScaffoldState extends State<AnimateScaffold>
             ),
             Positioned(
               left: 5,
-              height: widget.topPadding * 2 + kToolbarHeight,
+              height: topPadding * 2 + kToolbarHeight,
               child: Opacity(
                 opacity: getOpenOpacity(animatedVal),
                 child: IconButton(
                   icon: Icon(Icons.keyboard_arrow_down,
                       color: Colors.white, size: 30),
-                  onPressed: () => {_controller.forward()}, //todo
+                  onPressed: () => {controllerProvider.controller.forward()}, //todo
                 ),
               ),
             ),

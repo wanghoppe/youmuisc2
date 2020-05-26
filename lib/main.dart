@@ -18,6 +18,7 @@ final getIt = GetIt.instance;
 void setup() {
   getIt.registerSingleton<ApiClient>(ApiClient());
   getIt.registerSingleton<TabControllerProvider>(TabControllerProvider());
+  getIt.registerSingleton<BottomSheetControllerProvider>(BottomSheetControllerProvider());
 }
 
 void main(){
