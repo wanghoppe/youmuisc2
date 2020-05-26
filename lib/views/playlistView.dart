@@ -186,7 +186,6 @@ class SliverHead extends StatelessWidget{
   Widget build(BuildContext context) {
     print('building silver head');
     final screenArgs = Provider.of<PlaylistScreenArgs>(context, listen: false);
-    print(screenArgs.rowName + screenArgs.title);
     return SliverToBoxAdapter(
       child: Container(
         height: 210,

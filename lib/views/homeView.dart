@@ -107,10 +107,6 @@ class HomePageListView extends StatefulWidget {
 
 class _HomePageListViewState extends State<HomePageListView> {
 
-  final GlobalKey<SliverAnimatedListState> _listKey = GlobalKey<SliverAnimatedListState>();
-
-  List<HomeRow> _list;
-
 
   @override
   void initState() {
@@ -287,13 +283,7 @@ class CardItem extends StatelessWidget{
           ],
         )
     );
-    print(watchable);
-//    return watchable ? image : Hero(
-//      tag: rowName + title,
-//      child: image
-//    );
-    print(rowName + title);
-    return Hero(
+    return watchable ? image: Hero(
         tag: rowName + title,
         child: image
     );
