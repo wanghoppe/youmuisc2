@@ -21,6 +21,19 @@ class TabControllerProvider extends TickerProvider{
   }
 }
 
+class AnimationTestModel extends ChangeNotifier{
+  var titles = ['1 This is 1', '2 This is 2'];
+  var curIdx = 0;
+
+  get curTitle => titles[curIdx];
+
+  void changeTitle(){
+    curIdx = 1 - curIdx;
+    notifyListeners();
+  }
+}
+
+
 class BottomSheetControllerProvider extends TickerProvider{
   static const double maxSlide = 800;
   static const double minDragStartEdge = 60;

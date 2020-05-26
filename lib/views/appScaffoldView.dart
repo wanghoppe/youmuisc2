@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:youmusic2/models/animationModels.dart';
 import '../main.dart';
 import 'homeTabView.dart';
@@ -12,12 +13,13 @@ class AppScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final topPadding = MediaQuery.of(context).padding.top;
-    return Builder(builder: (context) {
-      return Scaffold(
+    return ChangeNotifierProvider<AnimationTestModel>(
+      create: (context) => AnimationTestModel(),
+      child: Scaffold(
         body: AppTabView(),
         bottomNavigationBar: AnimateScaffold(topPadding: topPadding)
-      );
-    });
+      ),
+    );
   }
 }
 
@@ -91,12 +93,12 @@ class AnimateScaffold extends StatelessWidget{
 
   final controllerProvider = getIt<BottomSheetControllerProvider>();
 
-  Widget imgWidget = TestImg();
-  Widget widgetClosedTitle = ClosedTitle();
-  Widget widgetOpenedTitle = OpenedTitle();
-  Widget widgetOpenedSlider = OpenedSlider();
-  Widget widgetButtonGroups = ButtonGroups();
-  Widget widgetAppBottomNavigationBar = AppBottomNavigationBar();
+  final Widget imgWidget = TestImg();
+  final Widget widgetClosedTitle = ClosedTitle();
+  final Widget widgetOpenedTitle = OpenedTitle();
+  final Widget widgetOpenedSlider = OpenedSlider();
+  final Widget widgetButtonGroups = ButtonGroups();
+  final Widget widgetAppBottomNavigationBar = AppBottomNavigationBar();
 
   double getOpenOpacity(double animatedVal) {
     return max((1 - animatedVal * 3), 0);
@@ -113,6 +115,8 @@ class AnimateScaffold extends StatelessWidget{
     final screenWidth = mediaData.size.width;
     final screenHeight = mediaData.size.height - topPadding;
     final imgHeight = screenWidth / 16 * 9;
+    final itemHeight =
+        (mediaData.size.height - mediaData.padding.top - 356) / 3;
 
     var myTween = Tween<double>(
         end: 63 + kBottomNavigationBarHeight, begin: screenHeight);
@@ -167,13 +171,14 @@ class AnimateScaffold extends StatelessWidget{
                     ]),
                   ),
                   Transform.translate(
-                      offset: Offset(0, transVal), child: widgetOpenedTitle),
+                      offset: Offset(0, transVal),
+                      child: Container(height: itemHeight,child: widgetOpenedTitle)),
                   Transform.translate(
                       offset: Offset(0, transVal * 2),
-                      child: widgetOpenedSlider),
+                      child: Container(height: itemHeight, child: widgetOpenedSlider)),
                   Transform.translate(
                       offset: Offset(0, transVal * 3),
-                      child: widgetButtonGroups)
+                      child: Container(height: itemHeight,child: widgetButtonGroups))
                 ],
               ),
             ),
@@ -205,12 +210,14 @@ class AnimateScaffold extends StatelessWidget{
 class ClosedTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print('[$this]');
+    final title = Provider.of<AnimationTestModel>(context).curTitle;
     return Row(
       children: <Widget>[
         Expanded(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('Test Main title,',
+            Text(title,
                 style: Theme.of(context).textTheme.bodyText1, maxLines: 1),
             Text(
               'Test Subtitle',
@@ -230,20 +237,16 @@ class OpenedTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mediaData = MediaQuery.of(context);
-    final itemHeight =
-        (mediaData.size.height - mediaData.padding.top - 356) / 3;
+
+    final title = Provider.of<AnimationTestModel>(context).curTitle;
     print('[OpenedTitle]');
-    return Container(
-//      color: Colors.yellow,
-      height: itemHeight,
-      child: Column(
-        children: [
-          Text('This is a big title',
-              style: Theme.of(context).textTheme.headline5),
-          Text('This is a subtitile',
-              style: Theme.of(context).textTheme.bodyText1)
-        ],
-      ),
+    return Column(
+      children: [
+        Text(title,
+            style: Theme.of(context).textTheme.headline5),
+        Text('This is a subtitile',
+            style: Theme.of(context).textTheme.bodyText1)
+      ],
     );
   }
 }
@@ -251,28 +254,22 @@ class OpenedTitle extends StatelessWidget {
 class OpenedSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print('[OpenedSlider]');
-    final mediaData = MediaQuery.of(context);
-    final itemHeight =
-        (mediaData.size.height - mediaData.padding.top - 356) / 3;
-    return Container(
-      height: itemHeight,
-      child: Column(
-        children: [
-          Container(
-            child: Slider(value: 0.5),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('0:00', style: Theme.of(context).textTheme.subtitle2),
-                  Text('9:99', style: Theme.of(context).textTheme.subtitle2)
-                ]),
-          )
-        ],
-      ),
+    print('[$this]');
+    return Column(
+      children: [
+        Container(
+          child: Slider(value: 0.5),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('0:00', style: Theme.of(context).textTheme.subtitle2),
+                Text('9:99', style: Theme.of(context).textTheme.subtitle2)
+              ]),
+        )
+      ],
     );
   }
 }
@@ -287,25 +284,20 @@ class _ButtonGroupsState extends State<ButtonGroups> {
 
   @override
   Widget build(BuildContext context) {
-    final mediaData = MediaQuery.of(context);
-    final itemHeight =
-        (mediaData.size.height - mediaData.padding.top - 356) / 3;
-    return Container(
-      height: itemHeight,
-      child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Container(),
-            IconButton(icon: Icon(Icons.skip_previous)),
-            IconButton(
-              icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
-              iconSize: 50,
-              onPressed: () => setState(() => isPlaying = !isPlaying),
-            ),
-            IconButton(icon: Icon(Icons.skip_next)),
-            Container()
-          ]),
-    );
+    final testModel = Provider.of<AnimationTestModel>(context, listen: false);
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Container(),
+          IconButton(icon: Icon(Icons.skip_previous), onPressed: testModel.changeTitle),
+          IconButton(
+            icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
+            iconSize: 50,
+            onPressed: () => setState(() => isPlaying = !isPlaying),
+          ),
+          IconButton(icon: Icon(Icons.skip_next)),
+          Container()
+        ]);
   }
 }
 
