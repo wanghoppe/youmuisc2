@@ -88,14 +88,18 @@ class AnimateScaffold extends StatelessWidget {
   static const minBottomListHeight = 56.0;
   static const wrapImgHeight = 300.0;
   static const closedHeight = 54.0;
-  static const s1 = 0.2;
-  static const s2 = 0.6;
+  static const double maxSlide = 800;
+  static const double minDragStartEdge = 60;
+  static const double maxDragStartEdge = maxSlide - 16;
 
   final topPadding;
   AnimateScaffold({Key key, this.topPadding}) : super(key: key);
 
-  BottomSheetControllerProvider controllerProvider =
+  final BottomSheetControllerProvider controllerProvider =
       getIt<BottomSheetControllerProvider>();
+  final s1 = BottomSheetControllerProvider.s1;
+  final s2 = BottomSheetControllerProvider.s2;
+
 
   final Widget imgWidget = TestImg();
   final Widget widgetClosedTitle = ClosedTitle();
@@ -103,6 +107,7 @@ class AnimateScaffold extends StatelessWidget {
   final Widget widgetOpenedSlider = OpenedSlider();
   final Widget widgetButtonGroups = ButtonGroups();
   final Widget widgetAppBottomNavigationBar = AppBottomNavigationBar();
+
 
   @override
   Widget build(BuildContext context) {
@@ -179,17 +184,64 @@ class AnimateScaffold extends StatelessWidget {
         .animate(CurvedAnimation(
             parent: controllerProvider.controller, curve: Interval(s2, 1.0)));
 
+    void onTap() {
+      if (controllerProvider.controller.isDismissed) {
+        controllerProvider.controller.forward();
+      } else if (controllerProvider.controller.isCompleted) {
+        controllerProvider.controller.reverse();
+      }
+    }
+
+    void onDragStart(DragStartDetails details) {
+      bool isDragOpenFromLeft = controllerProvider.controller.isDismissed &&
+          details.globalPosition.dx < minDragStartEdge;
+      bool isDragCloseFromRight = controllerProvider.controller.isCompleted &&
+          details.globalPosition.dx > maxDragStartEdge;
+
+      controllerProvider.canBeDragged = isDragOpenFromLeft || isDragCloseFromRight;
+      controllerProvider.canBeDragged = true;
+
+    }
+
+    void onDragUpdate(DragUpdateDetails details) {
+      if (controllerProvider.canBeDragged) {
+        double delta = details.primaryDelta / maxSlide;
+        controllerProvider.controller.value -= delta;
+      }
+    }
+
+    void onDragEnd(DragEndDetails details) {
+      //I have no idea what it means, copied from Drawer
+      double _kMinFlingVelocity = 365.0;
+      final AnimationController _controller = controllerProvider.controller;
+
+      if (_controller.isDismissed || _controller.isCompleted) {
+        return;
+      }
+      print(details.velocity.pixelsPerSecond.dy);
+      if (details.velocity.pixelsPerSecond.dy.abs() >= _kMinFlingVelocity) {
+//        double visualVelocity = details.velocity.pixelsPerSecond.dy /
+//            MediaQuery.of(context).size.height;
+
+        _controller.animateTo((details.velocity.pixelsPerSecond.dy > 0)?0.0:1.0);
+      } else if (controllerProvider.controller.value < 0.5) {
+        _controller.reverse();
+      } else {
+        _controller.forward();
+      }
+    }
+
     return AnimatedBuilder(
       child: TestImg(),
       animation: controllerProvider.controller,
       builder: (context, child) {
         var animatedVal = controllerProvider.controller.value;
         return GestureDetector(
-          onVerticalDragStart: controllerProvider.onDragStart,
-          onVerticalDragUpdate: controllerProvider.onDragUpdate,
-          onVerticalDragEnd: controllerProvider.onDragEnd,
+          onVerticalDragStart: onDragStart,
+          onVerticalDragUpdate: onDragUpdate,
+          onVerticalDragEnd: onDragEnd,
           onTap: controllerProvider.controller.isDismissed
-              ? controllerProvider.onTap
+              ? onTap
               : () => {},
           child: Stack(children: [
             Container(

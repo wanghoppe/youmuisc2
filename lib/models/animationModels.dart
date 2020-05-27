@@ -35,58 +35,20 @@ class AnimationTestModel extends ChangeNotifier{
 
 
 class BottomSheetControllerProvider extends TickerProvider{
-  static const double maxSlide = 800;
-  static const double minDragStartEdge = 60;
-  static const double maxDragStartEdge = maxSlide - 16;
+
+  static const s1 = 0.2;
+  static const s2 = 0.6;
 
   Ticker _ticker;
   AnimationController _controller;
-  bool _canBeDragged = false;
+  bool canBeDragged = false;
 
   get controller => _controller;
 
   BottomSheetControllerProvider(){
     _controller = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 5000));
+        vsync: this, duration: Duration(milliseconds: 1000));
   }
-
-  void onTap() {
-    if (_controller.isDismissed) {
-      _controller.forward();
-//      _controller.animateTo(0.5);
-    } else if (_controller.isCompleted) {
-      _controller.reverse();
-    }
-  }
-
-  void onDragStart(DragStartDetails details) {
-    bool isDragOpenFromLeft = _controller.isDismissed &&
-        details.globalPosition.dx < minDragStartEdge;
-    bool isDragCloseFromRight = _controller.isCompleted &&
-        details.globalPosition.dx > maxDragStartEdge;
-
-    _canBeDragged = isDragOpenFromLeft || isDragCloseFromRight;
-    _canBeDragged = true;
-
-  }
-
-  void onDragUpdate(DragUpdateDetails details) {
-    if (_canBeDragged) {
-      double delta = details.primaryDelta / maxSlide;
-//      print(details.globalPosition);
-      _controller.value -= delta;
-    }
-  }
-
-  void onDragEnd(DragEndDetails details) {
-    //I have no idea what it means, copied from Drawer
-    if (_controller.value < 0.5) {
-      _controller.reverse();
-    } else {
-      _controller.forward();
-    }
-  }
-
 
 
   @override
