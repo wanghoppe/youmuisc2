@@ -45,10 +45,15 @@ class BottomSheetControllerProvider extends TickerProvider{
 
   get controller => _controller;
 
+  BottomSheetControllerProvider(){
+    _controller = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 5000));
+  }
+
   void onTap() {
     if (_controller.isDismissed) {
-//      _controller.forward();
-      _controller.animateTo(0.5);
+      _controller.forward();
+//      _controller.animateTo(0.5);
     } else if (_controller.isCompleted) {
       _controller.reverse();
     }
@@ -68,7 +73,8 @@ class BottomSheetControllerProvider extends TickerProvider{
   void onDragUpdate(DragUpdateDetails details) {
     if (_canBeDragged) {
       double delta = details.primaryDelta / maxSlide;
-      _controller.value += delta;
+//      print(details.globalPosition);
+      _controller.value -= delta;
     }
   }
 
@@ -82,10 +88,6 @@ class BottomSheetControllerProvider extends TickerProvider{
   }
 
 
-  BottomSheetControllerProvider(){
-    _controller = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 300));
-  }
 
   @override
   Ticker createTicker(onTick) {

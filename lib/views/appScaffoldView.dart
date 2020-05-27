@@ -16,15 +16,13 @@ class AppScaffold extends StatelessWidget {
     return ChangeNotifierProvider<AnimationTestModel>(
       create: (context) => AnimationTestModel(),
       child: Scaffold(
-        body: AppTabView(),
-        bottomNavigationBar: AnimateScaffold(topPadding: topPadding)
-      ),
+          body: AppTabView(),
+          bottomNavigationBar: AnimateScaffold(topPadding: topPadding)),
     );
   }
 }
 
 class AppTabView extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return TabBarView(
@@ -86,12 +84,18 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
   }
 }
 
-class AnimateScaffold extends StatelessWidget{
-  final topPadding;
+class AnimateScaffold extends StatelessWidget {
+  static const minBottomListHeight = 56.0;
+  static const wrapImgHeight = 300.0;
+  static const closedHeight = 54.0;
+  static const s1 = 0.2;
+  static const s2 = 0.6;
 
+  final topPadding;
   AnimateScaffold({Key key, this.topPadding}) : super(key: key);
 
-  final controllerProvider = getIt<BottomSheetControllerProvider>();
+  BottomSheetControllerProvider controllerProvider =
+      getIt<BottomSheetControllerProvider>();
 
   final Widget imgWidget = TestImg();
   final Widget widgetClosedTitle = ClosedTitle();
@@ -100,64 +104,114 @@ class AnimateScaffold extends StatelessWidget{
   final Widget widgetButtonGroups = ButtonGroups();
   final Widget widgetAppBottomNavigationBar = AppBottomNavigationBar();
 
-  double getOpenOpacity(double animatedVal) {
-    return max((1 - animatedVal * 3), 0);
-  }
-
-  double getCloseOpacity(double animatedVal) {
-    return max(1 - (1 - animatedVal) * 2, 0);
-  }
-  
-
   @override
   Widget build(BuildContext context) {
     final mediaData = MediaQuery.of(context);
     final screenWidth = mediaData.size.width;
     final screenHeight = mediaData.size.height - topPadding;
     final imgHeight = screenWidth / 16 * 9;
-    final itemHeight =
-        (mediaData.size.height - mediaData.padding.top - 356) / 3;
+    final itemHeight = (screenHeight - wrapImgHeight - minBottomListHeight) / 3;
 
-    var myTween = Tween<double>(
-        end: 63 + kBottomNavigationBarHeight, begin: screenHeight);
-    var myTween3 = Tween<double>(end: 1.0, begin: 2.0);
-    var imgHeightTween = Tween<double>(end: 63, begin: imgHeight * 1.3);
-    var imgContainerHeightTween = Tween<double>(end: 63, begin: 300 * 1.3);
-    var itemTransformTween = Tween<double>(end: 100.0, begin: 0.0);
-    var bottomNavigationTween = Tween<double>(end:0.0, begin: kBottomNavigationBarHeight);
+    Animation<double> containerHeightS1 = Tween<double>(
+            begin: kBottomNavigationBarHeight,
+            end: kBottomNavigationBarHeight + closedHeight)
+        .animate(CurvedAnimation(
+            parent: controllerProvider.controller, curve: Interval(0.0, s1)));
+
+    Animation<double> containerHeightS2 = Tween<double>(
+            begin: kBottomNavigationBarHeight + closedHeight, end: screenHeight)
+        .animate(CurvedAnimation(
+            parent: controllerProvider.controller, curve: Interval(s1, s2)));
+
+    Animation<double> closedRowWidth = Tween<double>(begin: 1.0, end: 2.0)
+        .animate(CurvedAnimation(
+            parent: controllerProvider.controller, curve: Interval(s1, s2)));
+
+    Animation<double> aImgHeight =
+        Tween<double>(begin: closedHeight, end: imgHeight).animate(
+            CurvedAnimation(
+                parent: controllerProvider.controller,
+                curve: Interval(s1, s2 - 0.02)));
+
+    Animation<double> imgContainerHeightS1 =
+        Tween<double>(begin: closedHeight, end: wrapImgHeight).animate(
+            CurvedAnimation(
+                parent: controllerProvider.controller,
+                curve: Interval(s1, s2 - 0.02)));
+
+    Animation<double> imgContainerHeightS2 =
+        Tween<double>(begin: wrapImgHeight, end: imgHeight).animate(
+            CurvedAnimation(
+                parent: controllerProvider.controller,
+                curve: Interval(s2, 1.0)));
+
+    Animation<double> basicTrans = Tween<double>(begin: 200.0, end: 0.0)
+        .animate(CurvedAnimation(
+            parent: controllerProvider.controller, curve: Interval(s1, s2)));
+
+    Animation<double> buttonTrans =
+        Tween<double>(begin: 0.0, end: -(imgHeight / 2 + 2.5 * itemHeight))
+            .animate(CurvedAnimation(
+                parent: controllerProvider.controller,
+                curve: Interval(s2, 1.0)));
+
+    Animation<double> bottomNavTrans =
+        Tween<double>(begin: 0.0, end: kBottomNavigationBarHeight).animate(
+            CurvedAnimation(
+                parent: controllerProvider.controller,
+                curve: Interval(s1, s2)));
+
+    Animation<double> bottomListTrans =
+        Tween<double>(begin: 0.0, end: -3 * itemHeight).animate(CurvedAnimation(
+            parent: controllerProvider.controller, curve: Interval(s2, 1.0)));
+
+    Animation<double> closedRowOpacity = Tween<double>(begin: 1.0, end: 0.0)
+        .animate(CurvedAnimation(
+            parent: controllerProvider.controller,
+            curve: Interval(s1, (s1 + s2) / 2)));
+
+    Animation<double> dropDownOpacity = Tween<double>(begin: 0.0, end: 1.0)
+        .animate(CurvedAnimation(
+            parent: controllerProvider.controller,
+            curve: Interval(s1, (s1 + s2) / 2)));
+
+    Animation<double> openTitleOpacity = Tween<double>(begin: 1.0, end: 0.0)
+        .animate(CurvedAnimation(
+            parent: controllerProvider.controller, curve: Interval(s2, 1.0)));
 
     return AnimatedBuilder(
       child: TestImg(),
       animation: controllerProvider.controller,
       builder: (context, child) {
         var animatedVal = controllerProvider.controller.value;
-        var transVal = itemTransformTween.transform(animatedVal);
-        final width = MediaQuery.of(context).padding.top;
         return GestureDetector(
           onVerticalDragStart: controllerProvider.onDragStart,
           onVerticalDragUpdate: controllerProvider.onDragUpdate,
           onVerticalDragEnd: controllerProvider.onDragEnd,
-          onTap:controllerProvider.controller.isCompleted ? controllerProvider.onTap: () => {},
+          onTap: controllerProvider.controller.isDismissed
+              ? controllerProvider.onTap
+              : () => {},
           child: Stack(children: [
             Container(
-              height: myTween.transform(animatedVal),
+              height: (animatedVal < s1)
+                  ? containerHeightS1.value
+                  : containerHeightS2.value, //todo
               color: Color.fromRGBO(0, 0, 0, 0.3),
               child: Column(
                 children: [
                   FractionallySizedBox(
-                    widthFactor: myTween3.transform(animatedVal),
+                    widthFactor: closedRowWidth.value,
                     alignment: Alignment.topLeft,
                     child: Row(children: [
                       Container(
                         alignment: Alignment.centerLeft,
 //                            color: Colors.blue,
-                        height: min(
-                            imgContainerHeightTween.transform(animatedVal),
-                            300),
+                        height: (animatedVal < s2)
+                            ? imgContainerHeightS1.value
+                            : imgContainerHeightS2.value,
                         child: Container(
                           alignment: Alignment.center,
-                          height: min(
-                              imgHeightTween.transform(animatedVal), imgHeight),
+                          height: aImgHeight.value,
                           child: child,
 //                                color: Colors.black
                         ),
@@ -165,20 +219,43 @@ class AnimateScaffold extends StatelessWidget{
                       SizedBox(width: 8),
                       Expanded(
                         child: Opacity(
-                            opacity: getCloseOpacity(animatedVal),
+                            opacity: closedRowOpacity.value,
                             child: widgetClosedTitle),
                       )
                     ]),
                   ),
                   Transform.translate(
-                      offset: Offset(0, transVal),
-                      child: Container(height: itemHeight,child: widgetOpenedTitle)),
+                      offset: Offset(0, basicTrans.value),
+                      child: Container(
+                          height: itemHeight,
+                          child: Opacity(
+                              opacity: openTitleOpacity.value,
+                              child: widgetOpenedTitle))),
                   Transform.translate(
-                      offset: Offset(0, transVal * 2),
-                      child: Container(height: itemHeight, child: widgetOpenedSlider)),
+                      offset: Offset(0, basicTrans.value * 2),
+                      child: Container(
+                          height: itemHeight,
+                          child: Opacity(
+                              opacity: openTitleOpacity.value,
+                              child: widgetOpenedSlider))),
                   Transform.translate(
-                      offset: Offset(0, transVal * 3),
-                      child: Container(height: itemHeight,child: widgetButtonGroups))
+                      offset: Offset(
+                          0,
+                          (animatedVal < s2)
+                              ? basicTrans.value * 3
+                              : buttonTrans.value),
+                      child: Container(
+                          height: itemHeight, child: widgetButtonGroups)),
+                  Transform.translate(
+                      offset: Offset(
+                          0,
+                          (animatedVal < s2)
+                              ? basicTrans.value * 4
+                              : bottomListTrans.value),
+                      child: Container(
+                        height: screenHeight - itemHeight - 50,
+                        color: Colors.red,
+                      ))
                 ],
               ),
             ),
@@ -186,19 +263,20 @@ class AnimateScaffold extends StatelessWidget{
               left: 5,
               height: topPadding * 2 + kToolbarHeight,
               child: Opacity(
-                opacity: getOpenOpacity(animatedVal),
+                opacity: dropDownOpacity.value,
                 child: IconButton(
                   icon: Icon(Icons.keyboard_arrow_down,
                       color: Colors.white, size: 30),
-                  onPressed: () => {controllerProvider.controller.forward()}, //todo
+                  onPressed: () =>
+                      {controllerProvider.controller.reverse()}, //todo
                 ),
               ),
             ),
             Positioned(
               bottom: 0,
               child: Transform.translate(
-                offset: Offset(0,bottomNavigationTween.transform(animatedVal)),
-                child: widgetAppBottomNavigationBar),
+                  offset: Offset(0, bottomNavTrans.value),
+                  child: widgetAppBottomNavigationBar),
             )
           ]),
         );
@@ -242,8 +320,7 @@ class OpenedTitle extends StatelessWidget {
     print('[OpenedTitle]');
     return Column(
       children: [
-        Text(title,
-            style: Theme.of(context).textTheme.headline5),
+        Text(title, style: Theme.of(context).textTheme.headline5),
         Text('This is a subtitile',
             style: Theme.of(context).textTheme.bodyText1)
       ],
@@ -262,12 +339,11 @@ class OpenedSlider extends StatelessWidget {
         ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 15),
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('0:00', style: Theme.of(context).textTheme.subtitle2),
-                Text('9:99', style: Theme.of(context).textTheme.subtitle2)
-              ]),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text('0:00', style: Theme.of(context).textTheme.subtitle2),
+            Text('9:99', style: Theme.of(context).textTheme.subtitle2)
+          ]),
         )
       ],
     );
@@ -289,7 +365,9 @@ class _ButtonGroupsState extends State<ButtonGroups> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Container(),
-          IconButton(icon: Icon(Icons.skip_previous), onPressed: testModel.changeTitle),
+          IconButton(
+              icon: Icon(Icons.skip_previous),
+              onPressed: testModel.changeTitle),
           IconButton(
             icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
             iconSize: 50,
