@@ -5,7 +5,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:youmusic2/models/animationModels.dart';
+import 'package:youmusic2/client/utils.dart';
+import 'package:youmusic2/models/ControllerModels.dart';
 import '../main.dart';
 import 'homeTabView.dart';
 
@@ -15,9 +16,12 @@ class AppScaffold extends StatelessWidget {
     final topPadding = MediaQuery.of(context).padding.top;
     return ChangeNotifierProvider<AnimationTestModel>(
       create: (context) => AnimationTestModel(),
-      child: Scaffold(
-          body: AppTabView(),
-          bottomNavigationBar: AnimateScaffold(topPadding: topPadding)),
+      child: WillPopScope(
+        onWillPop: getIt<HomeNavigatorController>().handleAndroidBack,
+        child: Scaffold(
+            body: AppTabView(),
+            bottomNavigationBar: AnimateScaffold(topPadding: topPadding)),
+      ),
     );
   }
 }
@@ -31,7 +35,7 @@ class AppTabView extends StatelessWidget {
         children: [
           HomeUnderTab(),
 //          AnimateScaffold(),
-          Container(color: Colors.white),
+          Container(color: Colors.black),
           Icon(Icons.directions_bike),
         ]);
   }
@@ -51,6 +55,10 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
       setState(() {
         _currentIdx = idx;
       });
+    }else{
+      getIt<BottomSheetControllerProvider>().controller.animateTo(
+          BottomSheetControllerProvider.s1
+      );
     }
   }
 
@@ -59,26 +67,30 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
     print('[AppBottomNavigationBar]');
     final tabController = getIt<TabControllerProvider>().tabController;
     final width = MediaQuery.of(context).size.width;
-    return Container(
-      width: width,
-      child: BottomNavigationBar(
-        selectedItemColor: Colors.white,
-        backgroundColor: Theme.of(context).appBarTheme.color,
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text("Home"),
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle), title: Text("Account")),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            title: Text("Settings"),
-          )
-        ],
-        onTap: (idx) => _onTap(idx, tabController),
-        currentIndex: _currentIdx,
+    return GestureDetector(
+      onVerticalDragUpdate:(update){},
+      onTap: (){},
+      child: Container(
+        width: width,
+        child: BottomNavigationBar(
+          selectedItemColor: Colors.white,
+          backgroundColor: Theme.of(context).appBarTheme.color,
+          type: BottomNavigationBarType.fixed,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              title: Text("Home"),
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.account_circle), title: Text("Account")),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              title: Text("Settings"),
+            )
+          ],
+          onTap: (idx) => _onTap(idx, tabController),
+          currentIndex: _currentIdx,
+        ),
       ),
     );
   }
@@ -88,9 +100,6 @@ class AnimateScaffold extends StatelessWidget {
   static const minBottomListHeight = 56.0;
   static const wrapImgHeight = 300.0;
   static const closedHeight = 54.0;
-  static const double maxSlide = 800;
-  static const double minDragStartEdge = 60;
-  static const double maxDragStartEdge = maxSlide - 16;
 
   final topPadding;
   AnimateScaffold({Key key, this.topPadding}) : super(key: key);
@@ -116,6 +125,7 @@ class AnimateScaffold extends StatelessWidget {
     final screenHeight = mediaData.size.height - topPadding;
     final imgHeight = screenWidth / 16 * 9;
     final itemHeight = (screenHeight - wrapImgHeight - minBottomListHeight) / 3;
+    final maxSlide = screenHeight - kBottomNavigationBarHeight - closedHeight;
 
     Animation<double> containerHeightS1 = Tween<double>(
             begin: kBottomNavigationBarHeight,
@@ -126,7 +136,7 @@ class AnimateScaffold extends StatelessWidget {
     Animation<double> containerHeightS2 = Tween<double>(
             begin: kBottomNavigationBarHeight + closedHeight, end: screenHeight)
         .animate(CurvedAnimation(
-            parent: controllerProvider.controller, curve: Interval(s1, s2)));
+            parent: controllerProvider.controller, curve: Interval(s1, s2-0.02)));
 
     Animation<double> closedRowWidth = Tween<double>(begin: 1.0, end: 2.0)
         .animate(CurvedAnimation(
@@ -184,50 +194,53 @@ class AnimateScaffold extends StatelessWidget {
         .animate(CurvedAnimation(
             parent: controllerProvider.controller, curve: Interval(s2, 1.0)));
 
-    void onTap() {
-      if (controllerProvider.controller.isDismissed) {
-        controllerProvider.controller.forward();
-      } else if (controllerProvider.controller.isCompleted) {
-        controllerProvider.controller.reverse();
-      }
-    }
+//    void onTap() {
+//      if (controllerProvider.controller.isDismissed) {
+//        controllerProvider.controller.forward();
+//      } else if (controllerProvider.controller.isCompleted) {
+//        controllerProvider.controller.reverse();
+//      }
+//    }
 
-    void onDragStart(DragStartDetails details) {
-      bool isDragOpenFromLeft = controllerProvider.controller.isDismissed &&
-          details.globalPosition.dx < minDragStartEdge;
-      bool isDragCloseFromRight = controllerProvider.controller.isCompleted &&
-          details.globalPosition.dx > maxDragStartEdge;
-
-      controllerProvider.canBeDragged = isDragOpenFromLeft || isDragCloseFromRight;
-      controllerProvider.canBeDragged = true;
-
-    }
+//    void onDragStart(DragStartDetails details) {
+//      bool isDragOpenFromLeft = controllerProvider.controller.isDismissed &&
+//          details.globalPosition.dx < minDragStartEdge;
+//      bool isDragCloseFromRight = controllerProvider.controller.isCompleted &&
+//          details.globalPosition.dx > maxDragStartEdge;
+//
+//      controllerProvider.canBeDragged = isDragOpenFromLeft || isDragCloseFromRight;
+//      controllerProvider.canBeDragged = true;
+//    }
 
     void onDragUpdate(DragUpdateDetails details) {
-      if (controllerProvider.canBeDragged) {
-        double delta = details.primaryDelta / maxSlide;
-        controllerProvider.controller.value -= delta;
+      final AnimationController _controller = controllerProvider.controller;
+      double delta = details.primaryDelta / (maxSlide)*(s2 - s1);
+      final nextVal = _controller.value - delta;
+
+      if (_controller.value >= s1 && nextVal >= s1) {
+        _controller.value = nextVal;
       }
     }
 
     void onDragEnd(DragEndDetails details) {
       //I have no idea what it means, copied from Drawer
-      double _kMinFlingVelocity = 365.0;
+      const double _kMinFlingVelocity = 365.0;
       final AnimationController _controller = controllerProvider.controller;
+      final dy = details.velocity.pixelsPerSecond.dy;
 
-      if (_controller.isDismissed || _controller.isCompleted) {
+      print(dy);
+
+      if (_controller.isDismissed || _controller.isCompleted
+          || _controller.value < s1 ) {
         return;
       }
-      print(details.velocity.pixelsPerSecond.dy);
-      if (details.velocity.pixelsPerSecond.dy.abs() >= _kMinFlingVelocity) {
-//        double visualVelocity = details.velocity.pixelsPerSecond.dy /
-//            MediaQuery.of(context).size.height;
+      if (dy.abs() >= _kMinFlingVelocity) {
 
-        _controller.animateTo((details.velocity.pixelsPerSecond.dy > 0)?0.0:1.0);
-      } else if (controllerProvider.controller.value < 0.5) {
-        _controller.reverse();
+        if (dy > 0) controllerProvider.nextDown();
+        else controllerProvider.nextUp();
+
       } else {
-        _controller.forward();
+        controllerProvider.onZeroDrop();
       }
     }
 
@@ -237,12 +250,10 @@ class AnimateScaffold extends StatelessWidget {
       builder: (context, child) {
         var animatedVal = controllerProvider.controller.value;
         return GestureDetector(
-          onVerticalDragStart: onDragStart,
+//          onVerticalDragStart: onDragStart,
           onVerticalDragUpdate: onDragUpdate,
           onVerticalDragEnd: onDragEnd,
-          onTap: controllerProvider.controller.isDismissed
-              ? onTap
-              : () => {},
+          onTap: controllerProvider.onClosedTap,
           child: Stack(children: [
             Container(
               height: (animatedVal < s1)
@@ -279,7 +290,7 @@ class AnimateScaffold extends StatelessWidget {
                   Transform.translate(
                       offset: Offset(0, basicTrans.value),
                       child: Container(
-                          height: itemHeight,
+                          height: itemHeight-10,
                           child: Opacity(
                               opacity: openTitleOpacity.value,
                               child: widgetOpenedTitle))),
@@ -297,16 +308,16 @@ class AnimateScaffold extends StatelessWidget {
                               ? basicTrans.value * 3
                               : buttonTrans.value),
                       child: Container(
-                          height: itemHeight, child: widgetButtonGroups)),
+                          height: itemHeight+10, child: widgetButtonGroups)),
                   Transform.translate(
                       offset: Offset(
                           0,
                           (animatedVal < s2)
-                              ? basicTrans.value * 4
+                              ? basicTrans.value * 8
                               : bottomListTrans.value),
                       child: Container(
-                        height: screenHeight - itemHeight - 50,
-                        color: Colors.red,
+                        height: screenHeight - imgHeight, //todo
+                        color: Colors.blueGrey,
                       ))
                 ],
               ),
@@ -319,8 +330,9 @@ class AnimateScaffold extends StatelessWidget {
                 child: IconButton(
                   icon: Icon(Icons.keyboard_arrow_down,
                       color: Colors.white, size: 30),
-                  onPressed: () =>
-                      {controllerProvider.controller.reverse()}, //todo
+                  onPressed: (dropDownOpacity.value == 1.0)
+                      ? controllerProvider.onDropDownClick
+                      : null, //todo
                 ),
               ),
             ),
@@ -357,7 +369,8 @@ class ClosedTitle extends StatelessWidget {
           ]),
         ),
         IconButton(icon: Icon(Icons.play_arrow), onPressed: () => {}),
-        IconButton(icon: Icon(Icons.close), onPressed: () => {})
+        IconButton(icon: Icon(Icons.close),
+          onPressed: getIt<BottomSheetControllerProvider>().onCloseClick)
       ],
     );
   }
@@ -371,8 +384,10 @@ class OpenedTitle extends StatelessWidget {
     final title = Provider.of<AnimationTestModel>(context).curTitle;
     print('[OpenedTitle]');
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(title, style: Theme.of(context).textTheme.headline5),
+        SizedBox(height: 5),
         Text('This is a subtitile',
             style: Theme.of(context).textTheme.bodyText1)
       ],
@@ -385,6 +400,7 @@ class OpenedSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     print('[$this]');
     return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Container(
           child: Slider(value: 0.5),

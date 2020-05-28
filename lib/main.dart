@@ -10,7 +10,7 @@ import 'package:youmusic2/views/appScaffoldView.dart';
 
 import 'package:youmusic2/views/homeView.dart';
 import 'package:youmusic2/views/playlistView.dart';
-import 'models/animationModels.dart';
+import 'models/ControllerModels.dart';
 import 'models/homeModels.dart';
 
 final getIt = GetIt.instance;
@@ -19,6 +19,9 @@ void setup() {
   getIt.registerSingleton<ApiClient>(ApiClient());
   getIt.registerSingleton<TabControllerProvider>(TabControllerProvider());
   getIt.registerSingleton<BottomSheetControllerProvider>(BottomSheetControllerProvider());
+  getIt.registerSingleton<HomeNavigatorController>(HomeNavigatorController(
+    getIt<BottomSheetControllerProvider>()
+  ));
 }
 
 void main(){

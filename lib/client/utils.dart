@@ -6,3 +6,5 @@ void prettyWrite(File file, Map m){
   final prettyPrint = encoder.convert(m);
   file.writeAsStringSync(prettyPrint);
 }
+
+void dummyVoid(){}

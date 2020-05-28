@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:youmusic2/main.dart';
+import 'package:youmusic2/models/ControllerModels.dart';
 import 'package:youmusic2/views/homeView.dart';
 import 'package:youmusic2/views/playlistView.dart';
 
@@ -45,8 +47,9 @@ class _HomeUnderTabState extends State<HomeUnderTab> {
   @override
   Widget build(BuildContext context) {
     return Navigator(
-        observers: [_heroController],
-        onGenerateRoute: _generateRoute
+      key: getIt<HomeNavigatorController>().homeNavigator,
+      observers: [_heroController],
+      onGenerateRoute: _generateRoute
     );
   }
 }
