@@ -59,7 +59,7 @@ class BottomSheetControllerProvider extends TickerProvider{
   }
 
   void _curvedAnimateTo(double val){
-    _controller.animateTo(val, curve: Curves.easeOutQuad);
+    _controller.animateTo(val, curve: Curves.easeOutCubic);
   }
 
   bool nextDown(){

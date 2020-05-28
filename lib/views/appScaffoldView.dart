@@ -55,10 +55,10 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
       setState(() {
         _currentIdx = idx;
       });
-    }else{
-      getIt<BottomSheetControllerProvider>().controller.animateTo(
-          BottomSheetControllerProvider.s1
-      );
+    } else {
+      getIt<BottomSheetControllerProvider>()
+          .controller
+          .animateTo(BottomSheetControllerProvider.s1);
     }
   }
 
@@ -68,8 +68,8 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
     final tabController = getIt<TabControllerProvider>().tabController;
     final width = MediaQuery.of(context).size.width;
     return GestureDetector(
-      onVerticalDragUpdate:(update){},
-      onTap: (){},
+      onVerticalDragUpdate: (update) {},
+      onTap: () {},
       child: Container(
         width: width,
         child: BottomNavigationBar(
@@ -109,14 +109,12 @@ class AnimateScaffold extends StatelessWidget {
   final s1 = BottomSheetControllerProvider.s1;
   final s2 = BottomSheetControllerProvider.s2;
 
-
   final Widget imgWidget = TestImg();
   final Widget widgetClosedTitle = ClosedTitle();
   final Widget widgetOpenedTitle = OpenedTitle();
   final Widget widgetOpenedSlider = OpenedSlider();
   final Widget widgetButtonGroups = ButtonGroups();
   final Widget widgetAppBottomNavigationBar = AppBottomNavigationBar();
-
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +123,7 @@ class AnimateScaffold extends StatelessWidget {
     final screenHeight = mediaData.size.height - topPadding;
     final imgHeight = screenWidth / 16 * 9;
     final itemHeight = (screenHeight - wrapImgHeight - minBottomListHeight) / 3;
-    final maxSlide = screenHeight - kBottomNavigationBarHeight - closedHeight;
+    final maxSlide = screenHeight - kBottomNavigationBarHeight;
 
     Animation<double> containerHeightS1 = Tween<double>(
             begin: kBottomNavigationBarHeight,
@@ -136,7 +134,8 @@ class AnimateScaffold extends StatelessWidget {
     Animation<double> containerHeightS2 = Tween<double>(
             begin: kBottomNavigationBarHeight + closedHeight, end: screenHeight)
         .animate(CurvedAnimation(
-            parent: controllerProvider.controller, curve: Interval(s1, s2-0.02)));
+            parent: controllerProvider.controller,
+            curve: Interval(s1, s2 - 0.02)));
 
     Animation<double> closedRowWidth = Tween<double>(begin: 1.0, end: 2.0)
         .animate(CurvedAnimation(
@@ -194,6 +193,10 @@ class AnimateScaffold extends StatelessWidget {
         .animate(CurvedAnimation(
             parent: controllerProvider.controller, curve: Interval(s2, 1.0)));
 
+    Animation<double> imgBackOpacity = Tween<double>(begin: 0.0, end: 0.5)
+        .animate(CurvedAnimation(
+            parent: controllerProvider.controller, curve: Interval(s2, 1.0)));
+
 //    void onTap() {
 //      if (controllerProvider.controller.isDismissed) {
 //        controllerProvider.controller.forward();
@@ -214,7 +217,7 @@ class AnimateScaffold extends StatelessWidget {
 
     void onDragUpdate(DragUpdateDetails details) {
       final AnimationController _controller = controllerProvider.controller;
-      double delta = details.primaryDelta / (maxSlide)*(s2 - s1);
+      double delta = details.primaryDelta / (maxSlide) * (s2 - s1);
       final nextVal = _controller.value - delta;
 
       if (_controller.value >= s1 && nextVal >= s1) {
@@ -230,15 +233,16 @@ class AnimateScaffold extends StatelessWidget {
 
       print(dy);
 
-      if (_controller.isDismissed || _controller.isCompleted
-          || _controller.value < s1 ) {
+      if (_controller.isDismissed ||
+          _controller.isCompleted ||
+          _controller.value < s1) {
         return;
       }
       if (dy.abs() >= _kMinFlingVelocity) {
-
-        if (dy > 0) controllerProvider.nextDown();
-        else controllerProvider.nextUp();
-
+        if (dy > 0)
+          controllerProvider.nextDown();
+        else
+          controllerProvider.nextUp();
       } else {
         controllerProvider.onZeroDrop();
       }
@@ -267,17 +271,22 @@ class AnimateScaffold extends StatelessWidget {
                     alignment: Alignment.topLeft,
                     child: Row(children: [
                       Container(
-                        alignment: Alignment.centerLeft,
-//                            color: Colors.blue,
+                        alignment: Alignment.center,
+//                        color: Colors.blue,
                         height: (animatedVal < s2)
                             ? imgContainerHeightS1.value
                             : imgContainerHeightS2.value,
                         child: Container(
-                          alignment: Alignment.center,
-                          height: aImgHeight.value,
-                          child: child,
-//                                color: Colors.black
-                        ),
+//                            color: Colors.green,
+                            height: aImgHeight.value,
+                            child: Stack(children: [
+                              child,
+                              AspectRatio(
+                                  aspectRatio: 16 / 9,
+                                  child: Container(
+                                      color: Color.fromRGBO(
+                                          0, 0, 0, imgBackOpacity.value)))
+                            ])),
                       ),
                       SizedBox(width: 8),
                       Expanded(
@@ -290,7 +299,7 @@ class AnimateScaffold extends StatelessWidget {
                   Transform.translate(
                       offset: Offset(0, basicTrans.value),
                       child: Container(
-                          height: itemHeight-10,
+                          height: itemHeight - 10,
                           child: Opacity(
                               opacity: openTitleOpacity.value,
                               child: widgetOpenedTitle))),
@@ -308,7 +317,7 @@ class AnimateScaffold extends StatelessWidget {
                               ? basicTrans.value * 3
                               : buttonTrans.value),
                       child: Container(
-                          height: itemHeight+10, child: widgetButtonGroups)),
+                          height: itemHeight + 10, child: widgetButtonGroups)),
                   Transform.translate(
                       offset: Offset(
                           0,
@@ -369,8 +378,9 @@ class ClosedTitle extends StatelessWidget {
           ]),
         ),
         IconButton(icon: Icon(Icons.play_arrow), onPressed: () => {}),
-        IconButton(icon: Icon(Icons.close),
-          onPressed: getIt<BottomSheetControllerProvider>().onCloseClick)
+        IconButton(
+            icon: Icon(Icons.close),
+            onPressed: getIt<BottomSheetControllerProvider>().onCloseClick)
       ],
     );
   }
