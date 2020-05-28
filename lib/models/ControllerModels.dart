@@ -85,9 +85,9 @@ class BottomSheetControllerProvider extends TickerProvider{
     final mid1 = (s1 + s2)/2;
     final mid2 = (s2 + 1.0)/2;
 
-    if (_controller.value < mid1) _curvedAnimateTo(s1);
-    else if (_controller.value > mid2) _curvedAnimateTo(1.0);
-    else _curvedAnimateTo(s2);
+    if (_controller.value < mid1) _controller.animateTo(s1);
+    else if (_controller.value > mid2) _controller.animateTo(1.0);
+    else _controller.animateTo(s2);
   }
 
   void onDropDownClick(){
@@ -107,8 +107,6 @@ class BottomSheetControllerProvider extends TickerProvider{
   void onCloseClick() => _controller.animateTo(0.0);
 
   void quickToS1(){
-//    _curvedAnimateTo(s1,
-//        duration: Duration(milliseconds: (durationMill*(s2-s1)).round()));
     _controller.value = s2;
     _curvedAnimateTo(s1);
   }

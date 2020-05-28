@@ -123,7 +123,7 @@ class AnimateScaffold extends StatelessWidget {
     final screenHeight = mediaData.size.height - topPadding;
     final imgHeight = screenWidth / 16 * 9;
     final itemHeight = (screenHeight - wrapImgHeight - minBottomListHeight) / 3;
-    final maxSlide = screenHeight - kBottomNavigationBarHeight;
+    final maxSlide = screenHeight - kBottomNavigationBarHeight - closedHeight/2;
 
     Animation<double> containerHeightS1 = Tween<double>(
             begin: kBottomNavigationBarHeight,
@@ -135,7 +135,7 @@ class AnimateScaffold extends StatelessWidget {
             begin: kBottomNavigationBarHeight + closedHeight, end: screenHeight)
         .animate(CurvedAnimation(
             parent: controllerProvider.controller,
-            curve: Interval(s1, s2 - 0.02)));
+            curve: Interval(s1, s2)));
 
     Animation<double> closedRowWidth = Tween<double>(begin: 1.0, end: 2.0)
         .animate(CurvedAnimation(
@@ -145,13 +145,13 @@ class AnimateScaffold extends StatelessWidget {
         Tween<double>(begin: closedHeight, end: imgHeight).animate(
             CurvedAnimation(
                 parent: controllerProvider.controller,
-                curve: Interval(s1, s2 - 0.02)));
+                curve: Interval(s1, s2 - 0.00)));
 
     Animation<double> imgContainerHeightS1 =
         Tween<double>(begin: closedHeight, end: wrapImgHeight).animate(
             CurvedAnimation(
                 parent: controllerProvider.controller,
-                curve: Interval(s1, s2 - 0.02)));
+                curve: Interval(s1, s2 - 0.00)));
 
     Animation<double> imgContainerHeightS2 =
         Tween<double>(begin: wrapImgHeight, end: imgHeight).animate(
@@ -193,7 +193,7 @@ class AnimateScaffold extends StatelessWidget {
         .animate(CurvedAnimation(
             parent: controllerProvider.controller, curve: Interval(s2, 1.0)));
 
-    Animation<double> imgBackOpacity = Tween<double>(begin: 0.0, end: 0.5)
+    Animation<double> imgBackOpacity = Tween<double>(begin: 0.0, end: 0.55)
         .animate(CurvedAnimation(
             parent: controllerProvider.controller, curve: Interval(s2, 1.0)));
 
