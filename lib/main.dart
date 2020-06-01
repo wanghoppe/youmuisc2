@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -18,13 +17,13 @@ final getIt = GetIt.instance;
 void setup() {
   getIt.registerSingleton<ApiClient>(ApiClient());
   getIt.registerSingleton<TabControllerProvider>(TabControllerProvider());
-  getIt.registerSingleton<BottomSheetControllerProvider>(BottomSheetControllerProvider());
-  getIt.registerSingleton<HomeNavigatorController>(HomeNavigatorController(
-    getIt<BottomSheetControllerProvider>()
-  ));
+  getIt.registerSingleton<BottomSheetControllerProvider>(
+      BottomSheetControllerProvider());
+  getIt.registerSingleton<HomeNavigatorController>(
+      HomeNavigatorController(getIt<BottomSheetControllerProvider>()));
 }
 
-void main(){
+void main() {
   setup();
   runApp(MyApp());
 }
@@ -38,14 +37,45 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         brightness: Brightness.dark,
-        appBarTheme: AppBarTheme(color: Color.fromRGBO(30,30,30,1)),
+        appBarTheme: AppBarTheme(color: Color.fromRGBO(30, 30, 30, 1)),
         textTheme: TextTheme(
-          headline5: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+          headline5:
+              TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
 //          display4: TextStyle(color: Colors.white)
           bodyText2: TextStyle(color: Colors.white54),
         ),
       ),
       home: AppScaffold(),
+//      home: ForTestScaffold(),
+    );
+  }
+}
+
+class ForTestScaffold extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+          decoration: BoxDecoration(color: Colors.green),
+          alignment: Alignment.center,
+          child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.grey,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.red,
+                      blurRadius: 20.0,
+                      spreadRadius: 20.0
+                    ),
+                    BoxShadow(
+                        color: Colors.blue,
+                        blurRadius: 20.0,
+                        spreadRadius: 15.0
+                    ),
+                  ]
+              ),
+              height: 50, width: 50)),
     );
   }
 }

@@ -284,7 +284,6 @@ class SliverPlayButtons extends StatelessWidget{
             SizedBox(width: 12),
             Expanded(
               child: OutlineButton.icon(
-
                 borderSide: BorderSide(
                   color: Colors.white
                 ),
