@@ -98,7 +98,6 @@ List<Map<String, dynamic>> getInfoListFromStr(String str){
 
   final infoList = content.map<Map<String, dynamic>>(getItemMap).toList();
 
-//  print(infoList.length);
   return infoList;
 }
 

@@ -84,26 +84,28 @@ class PlaylistSliver extends StatelessWidget{
           opController.changeScrollPos(notification.metrics.pixels);
           return true;
         },
-        child: CustomScrollView(
-          physics:
-            const AlwaysScrollableScrollPhysics(parent: const CustomScrollPhysics()),
-          slivers: <Widget>[
-            OpaqueSliverAppBar(),
-            OpacitySliverHead(),
-            SliverPlayButtons(),
-            FutureBuilder(
-              future: infoListModel.futureList,
-              builder: (context, snapshot){
-                if (snapshot.hasData){
-                  return MainSliverList(snapshot.data, isAlbum: infoListModel.isAlbum);
-                }else{
-                  return SliverToBoxAdapter(
-                    child: AlwaysActivityIndicator(),
-                  );
+        child: SafeArea(
+          child: CustomScrollView(
+            physics:
+              const AlwaysScrollableScrollPhysics(parent: const CustomScrollPhysics()),
+            slivers: <Widget>[
+              OpaqueSliverAppBar(),
+              OpacitySliverHead(),
+              SliverPlayButtons(),
+              FutureBuilder(
+                future: infoListModel.futureList,
+                builder: (context, snapshot){
+                  if (snapshot.hasData){
+                    return MainSliverList(snapshot.data, isAlbum: infoListModel.isAlbum);
+                  }else{
+                    return SliverToBoxAdapter(
+                      child: AlwaysActivityIndicator(),
+                    );
+                  }
                 }
-              }
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -188,10 +190,10 @@ class SliverHead extends StatelessWidget{
     final screenArgs = Provider.of<PlaylistScreenArgs>(context, listen: false);
     return SliverToBoxAdapter(
       child: Container(
-        height: 210,
-//        color: Colors.black26,
+        height: 190,
+//        color: Colors.blue,
         child: Padding(
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.symmetric(horizontal: 15),
           child: Row(
             children: <Widget>[
               Hero(

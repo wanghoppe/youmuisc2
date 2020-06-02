@@ -333,7 +333,7 @@ class AnimateScaffold extends StatelessWidget {
             ),
             Positioned(
               left: 5,
-              height: topPadding * 2 + kToolbarHeight,
+              height: kToolbarHeight,
               child: Opacity(
                 opacity: dropDownOpacity.value,
                 child: IconButton(

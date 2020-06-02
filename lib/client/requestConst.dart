@@ -114,3 +114,30 @@ const headerTest = {
       'aab9a4e03e112a8f4dbcce3QEAAAAdGxpcGl+zcVeMA==; AST=MTU5MDAyMTUwMg==; SIDCC='
       'AJi4QfFBx5ggf-ymFk7GkUD1bwzhaIzPYW2YxPB1oGockD0BnE7O2rtNy-5oIaK5iHi5rqMVTQ'
 };
+
+
+const watchEndpointBody = {
+  "enablePersistentPlaylistPanel": true,
+  "tunerSettingValue": "AUTOMIX_SETTING_NORMAL",
+  "videoId": "vaknSDdG6xs",
+  "playlistId": "RDAMVMvaknSDdG6xs",
+  "params": "wAEB",
+  "isAudioOnly": true
+};
+
+const watchEndpointBody2 = {
+  "enablePersistentPlaylistPanel": true,
+  "tunerSettingValue": "AUTOMIX_SETTING_NORMAL",
+  "playlistId": "RDMM",
+  "params": "wAEB",
+  "isAudioOnly": true
+};
+
+const watchEndpointBody20 = {
+  "enablePersistentPlaylistPanel": true,
+  "tunerSettingValue": "AUTOMIX_SETTING_NORMAL",
+  'videoId': "AoAm4om0wTs",
+  'playlistId': "PLp12xt0S4J0VNJC-eGFd77RLRuQawkaZn",
+  "params": "wAEB",
+  "isAudioOnly": true
+};

@@ -12,6 +12,7 @@ class ApiClient{
   final _deviceReg = RegExp(r'"DEVICE":"(.*?)"');
   static const URL = 'music.youtube.com';
   static const BROWSE = '/youtubei/v1/browse';
+  static const NEXT = '/youtubei/v1/next';
   var partialHeader;
 
   Future isReady;
@@ -90,6 +91,21 @@ class ApiClient{
     );
 //    prettyWrite(File('output/playlist/album_raw.json'),jsonDecode(response.body));
 //    print(response.statusCode);
+    assert(response.statusCode == 200);
+    return response.body;
+  }
+
+  Future<String> getWatchResponse(Map testBody) async{
+    await isReady;
+    final requestBody = {
+      ...c.bodyMap,
+      ...testBody
+    };
+    final response = await http.post(
+        Uri.https(URL, NEXT, c.queryParaBase),
+        headers: {...c.headerMapBase, ...partialHeader},
+        body: jsonEncode(requestBody)
+    );
     assert(response.statusCode == 200);
     return response.body;
   }
