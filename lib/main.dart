@@ -9,8 +9,9 @@ import 'package:youmusic2/views/appScaffoldView.dart';
 
 import 'package:youmusic2/views/homeView.dart';
 import 'package:youmusic2/views/playlistView.dart';
-import 'models/ControllerModels.dart';
+import 'models/controllerModels.dart';
 import 'models/homeModels.dart';
+import 'models/playerModels.dart';
 
 final getIt = GetIt.instance;
 

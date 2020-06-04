@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:youmusic2/models/PlaylistModels.dart';
+import 'package:youmusic2/models/playlistModels.dart';
 import 'package:youmusic2/test/playlist/listdata.dart';
 
 import 'homeView.dart';

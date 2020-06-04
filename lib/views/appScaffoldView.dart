@@ -5,8 +5,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:youmusic2/client/utils.dart';
-import 'package:youmusic2/models/ControllerModels.dart';
+import 'package:youmusic2/models/controllerModels.dart';
+import 'package:youmusic2/models/playerModels.dart';
 import '../main.dart';
 import 'homeTabView.dart';
 
@@ -14,13 +14,27 @@ class AppScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final topPadding = MediaQuery.of(context).padding.top;
-    return ChangeNotifierProvider<AnimationTestModel>(
-      create: (context) => AnimationTestModel(),
-      child: WillPopScope(
-        onWillPop: getIt<HomeNavigatorController>().handleAndroidBack,
-        child: Scaffold(
-            body: AppTabView(),
-            bottomNavigationBar: AnimateScaffold(topPadding: topPadding)),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AnimationTestModel>(
+          create: (context) => AnimationTestModel(),
+        ),
+        Provider<PlayerTestProvider>(
+          create: (context) => PlayerTestProvider(),
+        )
+      ],
+      child:Builder(
+        builder: (context){
+        return Provider<PlayerStateProvider>.value(
+          value: Provider.of<PlayerTestProvider>(context,listen: false).state,
+          child: WillPopScope(
+            onWillPop: getIt<HomeNavigatorController>().handleAndroidBack,
+            child: Scaffold(
+                body: AppTabView(),
+                bottomNavigationBar: AnimateScaffold(topPadding: topPadding)),
+            ),
+        );
+        }
       ),
     );
   }
@@ -434,7 +448,17 @@ class ButtonGroups extends StatefulWidget {
 }
 
 class _ButtonGroupsState extends State<ButtonGroups> {
-  var isPlaying = true;
+  var isPlaying = false;
+
+  void _onPlayPressed(){
+    final player = Provider.of<PlayerStateProvider>(context, listen: false);
+    if (isPlaying){
+      player.pause();
+    }else {
+      player.play();
+    }
+    setState(() => isPlaying = !isPlaying);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -449,7 +473,7 @@ class _ButtonGroupsState extends State<ButtonGroups> {
           IconButton(
             icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
             iconSize: 50,
-            onPressed: () => setState(() => isPlaying = !isPlaying),
+            onPressed: _onPlayPressed,
           ),
           IconButton(icon: Icon(Icons.skip_next)),
           Container()

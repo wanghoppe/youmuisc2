@@ -38,7 +38,7 @@ void test3() async {
 
 ///Utils Function
 
-Map<String, dynamic> getPlayMapFromStr(String response, {isShuffle: false}) {
+Map<String, dynamic> getPlayMapFromStr(String response, {bool isShuffle: false}) {
   final playerMap = <String, dynamic>{};
 
   final json = jsonDecode(response);

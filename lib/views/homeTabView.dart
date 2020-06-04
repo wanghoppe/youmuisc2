@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:youmusic2/main.dart';
-import 'package:youmusic2/models/ControllerModels.dart';
+import 'package:youmusic2/models/controllerModels.dart';
 import 'package:youmusic2/views/homeView.dart';
 import 'package:youmusic2/views/playlistView.dart';
 
