@@ -129,7 +129,7 @@ class _HomePageListViewState extends State<HomePageListView> {
 
   @override
   Widget build(BuildContext context) {
-    print('[CustomScrollView]');
+    //print('[CustomScrollView]');
     return SliverAnimatedList(
       key: widget.listModel.listKey,
       initialItemCount: widget.listModel.length, // Todo: change
@@ -141,7 +141,7 @@ class _HomePageListViewState extends State<HomePageListView> {
 class MyOtherSliverList extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    print('[MyOtherSliverList]');
+    //print('[MyOtherSliverList]');
     return SliverList(
       delegate: SliverChildListDelegate(  // Todo: change
           [ActivityIndicatorContainer()]
@@ -153,7 +153,7 @@ class MyOtherSliverList extends StatelessWidget{
 class ActivityIndicatorContainer extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    print('[ActivityIndicatorContainer]');
+    //print('[ActivityIndicatorContainer]');
     final loadModel = Provider.of<LoadModel>(context);
     return Visibility(
         visible: !loadModel.finished,
@@ -184,7 +184,7 @@ class _HomeRowState extends State<HomeRow> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    print('[HomeRow] ${widget.title}');
+    //print('[HomeRow] ${widget.title}');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -291,7 +291,7 @@ class CardItem extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    print('[CardItem] $title');
+    //print('[CardItem] $title');
     return InkWell(
       onTap: () => onCardTap(context),
       child: Padding(

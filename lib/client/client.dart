@@ -67,7 +67,6 @@ class ApiClient{
         headers: {...c.headerMapBase, ...partialHeader},
         body: jsonEncode(c.bodyMap)
     );
-    // print(response.statusCode);
     assert(response.statusCode == 200);
     return response.body;
   }
