@@ -114,7 +114,7 @@ class AnimateScaffold extends StatelessWidget {
     final screenWidth = mediaData.size.width;
     final screenHeight = mediaData.size.height - topPadding;
     final imgHeight = screenWidth / 16 * 9;
-    final itemHeight = (screenHeight - wrapImgHeight - minBottomListHeight) / 3;
+    final itemHeight = (screenHeight - wrapImgHeight - minBottomListHeight - 15) / 3;
     final maxSlide =
         screenHeight - kBottomNavigationBarHeight - closedHeight / 2;
 
@@ -276,7 +276,7 @@ class AnimateScaffold extends StatelessWidget {
                     Transform.translate(
                         offset: Offset(0, basicTrans.value),
                         child: Container(
-                            height: itemHeight - buttonOffset,
+                            height: itemHeight,
                             child: Opacity(
                                 opacity: openTitleOpacity.value,
                                 child: widgetOpenedTitle))),
@@ -294,7 +294,8 @@ class AnimateScaffold extends StatelessWidget {
                                 ? basicTrans.value * 3
                                 : buttonTrans.value),
                         child: Container(
-                            height: itemHeight + buttonOffset, child: widgetButtonGroups)),
+                            height: itemHeight, child: widgetButtonGroups)),
+                    SizedBox(height: 15),
                     Transform.translate(
                         offset: Offset(
                             0,
