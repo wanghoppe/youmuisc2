@@ -72,6 +72,7 @@ class AnimateScaffold extends StatelessWidget {
   static const minBottomListHeight = 56.0;
   static const wrapImgHeight = 300.0;
   static const closedHeight = 54.0;
+  static const buttonOffset = 20.0;
 
   final topPadding;
   AnimateScaffold({Key key, this.topPadding}) : super(key: key);
@@ -155,7 +156,9 @@ class AnimateScaffold extends StatelessWidget {
             parent: controllerProvider.controller, curve: Interval(s1, s2)));
 
     Animation<double> buttonTrans =
-        Tween<double>(begin: 0.0, end: -(imgHeight / 2 + 2.5 * itemHeight))
+        Tween<double>(
+            begin: 0.0,
+            end: - (imgHeight / 2 + 2.5 * itemHeight - buttonOffset/2))
             .animate(CurvedAnimation(
                 parent: controllerProvider.controller,
                 curve: Interval(s2, 1.0)));
@@ -239,67 +242,71 @@ class AnimateScaffold extends StatelessWidget {
                   ? containerHeightS1.value
                   : containerHeightS2.value, //todo
               color: Color.fromRGBO(0, 0, 0, 0.3),
-              child: Column(
-                children: [
-                  FractionallySizedBox(
-                    widthFactor: closedRowWidth.value,
-                    alignment: Alignment.topLeft,
-                    child: Row(children: [
-                      Container(
-                        alignment: Alignment.center,
+//              color: Colors.red,
+              child: SingleChildScrollView(
+                physics: const NeverScrollableScrollPhysics(),
+                child: Column(
+                  children: [
+                    FractionallySizedBox(
+                      widthFactor: closedRowWidth.value,
+                      alignment: Alignment.topLeft,
+                      child: Row(children: [
+                        Container(
+                          alignment: Alignment.center,
 //                        color: Colors.blue,
-                        height: (animatedVal < s2)
-                            ? imgContainerHeightS1.value
-                            : imgContainerHeightS2.value,
-                        child: Container(
+                          height: (animatedVal < s2)
+                              ? imgContainerHeightS1.value
+                              : imgContainerHeightS2.value,
+                          child: Container(
 //                            color: Colors.green,
-                            height: aImgHeight.value,
-                            child: Stack(children: [
-                              child,
-                              _buildImgMask(context, imgBackOpacity.value)
-                            ])),
-                      ),
-                      SizedBox(width: 16),
-                      Expanded(
-                        child: Opacity(
-                            opacity: closedRowOpacity.value,
-                            child: widgetClosedTitle),
-                      )
-                    ]),
-                  ),
-                  Transform.translate(
-                      offset: Offset(0, basicTrans.value),
-                      child: Container(
-                          height: itemHeight - 20,
+                              height: aImgHeight.value,
+                              child: Stack(children: [
+                                child,
+                                _buildImgMask(context, imgBackOpacity.value)
+                              ])),
+                        ),
+                        SizedBox(width: 16),
+                        Expanded(
                           child: Opacity(
-                              opacity: openTitleOpacity.value,
-                              child: widgetOpenedTitle))),
-                  Transform.translate(
-                      offset: Offset(0, basicTrans.value * 2),
-                      child: Container(
-                          height: itemHeight,
-                          child: Opacity(
-                              opacity: openTitleOpacity.value,
-                              child: widgetOpenedSlider))),
-                  Transform.translate(
-                      offset: Offset(
-                          0,
-                          (animatedVal < s2)
-                              ? basicTrans.value * 3
-                              : buttonTrans.value),
-                      child: Container(
-                          height: itemHeight + 20, child: widgetButtonGroups)),
-                  Transform.translate(
-                      offset: Offset(
-                          0,
-                          (animatedVal < s2)
-                              ? basicTrans.value * 8
-                              : bottomListTrans.value),
-                      child: Container(
-                        height: screenHeight - imgHeight, //todo
-                        color: Colors.blueGrey,
-                      ))
-                ],
+                              opacity: closedRowOpacity.value,
+                              child: widgetClosedTitle),
+                        )
+                      ]),
+                    ),
+                    Transform.translate(
+                        offset: Offset(0, basicTrans.value),
+                        child: Container(
+                            height: itemHeight - buttonOffset,
+                            child: Opacity(
+                                opacity: openTitleOpacity.value,
+                                child: widgetOpenedTitle))),
+                    Transform.translate(
+                        offset: Offset(0, basicTrans.value * 2),
+                        child: Container(
+                            height: itemHeight,
+                            child: Opacity(
+                                opacity: openTitleOpacity.value,
+                                child: widgetOpenedSlider))),
+                    Transform.translate(
+                        offset: Offset(
+                            0,
+                            (animatedVal < s2)
+                                ? basicTrans.value * 3
+                                : buttonTrans.value),
+                        child: Container(
+                            height: itemHeight + buttonOffset, child: widgetButtonGroups)),
+                    Transform.translate(
+                        offset: Offset(
+                            0,
+                            (animatedVal < s2)
+                                ? basicTrans.value * 8
+                                : bottomListTrans.value),
+                        child: Container(
+                          height: screenHeight - imgHeight, //todo
+                          color: Colors.blueGrey,
+                        ))
+                  ],
+                ),
               ),
             ),
             Positioned(
@@ -429,40 +436,6 @@ class OpenedTitle extends StatelessWidget {
     );
   }
 }
-
-class AutoTextScroller extends StatefulWidget{
-
-  final String text;
-
-  AutoTextScroller(this.text);
-
-  @override
-  _AutoTextScrollerState createState() => _AutoTextScrollerState();
-}
-
-class _AutoTextScrollerState extends State<AutoTextScroller> {
-
-  ScrollController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = ScrollController();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      controller: _controller,
-      scrollDirection: Axis.horizontal,
-      child: Text(
-        widget.text,
-        style: Theme.of(context).textTheme.headline5,
-      ),
-    );
-  }
-}
-
 
 class OpenedSlider extends StatefulWidget {
   @override
