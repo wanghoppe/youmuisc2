@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:youmusic2/models/playerModels.dart';
 import 'package:youmusic2/models/playlistModels.dart';
 import 'package:youmusic2/test/playlist/listdata.dart';
 
@@ -315,34 +316,44 @@ class PlaylistItem extends StatelessWidget{
     subtitle = json['subtitle'],
     navigationEndpoint = json['navigationEndpoint'];
 
+  void _onItemTap(BuildContext context){
+    final audioPlayer = Provider.of<AudioPlayerProvider>(context, listen: false);
+    final infoProvider = Provider.of<PlayerInfoProvider>(context, listen: false);
+    audioPlayer.switchPlayer(infoProvider, thumbnails.last['url'], title, subtitle);
+    print(thumbnails.last);
+  }
+
 
   @override
   Widget build(BuildContext context) {
 
-    return ListTile(
-      dense: true,
+    return InkWell(
+      onTap: () => _onItemTap(context),
+      child: ListTile(
+        dense: true,
 //      isThreeLine: true,
-      leading: Container(
-        width: 80,
-        child: Image.network(
-          thumbnails.first['url']
+        leading: Container(
+          width: 80,
+          child: Image.network(
+            thumbnails.first['url']
+          ),
         ),
-      ),
-      title: Text(title,
-        style: Theme.of(context).textTheme.bodyText1,
-        maxLines: 2,
-      ),
-      subtitle: Text(subtitle,
-        style: Theme.of(context).textTheme.bodyText2,
-        maxLines: 1,
-      ),
-      trailing: Container(
-        width: 30,
+        title: Text(title,
+          style: Theme.of(context).textTheme.bodyText1,
+          maxLines: 2,
+        ),
+        subtitle: Text(subtitle,
+          style: Theme.of(context).textTheme.bodyText2,
+          maxLines: 1,
+        ),
+        trailing: Container(
+          width: 30,
 //        color: Colors.black,
-        child: IconButton(
-          iconSize: 24,
-          icon: Icon(Icons.more_vert),
-          onPressed: ()=>{},
+          child: IconButton(
+            iconSize: 24,
+            icon: Icon(Icons.more_vert),
+            onPressed: ()=>{},
+          ),
         ),
       ),
     );

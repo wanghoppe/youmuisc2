@@ -1,5 +1,6 @@
 //import 'package:audioplayers/audioplayers.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+import 'dart:io' show Platform;
 
 void main(){
   test();
@@ -7,13 +8,13 @@ void main(){
 
 void test() async{
   final videoId = 'lkLViPVPUaw';
-  final yt = YoutubeExplode();
-  final mediaStreams = await yt.getVideoMediaStream(videoId);
-  final audio140 = find140(mediaStreams);
-  final audio251 = find251(mediaStreams);
+  final yt = PlayerClient();
+  final mediaStreams = await yt._client.getVideoMediaStream(videoId);
+  final audio140 = yt._find140(mediaStreams);
+  final audio251 = yt._find251(mediaStreams);
 
   print(audio140.url);
-  print(audio251.url);
+  print(audio251.bitrate);
 
 //  AudioPlayer audioPlayer = AudioPlayer();
 //
@@ -23,18 +24,35 @@ void test() async{
 //  }
 }
 
-AudioStreamInfo find140(MediaStreamInfoSet mediaStreams){
-  for (var audio in mediaStreams.audio) {
-    if (audio.itag == 140) {
-      return audio;
+class PlayerClient{
+  final _client = YoutubeExplode();
+
+  Future<Uri> getStreamingUrl(String videoId) async{
+    final mediaStreams = await _client.getVideoMediaStream(videoId);
+    if (Platform.isAndroid){
+      return _find251(mediaStreams).url;
+    }else if (Platform.isIOS){
+      return _find140(mediaStreams).url;
     }
+    return null;
+  }
+
+  AudioStreamInfo _find140(MediaStreamInfoSet mediaStreams){
+    for (var audio in mediaStreams.audio) {
+      if (audio.itag == 140) {
+        return audio;
+      }
+    }
+    return null;
+  }
+
+  AudioStreamInfo _find251(MediaStreamInfoSet mediaStreams){
+    for (var audio in mediaStreams.audio) {
+      if (audio.itag == 251) {
+        return audio;
+      }
+    }
+    return null;
   }
 }
 
-AudioStreamInfo find251(MediaStreamInfoSet mediaStreams){
-  for (var audio in mediaStreams.audio) {
-    if (audio.itag == 251) {
-      return audio;
-    }
-  }
-}

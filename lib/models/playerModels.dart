@@ -1,6 +1,10 @@
 import 'package:flutter/foundation.dart';
+import 'package:get_it/get_it.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:youmusic2/main.dart';
+
+import 'controllerModels.dart';
 
 class AudioPlayerProvider {
   static const testUrl =
@@ -40,6 +44,13 @@ class AudioPlayerProvider {
   Stream<bool> get playingStream => _playingSubject.stream;
 
   Stream<bool> get bufferingStream => _audioPlayer.bufferingStream;
+
+  void switchPlayer (PlayerInfoProvider infoProvider,
+      String url, String title, String subtitle) async{
+    final animationController = getIt<BottomSheetControllerProvider>();
+    infoProvider.setValue(Future.value(url), Future.value(title), Future.value(subtitle));
+    animationController.animatedToS2();
+  }
 
   Future<void> setUrl([String url = testUrl]) async {
     _durationSubject.add(null);

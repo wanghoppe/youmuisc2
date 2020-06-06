@@ -576,18 +576,20 @@ class LogoWidget extends StatelessWidget {
 class TestImg extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final url =
-        'https://lh3.googleusercontent.com/IeNJWoKYx1waOhfWF6TiuSiWBLfqLb18lmZYXSgsH1fvb8v1IYiZr5aYWe0Gxu-pVZX3=s360-rw';
-    final url2 = 'https://i.ytimg.com/vi/gJLIiF15wjQ/hq720.jpg?sqp=-o'
-        'aymwEXCNUGEOADIAQqCwjVARCqCBh4INgESFo&rs=AMzJL3lviTRRxk7IJfj6uSMboq'
-        'WRHaGRMQ';
-//    print('testing imag');
-    return AspectRatio(
-      aspectRatio: 16 / 9,
-      child: Image.network(
-        url,
-        fit: BoxFit.fitHeight,
-      ),
+    final info = Provider.of<PlayerInfoProvider>(context);
+    return FutureBuilder<String>(
+      future: info.futureUrl,
+      builder: (context, snapshot) {
+        return AspectRatio(
+          aspectRatio: 16 / 9,
+          child: snapshot.hasData
+              ? Image.network(
+              snapshot.data,
+              fit: BoxFit.fitHeight,
+            )
+          : Center(child: VisibleActivityIndicator(visible: true))
+        );
+      }
     );
   }
 }

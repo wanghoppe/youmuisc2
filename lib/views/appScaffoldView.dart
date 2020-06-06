@@ -34,6 +34,9 @@ class _AppScaffoldState extends State<AppScaffold> {
         ),
         Provider<AudioPlayerProvider>.value(
           value: _audioPlayer,
+        ),
+        ChangeNotifierProvider(
+          create: (context) => PlayerInfoProvider(),
         )
       ],
       child:WillPopScope(
