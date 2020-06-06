@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
+import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 import 'package:youmusic2/client/client.dart';
+import 'package:youmusic2/playerClient/playerClient.dart';
 import 'package:youmusic2/temp/TabView.dart';
 import 'package:youmusic2/views/appScaffoldView.dart';
 
@@ -22,6 +25,7 @@ void setup() {
       BottomSheetControllerProvider());
   getIt.registerSingleton<HomeNavigatorController>(
       HomeNavigatorController(getIt<BottomSheetControllerProvider>()));
+  getIt.registerSingleton<PlayerClient>(PlayerClient());
 }
 
 void main() {
@@ -76,7 +80,11 @@ class ForTestScaffold extends StatelessWidget {
                     ),
                   ]
               ),
-              height: 50, width: 50)),
+              height: 50, width: 50,
+            child: Marquee(
+              text: 'There once was a boy who told this story about a boy: "',
+            ) ,
+          )),
     );
   }
 }

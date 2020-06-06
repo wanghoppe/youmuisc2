@@ -27,12 +27,12 @@ void test() async{
 class PlayerClient{
   final _client = YoutubeExplode();
 
-  Future<Uri> getStreamingUrl(String videoId) async{
+  Future<String> getStreamingUrl(String videoId) async{
     final mediaStreams = await _client.getVideoMediaStream(videoId);
     if (Platform.isAndroid){
-      return _find251(mediaStreams).url;
+      return _find251(mediaStreams).url.toString();
     }else if (Platform.isIOS){
-      return _find140(mediaStreams).url;
+      return _find140(mediaStreams).url.toString();
     }
     return null;
   }

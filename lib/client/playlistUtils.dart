@@ -37,7 +37,7 @@ void test2() async{
   var client = ApiClient();
   final str = await client.getPlaylistResponse(navi);
 
-//  final f = File('output/playlist/raw.txt');
+//  final f = File('output/playlist/raw.json');
 //  f.writeAsStringSync(str);
 
   final infoList = getInfoListFromStr(str);

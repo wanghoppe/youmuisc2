@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:youmusic2/main.dart';
+import 'package:youmusic2/playerClient/playerClient.dart';
 
 import 'controllerModels.dart';
 
@@ -15,10 +16,12 @@ class AudioPlayerProvider {
 
   final _audioPlayer = AudioPlayer();
 
+  final _playerClient = getIt<PlayerClient>();
+
   Future<void> finishSet;
 
   final _playingSubject = BehaviorSubject<bool>();
-
+  final _bufferingSubject = BehaviorSubject<bool>();
   final _durationSubject = BehaviorSubject<Duration>();
 
   AudioPlayerProvider() {
@@ -28,11 +31,15 @@ class AudioPlayerProvider {
             .distinct(),
         cancelOnError: false);
 
+    _audioPlayer.bufferingStream.listen((event) {
+      _bufferingSubject.add(event);
+    });
+
     _audioPlayer.durationStream.listen((event) {
       _durationSubject.add(event);
     });
 
-    finishSet = setUrl(testUrl2); //todo
+//    finishSet = setUrl(testUrl2); //todo
   }
 
   Stream<Duration> get durationStream => _durationSubject.stream;
@@ -43,19 +50,19 @@ class AudioPlayerProvider {
 
   Stream<bool> get playingStream => _playingSubject.stream;
 
-  Stream<bool> get bufferingStream => _audioPlayer.bufferingStream;
+  Stream<bool> get bufferingStream => _bufferingSubject.stream;
 
-  void switchPlayer (PlayerInfoProvider infoProvider,
-      String url, String title, String subtitle) async{
-    final animationController = getIt<BottomSheetControllerProvider>();
-    infoProvider.setValue(Future.value(url), Future.value(title), Future.value(subtitle));
-    animationController.animatedToS2();
-  }
-
-  Future<void> setUrl([String url = testUrl]) async {
+  Future<void> playFromVideoId(String videoId) async{
+    _bufferingSubject.add(true);
     _durationSubject.add(null);
+    if (_audioPlayer.playbackState == AudioPlaybackState.playing){
+      await _audioPlayer.stop();
+    }
+    final url = await _playerClient.getStreamingUrl(videoId);
+
     await _audioPlayer.setUrl(url);
     await _audioPlayer.play(); //todo
+    _bufferingSubject.add(false);
   }
 
   void play() async {

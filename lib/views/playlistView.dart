@@ -8,6 +8,9 @@ import 'package:youmusic2/models/playerModels.dart';
 import 'package:youmusic2/models/playlistModels.dart';
 import 'package:youmusic2/test/playlist/listdata.dart';
 
+
+import '../main.dart';
+import 'package:youmusic2/models/controllerModels.dart';
 import 'homeView.dart';
 
 class PlaylistScreenArgs{
@@ -319,8 +322,16 @@ class PlaylistItem extends StatelessWidget{
   void _onItemTap(BuildContext context){
     final audioPlayer = Provider.of<AudioPlayerProvider>(context, listen: false);
     final infoProvider = Provider.of<PlayerInfoProvider>(context, listen: false);
-    audioPlayer.switchPlayer(infoProvider, thumbnails.last['url'], title, subtitle);
-    print(thumbnails.last);
+    final animationController = getIt<BottomSheetControllerProvider>();
+
+    infoProvider.setValue(
+        Future.value(thumbnails.last['url']),
+        Future.value(title),
+        Future.value(subtitle.split(' • ')[0]));
+    animationController.animatedToS2();
+
+    String videoId = navigationEndpoint['watchEndpoint']['videoId'];
+    audioPlayer.playFromVideoId(videoId);
   }
 
 

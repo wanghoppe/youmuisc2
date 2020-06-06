@@ -111,7 +111,10 @@ class BottomSheetControllerProvider extends TickerProvider{
     _curvedAnimateTo(s1);
   }
 
-  void animatedToS2() => _curvedAnimateTo(s2);
+  void animatedToS2(){
+    _controller.value = s1;
+    _curvedAnimateTo(s2);
+  }
 }
 
 class HomeNavigatorController{

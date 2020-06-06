@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 import 'package:youmusic2/models/controllerModels.dart';
 import 'package:youmusic2/models/playerModels.dart';
@@ -220,7 +221,6 @@ class AnimateScaffold extends StatelessWidget {
       }
     }
 
-    final audioPlayer = Provider.of<AudioPlayerProvider>(context, listen: false);
 
     return AnimatedBuilder(
       child: TestImg(),
@@ -259,7 +259,7 @@ class AnimateScaffold extends StatelessWidget {
                               _buildImgMask(context, imgBackOpacity.value)
                             ])),
                       ),
-                      SizedBox(width: 8),
+                      SizedBox(width: 16),
                       Expanded(
                         child: Opacity(
                             opacity: closedRowOpacity.value,
@@ -270,7 +270,7 @@ class AnimateScaffold extends StatelessWidget {
                   Transform.translate(
                       offset: Offset(0, basicTrans.value),
                       child: Container(
-                          height: itemHeight - 10,
+                          height: itemHeight - 20,
                           child: Opacity(
                               opacity: openTitleOpacity.value,
                               child: widgetOpenedTitle))),
@@ -288,7 +288,7 @@ class AnimateScaffold extends StatelessWidget {
                               ? basicTrans.value * 3
                               : buttonTrans.value),
                       child: Container(
-                          height: itemHeight + 10, child: widgetButtonGroups)),
+                          height: itemHeight + 20, child: widgetButtonGroups)),
                   Transform.translate(
                       offset: Offset(
                           0,
@@ -333,22 +333,52 @@ class ClosedTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('[$this]');
-    final title = Provider.of<AnimationTestModel>(context).curTitle;
+    final info = Provider.of<PlayerInfoProvider>(context);
+    final audioPlayer = Provider.of<AudioPlayerProvider>(context, listen: false);
     return Row(
       children: <Widget>[
         Expanded(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(title,
-                style: Theme.of(context).textTheme.bodyText1, maxLines: 1),
-            Text(
-              'Test Subtitle',
-              style: Theme.of(context).textTheme.bodyText2,
-              maxLines: 1,
+            FutureBuilder<String>(
+              future: info.futureTitle,
+              builder: (context, snapshot) {
+                return Text(snapshot.data ?? '',
+                    style: Theme.of(context).textTheme.bodyText1, maxLines: 1);
+              }
+            ),
+            FutureBuilder<String>(
+              future: info.futureSubtitle,
+              builder: (context, snapshot) {
+                return Text(
+                  snapshot.data ?? '',
+                  style: Theme.of(context).textTheme.bodyText2,
+                  maxLines: 1,
+                );
+              }
             )
           ]),
         ),
-        IconButton(icon: Icon(Icons.play_arrow), onPressed: () => {}),
+        StreamBuilder<bool>(
+          stream: audioPlayer.playingStream,
+          builder: (context, snapshot) {
+            final _isPlaying =  snapshot.data ?? false;
+
+            void onPlayPressed(){
+              print(_isPlaying);
+              if (_isPlaying){
+                audioPlayer.pause();
+              }else{
+                audioPlayer.play();
+              }
+            }
+
+            return IconButton(
+                icon: Icon(_isPlaying? Icons.pause : Icons.play_arrow),
+                onPressed: (snapshot.data != null) ? onPlayPressed : null
+            );
+          }
+        ),
         IconButton(
             icon: Icon(Icons.close),
             onPressed: getIt<BottomSheetControllerProvider>().onCloseClick)
@@ -360,21 +390,79 @@ class ClosedTitle extends StatelessWidget {
 class OpenedTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final mediaData = MediaQuery.of(context);
 
-    final title = Provider.of<AnimationTestModel>(context).curTitle;
+    final info = Provider.of<PlayerInfoProvider>(context);
     print('[OpenedTitle]');
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(title, style: Theme.of(context).textTheme.headline5),
+        FutureBuilder<String>(
+          future: info.futureTitle,
+          builder: (context, snapshot) {
+            final text = snapshot.data?? ' ';
+            return Container(
+              height: 30,
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: (text.length < 28)
+                  ? Text(text, style: Theme.of(context).textTheme.headline5)
+                  : Marquee(text: text,
+                      style: Theme.of(context).textTheme.headline5,
+                      startPadding: 10.0,
+                      blankSpace: 50.0,
+                      fadingEdgeEndFraction: 0.1,
+                      fadingEdgeStartFraction: 0.1,
+                      showFadingOnlyWhenScrolling: false,
+                      pauseAfterRound: Duration(seconds: 1)
+                  ),
+            );
+          }
+        ),
         SizedBox(height: 5),
-        Text('This is a subtitile',
-            style: Theme.of(context).textTheme.bodyText1)
+        FutureBuilder<String>(
+          future: info.futureSubtitle,
+          builder: (context, snapshot) {
+            return Text(snapshot.data ?? '',
+                style: Theme.of(context).textTheme.bodyText1);
+          }
+        )
       ],
     );
   }
 }
+
+class AutoTextScroller extends StatefulWidget{
+
+  final String text;
+
+  AutoTextScroller(this.text);
+
+  @override
+  _AutoTextScrollerState createState() => _AutoTextScrollerState();
+}
+
+class _AutoTextScrollerState extends State<AutoTextScroller> {
+
+  ScrollController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = ScrollController();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      controller: _controller,
+      scrollDirection: Axis.horizontal,
+      child: Text(
+        widget.text,
+        style: Theme.of(context).textTheme.headline5,
+      ),
+    );
+  }
+}
+
 
 class OpenedSlider extends StatefulWidget {
   @override
@@ -439,7 +527,7 @@ class _OpenedSliderState extends State<OpenedSlider> {
     return StreamBuilder<Duration>(
       stream: audioPlayer.durationStream,
       builder: (context, snapshot) {
-        Duration duration = snapshot.data ?? Duration(milliseconds: 1);
+        Duration duration = snapshot.data ?? Duration.zero;
 //        print('stream duration, Error, ${snapshot.hasError}');
 //        print('stream duration, data, ${snapshot.data}');
         final hasData = (snapshot.data != null);
@@ -462,8 +550,9 @@ class _OpenedSliderState extends State<OpenedSlider> {
                           stream: audioPlayer.bufferStream,
                           builder: (context, snapshot) {
                             Duration buffer = snapshot.data ?? Duration.zero;
-                            final bufferVal =
-                                buffer.inMilliseconds / duration.inMilliseconds;
+                            final bufferVal = (duration == Duration.zero)
+                                ? 0.0
+                                : buffer.inMilliseconds / duration.inMilliseconds;
                             return LinearProgressIndicator(
                                 valueColor:
                                     AlwaysStoppedAnimation(Colors.blueGrey),
@@ -475,8 +564,10 @@ class _OpenedSliderState extends State<OpenedSlider> {
                           builder: (context, snapshot) {
                             Duration position = snapshot.data ?? Duration.zero;
 //                            print('stream position error: ${snapshot.hasError}');
-                            final computeVal = position.inMilliseconds /
-                                duration.inMilliseconds;
+                            final computeVal = (duration == Duration.zero)
+                              ? 0.0
+                              : position.inMilliseconds / duration.inMilliseconds;
+//                            print('position value: $computeVal');
                             return LinearProgressIndicator(
                               value: _sliderVal ?? computeVal,
                               valueColor: AlwaysStoppedAnimation(Colors.white),
@@ -529,7 +620,7 @@ class ButtonGroups extends StatelessWidget {
               icon: Icon(Icons.skip_previous),
               onPressed: (){
                 testModel.changeTitle();
-                audioPlayer.setUrl(AudioPlayerProvider.testUrl2);
+//                audioPlayer.setUrl(AudioPlayerProvider.testUrl2);
               }),
           StreamBuilder<bool>(
             stream: audioPlayer.playingStream,
@@ -557,7 +648,7 @@ class ButtonGroups extends StatelessWidget {
           ),
           IconButton(icon: Icon(Icons.skip_next),
             onPressed: (){
-              audioPlayer.setUrl(AudioPlayerProvider.testUrl);
+//              audioPlayer.setUrl(AudioPlayerProvider.testUrl);
             },
           ),
           Container()
