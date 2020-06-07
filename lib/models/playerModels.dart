@@ -44,7 +44,9 @@ class AudioPlayerProvider {
 
   Stream<Duration> get durationStream => _durationSubject.stream;
 
-  Stream<Duration> get positionStream => _audioPlayer.getPositionStream();
+  Stream<Duration> get positionStream => _audioPlayer.getPositionStream(
+    Duration(milliseconds: 500)
+  );
 
   Stream<Duration> get bufferStream => _audioPlayer.bufferedPositionStream;
 
@@ -59,10 +61,10 @@ class AudioPlayerProvider {
       await _audioPlayer.stop();
     }
     final url = await _playerClient.getStreamingUrl(videoId);
-
     await _audioPlayer.setUrl(url);
     await _audioPlayer.play(); //todo
-    _bufferingSubject.add(false);
+
+    if (! _audioPlayer.playbackEvent.buffering) _bufferingSubject.add(false);
   }
 
   void play() async {

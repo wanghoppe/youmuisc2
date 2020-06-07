@@ -114,7 +114,7 @@ class AnimateScaffold extends StatelessWidget {
     final screenWidth = mediaData.size.width;
     final screenHeight = mediaData.size.height - topPadding;
     final imgHeight = screenWidth / 16 * 9;
-    final itemHeight = (screenHeight - wrapImgHeight - minBottomListHeight - 15) / 3;
+    final itemHeight = (screenHeight - wrapImgHeight - minBottomListHeight - buttonOffset) / 3;
     final maxSlide =
         screenHeight - kBottomNavigationBarHeight - closedHeight / 2;
 
@@ -158,7 +158,7 @@ class AnimateScaffold extends StatelessWidget {
     Animation<double> buttonTrans =
         Tween<double>(
             begin: 0.0,
-            end: - (imgHeight / 2 + 2.5 * itemHeight - buttonOffset/2))
+            end: - (imgHeight / 2 + 2.5 * itemHeight))
             .animate(CurvedAnimation(
                 parent: controllerProvider.controller,
                 curve: Interval(s2, 1.0)));
@@ -170,7 +170,7 @@ class AnimateScaffold extends StatelessWidget {
                 curve: Interval(s1, s2)));
 
     Animation<double> bottomListTrans =
-        Tween<double>(begin: 0.0, end: -3 * itemHeight).animate(CurvedAnimation(
+        Tween<double>(begin: 0.0, end: - (3 * itemHeight + buttonOffset)).animate(CurvedAnimation(
             parent: controllerProvider.controller, curve: Interval(s2, 1.0)));
 
     Animation<double> closedRowOpacity = Tween<double>(begin: 1.0, end: 0.0)
@@ -225,114 +225,121 @@ class AnimateScaffold extends StatelessWidget {
     }
 
 
-    return AnimatedBuilder(
-      child: TestImg(),
-      animation: controllerProvider.controller,
-      builder: (context, child) {
-        var animatedVal = controllerProvider.controller.value;
-        return GestureDetector(
+    return Container(
+        decoration: BoxDecoration(
+          boxShadow: [CustomBoxShadow(
+            blurRadius: 10.0,
+            blurStyle: BlurStyle.outer
+          )]
+        ),
+      child: AnimatedBuilder(
+        child: TestImg(),
+        animation: controllerProvider.controller,
+        builder: (context, child) {
+          var animatedVal = controllerProvider.controller.value;
+          return GestureDetector(
 //          onVerticalDragStart: onDragStart,
-          onHorizontalDragStart: (details) {},
-          onVerticalDragUpdate: onDragUpdate,
-          onVerticalDragEnd: onDragEnd,
-          onTap: controllerProvider.onClosedTap,
-          child: Stack(children: [
-            Container(
-              height: (animatedVal < s1)
-                  ? containerHeightS1.value
-                  : containerHeightS2.value, //todo
-              color: Color.fromRGBO(0, 0, 0, 0.3),
-//              color: Colors.red,
-              child: SingleChildScrollView(
-                physics: const NeverScrollableScrollPhysics(),
-                child: Column(
-                  children: [
-                    FractionallySizedBox(
-                      widthFactor: closedRowWidth.value,
-                      alignment: Alignment.topLeft,
-                      child: Row(children: [
-                        Container(
-                          alignment: Alignment.center,
+            onHorizontalDragStart: (details) {},
+            onVerticalDragUpdate: onDragUpdate,
+            onVerticalDragEnd: onDragEnd,
+            onTap: controllerProvider.onClosedTap,
+            child: Stack(children: [
+              Container(
+                color: Color.fromRGBO(0, 0, 0, 0.3),
+                height: (animatedVal < s1)
+                    ? containerHeightS1.value
+                    : containerHeightS2.value, //todo
+                child: SingleChildScrollView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  child: Column(
+                    children: [
+                      FractionallySizedBox(
+                        widthFactor: closedRowWidth.value,
+                        alignment: Alignment.topLeft,
+                        child: Row(children: [
+                          Container(
+                            alignment: Alignment.center,
 //                        color: Colors.blue,
-                          height: (animatedVal < s2)
-                              ? imgContainerHeightS1.value
-                              : imgContainerHeightS2.value,
-                          child: Container(
+                            height: (animatedVal < s2)
+                                ? imgContainerHeightS1.value
+                                : imgContainerHeightS2.value,
+                            child: Container(
 //                            color: Colors.green,
-                              height: aImgHeight.value,
-                              child: Stack(children: [
-                                child,
-                                _buildImgMask(context, imgBackOpacity.value)
-                              ])),
-                        ),
-                        SizedBox(width: 16),
-                        Expanded(
-                          child: Opacity(
-                              opacity: closedRowOpacity.value,
-                              child: widgetClosedTitle),
-                        )
-                      ]),
-                    ),
-                    Transform.translate(
-                        offset: Offset(0, basicTrans.value),
-                        child: Container(
-                            height: itemHeight,
+                                height: aImgHeight.value,
+                                child: Stack(children: [
+                                  child,
+                                  _buildImgMask(context, imgBackOpacity.value)
+                                ])),
+                          ),
+                          SizedBox(width: 16),
+                          Expanded(
                             child: Opacity(
-                                opacity: openTitleOpacity.value,
-                                child: widgetOpenedTitle))),
-                    Transform.translate(
-                        offset: Offset(0, basicTrans.value * 2),
-                        child: Container(
-                            height: itemHeight,
-                            child: Opacity(
-                                opacity: openTitleOpacity.value,
-                                child: widgetOpenedSlider))),
-                    Transform.translate(
-                        offset: Offset(
-                            0,
-                            (animatedVal < s2)
-                                ? basicTrans.value * 3
-                                : buttonTrans.value),
-                        child: Container(
-                            height: itemHeight, child: widgetButtonGroups)),
-                    SizedBox(height: 15),
-                    Transform.translate(
-                        offset: Offset(
-                            0,
-                            (animatedVal < s2)
-                                ? basicTrans.value * 8
-                                : bottomListTrans.value),
-                        child: Container(
-                          height: screenHeight - imgHeight, //todo
-                          color: Colors.blueGrey,
-                        ))
-                  ],
+                                opacity: closedRowOpacity.value,
+                                child: widgetClosedTitle),
+                          )
+                        ]),
+                      ),
+                      Transform.translate(
+                          offset: Offset(0, basicTrans.value),
+                          child: Container(
+                              height: itemHeight,
+                              child: Opacity(
+                                  opacity: openTitleOpacity.value,
+                                  child: widgetOpenedTitle))),
+                      Transform.translate(
+                          offset: Offset(0, basicTrans.value * 2),
+                          child: Container(
+                              height: itemHeight,
+                              child: Opacity(
+                                  opacity: openTitleOpacity.value,
+                                  child: widgetOpenedSlider))),
+                      Transform.translate(
+                          offset: Offset(
+                              0,
+                              (animatedVal < s2)
+                                  ? basicTrans.value * 3
+                                  : buttonTrans.value),
+                          child: Container(
+                              height: itemHeight, child: widgetButtonGroups)),
+                      SizedBox(height: buttonOffset),
+                      Transform.translate(
+                          offset: Offset(
+                              0,
+                              (animatedVal < s2)
+                                  ? basicTrans.value * 5
+                                  : bottomListTrans.value),
+                          child: Container(
+                            height: screenHeight - imgHeight, //todo
+                            color: Colors.blueGrey,
+                          ))
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Positioned(
-              left: 5,
-              height: kToolbarHeight,
-              child: Opacity(
-                opacity: dropDownOpacity.value,
-                child: IconButton(
-                  icon: Icon(Icons.keyboard_arrow_down,
-                      color: Colors.white, size: 30),
-                  onPressed: (dropDownOpacity.value == 1.0)
-                      ? controllerProvider.onDropDownClick
-                      : null, //todo
+              Positioned(
+                left: 5,
+                height: kToolbarHeight,
+                child: Opacity(
+                  opacity: dropDownOpacity.value,
+                  child: IconButton(
+                    icon: Icon(Icons.keyboard_arrow_down,
+                        color: Colors.white, size: 30),
+                    onPressed: (dropDownOpacity.value == 1.0)
+                        ? controllerProvider.onDropDownClick
+                        : null, //todo
+                  ),
                 ),
               ),
-            ),
-            Positioned(
-              bottom: 0,
-              child: Transform.translate(
-                  offset: Offset(0, bottomNavTrans.value),
-                  child: widgetAppBottomNavigationBar),
-            )
-          ]),
-        );
-      },
+              Positioned(
+                bottom: 0,
+                child: Transform.translate(
+                    offset: Offset(0, bottomNavTrans.value),
+                    child: widgetAppBottomNavigationBar),
+              )
+            ]),
+          );
+        },
+      ),
     );
   }
 }
@@ -411,7 +418,7 @@ class OpenedTitle extends StatelessWidget {
             return Container(
               height: 30,
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: (text.length < 28)
+              child: (text.length < 20)
                   ? Text(text, style: Theme.of(context).textTheme.headline5)
                   : Marquee(text: text,
                       style: Theme.of(context).textTheme.headline5,
