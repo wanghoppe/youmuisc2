@@ -70,7 +70,7 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
 
 class AnimateScaffold extends StatelessWidget {
   static const minBottomListHeight = 56.0;
-  static const wrapImgHeight = 300.0;
+//  static const wrapImgHeight = 300.0;
   static const closedHeight = 54.0;
   static const buttonOffset = 20.0;
 
@@ -114,7 +114,7 @@ class AnimateScaffold extends StatelessWidget {
     final screenWidth = mediaData.size.width;
     final screenHeight = mediaData.size.height - topPadding;
     final imgHeight = screenWidth / 16 * 9;
-    final itemHeight = (screenHeight - wrapImgHeight - minBottomListHeight - buttonOffset) / 3;
+    final itemHeight = (screenHeight - kToolbarHeight - imgHeight - minBottomListHeight - buttonOffset) / 3;
     final maxSlide =
         screenHeight - kBottomNavigationBarHeight - closedHeight / 2;
 
@@ -139,14 +139,14 @@ class AnimateScaffold extends StatelessWidget {
                 parent: controllerProvider.controller,
                 curve: Interval(s1, s2 - 0.00)));
 
-    Animation<double> imgContainerHeightS1 =
-        Tween<double>(begin: closedHeight, end: wrapImgHeight).animate(
+    Animation<double> topSizedBoxHeightS1 =
+        Tween<double>(begin: 0.0, end: kToolbarHeight).animate(
             CurvedAnimation(
                 parent: controllerProvider.controller,
                 curve: Interval(s1, s2 - 0.00)));
 
-    Animation<double> imgContainerHeightS2 =
-        Tween<double>(begin: wrapImgHeight, end: imgHeight).animate(
+    Animation<double> topSizedBoxHeightS2 =
+        Tween<double>(begin: kToolbarHeight, end: 0.0).animate(
             CurvedAnimation(
                 parent: controllerProvider.controller,
                 curve: Interval(s2, 1.0)));
@@ -253,24 +253,20 @@ class AnimateScaffold extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   child: Column(
                     children: [
+                      SizedBox(height: (animatedVal < s2)
+                          ? topSizedBoxHeightS1.value
+                          : topSizedBoxHeightS2.value),
                       FractionallySizedBox(
                         widthFactor: closedRowWidth.value,
                         alignment: Alignment.topLeft,
                         child: Row(children: [
                           Container(
-                            alignment: Alignment.center,
-//                        color: Colors.blue,
-                            height: (animatedVal < s2)
-                                ? imgContainerHeightS1.value
-                                : imgContainerHeightS2.value,
-                            child: Container(
 //                            color: Colors.green,
-                                height: aImgHeight.value,
-                                child: Stack(children: [
-                                  child,
-                                  _buildImgMask(context, imgBackOpacity.value)
-                                ])),
-                          ),
+                              height: aImgHeight.value,
+                              child: Stack(children: [
+                                child,
+                                _buildImgMask(context, imgBackOpacity.value)
+                              ])),
                           SizedBox(width: 16),
                           Expanded(
                             child: Opacity(
@@ -282,6 +278,7 @@ class AnimateScaffold extends StatelessWidget {
                       Transform.translate(
                           offset: Offset(0, basicTrans.value),
                           child: Container(
+//                              alignment: Alignment.bottomCenter,
                               height: itemHeight,
                               child: Opacity(
                                   opacity: openTitleOpacity.value,
@@ -359,7 +356,10 @@ class ClosedTitle extends StatelessWidget {
               future: info.futureTitle,
               builder: (context, snapshot) {
                 return Text(snapshot.data ?? '',
-                    style: Theme.of(context).textTheme.bodyText1, maxLines: 1);
+                  style: Theme.of(context).textTheme.bodyText1,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                );
               }
             ),
             FutureBuilder<String>(
@@ -403,44 +403,62 @@ class ClosedTitle extends StatelessWidget {
 }
 
 class OpenedTitle extends StatelessWidget {
+
+  static const PADDING = 30.0;
+
   @override
   Widget build(BuildContext context) {
-
+    print('[$this]');
     final info = Provider.of<PlayerInfoProvider>(context);
-    print('[OpenedTitle]');
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        FutureBuilder<String>(
-          future: info.futureTitle,
-          builder: (context, snapshot) {
-            final text = snapshot.data?? ' ';
-            return Container(
-              height: 30,
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: (text.length < 20)
-                  ? Text(text, style: Theme.of(context).textTheme.headline5)
-                  : Marquee(text: text,
-                      style: Theme.of(context).textTheme.headline5,
-                      startPadding: 10.0,
-                      blankSpace: 50.0,
-                      fadingEdgeEndFraction: 0.1,
-                      fadingEdgeStartFraction: 0.1,
-                      showFadingOnlyWhenScrolling: false,
-                      pauseAfterRound: Duration(seconds: 1)
-                  ),
-            );
-          }
-        ),
-        SizedBox(height: 5),
-        FutureBuilder<String>(
-          future: info.futureSubtitle,
-          builder: (context, snapshot) {
-            return Text(snapshot.data ?? '',
-                style: Theme.of(context).textTheme.bodyText1);
-          }
-        )
-      ],
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: PADDING),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FutureBuilder<String>(
+            future: info.futureTitle,
+            builder: (context, snapshot) {
+
+              final text = snapshot.data?? ' ';
+              final textStyle = Theme.of(context).textTheme.headline5;
+              final Size txtSize = textSize(text, textStyle);
+
+              print('$screenWidth, ${txtSize.width}');
+
+              return Container(
+                height: 30,
+                child: (screenWidth - 10 > 2 * PADDING + txtSize.width)
+                    ? Text(text,
+                        style: textStyle,
+                        overflow: TextOverflow.ellipsis,
+                      )
+                    : Marquee(text: text,
+                        style: Theme.of(context).textTheme.headline5,
+                        startPadding: 10.0,
+                        blankSpace: 50.0,
+                        fadingEdgeEndFraction: 0.1,
+                        fadingEdgeStartFraction: 0.1,
+                        showFadingOnlyWhenScrolling: false,
+                        pauseAfterRound: Duration(seconds: 1)
+                    ),
+              );
+            }
+          ),
+          SizedBox(height: 5),
+          FutureBuilder<String>(
+            future: info.futureSubtitle,
+            builder: (context, snapshot) {
+              return Text(snapshot.data ?? '',
+                style: Theme.of(context).textTheme.bodyText1,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              );
+            }
+          )
+        ],
+      ),
     );
   }
 }
