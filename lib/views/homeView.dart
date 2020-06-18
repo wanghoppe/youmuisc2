@@ -206,7 +206,7 @@ class _HomeRowState extends State<HomeRow> with AutomaticKeepAliveClientMixin {
                 padding: EdgeInsets.symmetric(horizontal: 8.0),
                 sliver: SliverList(
                     delegate: SliverChildBuilderDelegate((context, idx) {
-                      return CardItem(widget.title, json: widget.itemList[idx]);
+                      return CardItem(widget.title, idx:idx, json: widget.itemList[idx]);
                     },
                         childCount: widget.itemList.length
                     )
@@ -237,9 +237,11 @@ class CardItem extends StatelessWidget{
   final subtitle;
   final navigationEndpoint;
   final watchable;
+  final idx;
 
 
-  CardItem(this.rowName, {@required json}):
+  CardItem(this.rowName, {@required json, int idx}):
+        idx = idx,
         thumbnail = json['thumbnails'].last['url'],
         width = widthMap[json['aspectRatio']],
         title = json['title'],
@@ -253,6 +255,7 @@ class CardItem extends StatelessWidget{
       context,
       '/playlist',
       arguments: PlaylistScreenArgs(
+        idx,
         rowName,
         title,
         subtitle,
@@ -284,7 +287,7 @@ class CardItem extends StatelessWidget{
         )
     );
     return watchable ? image: Hero(
-        tag: rowName + title,
+        tag: rowName + idx.toString(),
         child: image
     );
   }

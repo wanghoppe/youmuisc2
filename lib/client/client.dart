@@ -13,6 +13,9 @@ class ApiClient{
   static const URL = 'music.youtube.com';
   static const BROWSE = '/youtubei/v1/browse';
   static const NEXT = '/youtubei/v1/next';
+  static const SEARCH = '/youtubei/v1/search';
+  static const SEARCHSUGGEST = '/youtubei/v1/music/get_search_suggestions';
+
   var partialHeader;
 
   Future isReady;
@@ -105,6 +108,39 @@ class ApiClient{
         headers: {...c.headerMapBase, ...partialHeader},
         body: jsonEncode(requestBody)
     );
+    assert(response.statusCode == 200);
+    return response.body;
+  }
+
+  Future<String> getSearchResponse(String query) async{
+    await isReady;
+    final requestBody = {
+      ...c.bodyMap,
+      'query':query
+    };
+    final response = await http.post(
+        Uri.https(URL, SEARCH, c.queryParaBase),
+        headers: {...c.headerMapBase, ...partialHeader},
+        body: jsonEncode(requestBody)
+    );
+    assert(response.statusCode == 200);
+    return response.body;
+  }
+
+  Future<String> getSearchSuggest(String input) async{
+    await isReady;
+    final requestBody = {
+      ...c.bodyMap,
+      'input':input
+    };
+    final response = await http.post(
+        Uri.https(URL, SEARCHSUGGEST, c.queryParaBase),
+        headers: {...c.headerMapBase, ...partialHeader},
+        body: jsonEncode(requestBody)
+    );
+//    print(jsonEncode(requestBody));
+//    print(response.toString());
+//    print(response.headers);
     assert(response.statusCode == 200);
     return response.body;
   }

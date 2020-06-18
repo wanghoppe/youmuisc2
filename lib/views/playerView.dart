@@ -88,6 +88,7 @@ class AnimateScaffold extends StatelessWidget {
   final Widget widgetOpenedSlider = OpenedSlider();
   final Widget widgetButtonGroups = ButtonGroups();
   final Widget widgetAppBottomNavigationBar = AppBottomNavigationBar();
+  final Widget widgetClosedProgressBar = ClosedProgressBar();
 
   Widget _buildImgMask(BuildContext context, double opacity){
     final audioPlayer = Provider.of<AudioPlayerProvider>(context, listen: false);
@@ -207,7 +208,6 @@ class AnimateScaffold extends StatelessWidget {
       final AnimationController _controller = controllerProvider.controller;
       final dy = details.velocity.pixelsPerSecond.dy;
 
-//      print(dy);
 
       if (_controller.isDismissed ||
           _controller.isCompleted ||
@@ -256,33 +256,48 @@ class AnimateScaffold extends StatelessWidget {
                       SizedBox(height: (animatedVal < s2)
                           ? topSizedBoxHeightS1.value
                           : topSizedBoxHeightS2.value),
-                      FractionallySizedBox(
-                        widthFactor: closedRowWidth.value,
-                        alignment: Alignment.topLeft,
-                        child: Row(children: [
-                          Container(
+                      Stack(
+                        alignment: Alignment.bottomCenter,
+                        children: [
+                          FractionallySizedBox(
+                            widthFactor: closedRowWidth.value,
+                          alignment: Alignment.topLeft,
+                          child: Row(children: [
+                            Container(
 //                            color: Colors.green,
-                              height: aImgHeight.value,
-                              child: Stack(children: [
-                                child,
-                                _buildImgMask(context, imgBackOpacity.value)
-                              ])),
-                          SizedBox(width: 16),
-                          Expanded(
-                            child: Opacity(
-                                opacity: closedRowOpacity.value,
-                                child: widgetClosedTitle),
+                                height: aImgHeight.value,
+                                child: TickerMode(
+                                  enabled: animatedVal > 0.0,
+                                  child: Stack(children: [
+                                    child,
+                                    _buildImgMask(context, imgBackOpacity.value)
+                                  ]),
+                                )),
+                            SizedBox(width: 16),
+                            Expanded(
+                              child: Opacity(
+                                  opacity: closedRowOpacity.value,
+                                  child: widgetClosedTitle),
+                            )
+                          ]),
+                        ),
+                          Opacity(
+                            opacity: closedRowOpacity.value,
+                            child: widgetClosedProgressBar
                           )
-                        ]),
+                        ],
                       ),
                       Transform.translate(
                           offset: Offset(0, basicTrans.value),
                           child: Container(
 //                              alignment: Alignment.bottomCenter,
                               height: itemHeight,
-                              child: Opacity(
-                                  opacity: openTitleOpacity.value,
-                                  child: widgetOpenedTitle))),
+                              child: TickerMode(
+                                enabled: animatedVal > (s1 + s2)/2,
+                                child: Opacity(
+                                    opacity: openTitleOpacity.value,
+                                    child: widgetOpenedTitle),
+                              ))),
                       Transform.translate(
                           offset: Offset(0, basicTrans.value * 2),
                           child: Container(
@@ -339,6 +354,56 @@ class AnimateScaffold extends StatelessWidget {
       ),
     );
   }
+}
+
+class ClosedProgressBar extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    final audioPlayer = Provider.of<AudioPlayerProvider>(context, listen:false);
+    print('[$this]');
+    return StreamBuilder<Duration>(
+        stream: audioPlayer.durationStream,
+        builder: (context, snapshot) {
+          Duration duration = snapshot.data ?? Duration.zero;
+          return Container(
+            height: 1.5,
+            child: Stack(
+              children: [
+                StreamBuilder<Duration>(
+                    stream: audioPlayer.bufferStream,
+                    builder: (context, snapshot) {
+                      Duration buffer = snapshot.data ?? Duration.zero;
+                      final bufferVal = (duration == Duration.zero)
+                          ? 0.0
+                          : buffer.inMilliseconds / duration.inMilliseconds;
+                      return LinearProgressIndicator(
+                          valueColor:
+                          AlwaysStoppedAnimation(Colors.blueGrey),
+                          value: bufferVal,
+                          backgroundColor: Colors.white.withOpacity(0.2));
+                    }),
+                StreamBuilder<Duration>(
+                    stream: audioPlayer.positionStream,
+                    builder: (context, snapshot) {
+                      Duration position = snapshot.data ?? Duration.zero;
+  //                            print('stream position error: ${snapshot.hasError}');
+                      final computeVal = (duration == Duration.zero)
+                          ? 0.0
+                          : position.inMilliseconds / duration.inMilliseconds;
+  //                            print('position value: $computeVal');
+                      return LinearProgressIndicator(
+                        value: computeVal,
+                        valueColor: AlwaysStoppedAnimation(Colors.white),
+                        backgroundColor: Colors.white.withOpacity(0.0),
+                      );
+                    }),
+              ],
+            ),
+          );
+        }
+    );
+  }
+
 }
 
 class ClosedTitle extends StatelessWidget {

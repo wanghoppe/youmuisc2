@@ -19,13 +19,15 @@ class PlaylistScreenArgs{
   final String title;
   final String subtitle;
   final String rowName;
+  final int idx;
 
   PlaylistScreenArgs(
+    this.idx,
     this.rowName,
     this.title,
     this.subtitle,
     this.thumbnail,
-    this.navigationEndPoint
+    this.navigationEndPoint,
   );
 }
 
@@ -201,7 +203,7 @@ class SliverHead extends StatelessWidget{
           child: Row(
             children: <Widget>[
               Hero(
-                tag: screenArgs.rowName + screenArgs.title,
+                tag: screenArgs.rowName + screenArgs.idx.toString(),
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(
