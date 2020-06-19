@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
 import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 import 'package:youmusic2/client/client.dart';
+import 'package:youmusic2/models/mediaQueryModels.dart';
 import 'package:youmusic2/playerClient/playerClient.dart';
 import 'package:youmusic2/temp/TabView.dart';
 import 'package:youmusic2/views/appScaffoldView.dart';
@@ -38,6 +40,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -50,8 +56,23 @@ class MyApp extends StatelessWidget {
           bodyText2: TextStyle(color: Colors.white54),
         ),
       ),
-      home: AppScaffold(),
+      home: MediaQueryWrapper(),
 //      home: ForTestScaffold(),
+    );
+  }
+}
+
+class MediaQueryWrapper extends StatelessWidget{
+
+  final widgetAppScaffold = AppScaffold();
+
+  @override
+  Widget build(BuildContext context) {
+    MediaProvider mediaProvider = MediaProvider(MediaQuery.of(context));
+    print('[$this]');
+    return Provider.value(
+        value: mediaProvider,
+        child: widgetAppScaffold
     );
   }
 }

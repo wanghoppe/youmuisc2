@@ -14,6 +14,7 @@ class HomeScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('rebuiling home scaffold');
     return ChangeNotifierProvider<LoadModel>(
       create: (context) => LoadModel(),
       child: Builder(
@@ -78,6 +79,13 @@ class _HomeScrollViewState extends State<HomeScrollView> {
           SliverAppBar(
             title: Text('YouMuisc', style: Theme.of(context).textTheme.title),
             floating: true,
+            actions: [
+              IconButton(
+                icon: Icon(Icons.search, color: Colors.white, size: 26),
+                onPressed: () => Navigator.pushNamed(context, '/search'),
+              ),
+              SizedBox(width: 5)
+            ]
           ),
           CupertinoSliverRefreshControl(
             refreshTriggerPullDistance: 100,

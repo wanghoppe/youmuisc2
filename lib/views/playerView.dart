@@ -8,6 +8,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 import 'package:youmusic2/models/controllerModels.dart';
+import 'package:youmusic2/models/mediaQueryModels.dart';
 import 'package:youmusic2/models/playerModels.dart';
 import 'package:youmusic2/views/homeView.dart';
 import 'package:youmusic2/views/utilsView.dart';
@@ -38,7 +39,7 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
   Widget build(BuildContext context) {
 //    print('[AppBottomNavigationBar]');
     final tabController = getIt<TabControllerProvider>().tabController;
-    final width = MediaQuery.of(context).size.width;
+    final width = Provider.of<MediaProvider>(context, listen: false).data.size.width;
     return GestureDetector(
       onVerticalDragUpdate: (update) {},
       onTap: () {},
@@ -74,8 +75,7 @@ class AnimateScaffold extends StatelessWidget {
   static const closedHeight = 54.0;
   static const buttonOffset = 20.0;
 
-  final topPadding;
-  AnimateScaffold({Key key, this.topPadding}) : super(key: key);
+  AnimateScaffold({Key key}) : super(key: key);
 
   final BottomSheetControllerProvider controllerProvider =
       getIt<BottomSheetControllerProvider>();
@@ -111,9 +111,10 @@ class AnimateScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediaData = MediaQuery.of(context);
+    print('[$this]');
+    final mediaData = Provider.of<MediaProvider>(context, listen: false).data;
     final screenWidth = mediaData.size.width;
-    final screenHeight = mediaData.size.height - topPadding;
+    final screenHeight = mediaData.size.height - mediaData.padding.top;
     final imgHeight = screenWidth / 16 * 9;
     final itemHeight = (screenHeight - kToolbarHeight - imgHeight - minBottomListHeight - buttonOffset) / 3;
     final maxSlide =
@@ -475,7 +476,7 @@ class OpenedTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     print('[$this]');
     final info = Provider.of<PlayerInfoProvider>(context);
-    final screenWidth = MediaQuery.of(context).size.width;
+    final screenWidth = Provider.of<MediaProvider>(context, listen: false).data.size.width;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: PADDING),
@@ -541,7 +542,7 @@ class _OpenedSliderState extends State<OpenedSlider> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    sliderWidth = MediaQuery.of(context).size.width - 2 * kPadding;
+    sliderWidth = Provider.of<MediaProvider>(context, listen: false).data.size.width - 2 * kPadding;
   }
 
   void _onDragDown(DragDownDetails details) {

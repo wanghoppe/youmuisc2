@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:youmusic2/models/mediaQueryModels.dart';
 import 'package:youmusic2/models/playerModels.dart';
 import 'package:youmusic2/models/playlistModels.dart';
 import 'package:youmusic2/test/playlist/listdata.dart';
@@ -40,7 +41,7 @@ class PlayListScaffold extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    final mediaData = MediaQuery.of(context);
+    final mediaData = Provider.of<MediaProvider>(context, listen: false).data;
 
     return Scaffold(
       body: MultiProvider(
@@ -67,7 +68,8 @@ class PlayListScaffold extends StatelessWidget{
             right: 5,
             height: mediaData.padding.top * 2 + kToolbarHeight,
             child: IconButton(
-                icon: Icon(Icons.search, color: Colors.white, size:26)
+              icon: Icon(Icons.search, color: Colors.white, size:26),
+              onPressed: () => Navigator.pushNamed(context, '/search'),
             ),
           )
         ]),
@@ -96,7 +98,6 @@ class PlaylistSliver extends StatelessWidget{
               const AlwaysScrollableScrollPhysics(parent: const CustomScrollPhysics()),
             slivers: <Widget>[
               OpaqueSliverAppBar(),
-              OpacitySliverHead(),
               SliverPlayButtons(),
               FutureBuilder(
                 future: infoListModel.futureList,
@@ -127,16 +128,28 @@ class OpaqueSliverAppBar extends StatelessWidget{
       value: opController.appBar,
       child: Builder(
         builder: (context){
-          final model = Provider.of<OpacityModel>(context);
-          return SliverOpacity(
-            opacity: model.opacity,
-            sliver: SliverAppBar(
-              leading: Container(),
-              pinned: true,
-              title: Padding(
-                padding: EdgeInsets.only(right: 40),
-                child: Text(screenArgs.title)), //todo
+          return SliverAppBar(
+            leading: Container(),
+            pinned: true,
+            title: Padding(
+              padding: EdgeInsets.only(right: 40),
+              child: Consumer<OpacityModel>(
+                  builder: (context, value, child){
+                    return Opacity(
+                      opacity: value.opacity,
+                      child: child,
+                    );
+                  },
+                  child: Text(screenArgs.title))
             ),
+            expandedHeight: 235,
+            flexibleSpace: Align(
+              alignment: Alignment.bottomCenter,
+              child: SingleChildScrollView(
+                physics: const NeverScrollableScrollPhysics(),
+                reverse: true,
+                child: OpacityHead()),
+            ),//todo
           );
         }
       ),
@@ -144,24 +157,67 @@ class OpaqueSliverAppBar extends StatelessWidget{
   }
 }
 
-class OpacitySliverHead extends StatelessWidget{
-
-  final sliverHead = SliverHead();
+class OpacityHead extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    print('[$this]');
     final opController = Provider.of<OpacityController>(context, listen: false);
+    final screenArgs = Provider.of<PlaylistScreenArgs>(context, listen: false);
     return ChangeNotifierProvider.value(
       value: opController.header,
-      child: Builder(
-        builder: (context){
-          final model = Provider.of<OpacityModel>(context);
-          return SliverOpacity(
-            opacity: model.opacity,
-            sliver: sliverHead
-          );
-        }
-      ),
+      child: Container(
+        height: 190,
+        color: Theme.of(context).appBarTheme.color,
+        child: Consumer<OpacityModel>(
+          builder: (context, value, child){
+            return Opacity(
+              opacity: value.opacity,
+              child: child,
+            );
+          },
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: Row(
+              children: <Widget>[
+                Hero(
+                  tag: screenArgs.rowName + screenArgs.idx.toString(),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.network(
+                        screenArgs.thumbnail, //Todo
+                        width: 150,
+                        height: 150,
+                      )
+                  ),
+                ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Text(screenArgs.title, //todo
+                            style: GoogleFonts.lato(
+                                textStyle: Theme.of(context).textTheme.headline5
+                            ),
+                            maxLines: 3
+                        ),
+                        Text(screenArgs.subtitle, //todo
+                            style: Theme.of(context).textTheme.bodyText2,
+                            maxLines: 2
+                        ),
+                        HeadButtonGroup()
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      )
     );
   }
 
@@ -183,62 +239,6 @@ class MainSliverList extends StatelessWidget{
             :PlaylistItem(json: infoList[idx]);
       },
       childCount: infoList.length),
-    );
-  }
-
-}
-
-
-class SliverHead extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-    print('building silver head');
-    final screenArgs = Provider.of<PlaylistScreenArgs>(context, listen: false);
-    return SliverToBoxAdapter(
-      child: Container(
-        height: 190,
-//        color: Colors.blue,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15),
-          child: Row(
-            children: <Widget>[
-              Hero(
-                tag: screenArgs.rowName + screenArgs.idx.toString(),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      screenArgs.thumbnail, //Todo
-                      width: 150,
-                      height: 150,
-                    )
-                ),
-              ),
-              SizedBox(width: 16),
-              Expanded(
-                child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Text(screenArgs.title, //todo
-                        style: GoogleFonts.lato(
-                          textStyle: Theme.of(context).textTheme.headline5
-                        ),
-                        maxLines: 3
-                      ),
-                      Text(screenArgs.subtitle, //todo
-                          style: Theme.of(context).textTheme.bodyText2,
-                          maxLines: 2
-                      ),
-                      HeadButtonGroup()
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

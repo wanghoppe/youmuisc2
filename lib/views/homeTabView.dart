@@ -4,6 +4,7 @@ import 'package:youmusic2/main.dart';
 import 'package:youmusic2/models/controllerModels.dart';
 import 'package:youmusic2/views/homeView.dart';
 import 'package:youmusic2/views/playlistView.dart';
+import 'package:youmusic2/views/searchView.dart';
 
 
 class HomeUnderTab extends StatefulWidget{
@@ -39,6 +40,8 @@ class _HomeUnderTabState extends State<HomeUnderTab> {
           );
         } ,
       );
+    }else if (settings.name == '/search'){
+      return MaterialPageRoute(builder: (context) => SearchScaffold());
     }else{
       return MaterialPageRoute(builder: (context) => HomeScaffold());
     }
