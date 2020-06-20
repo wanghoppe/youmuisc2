@@ -1,16 +1,12 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 import 'package:youmusic2/models/controllerModels.dart';
 import 'package:youmusic2/models/mediaQueryModels.dart';
 import 'package:youmusic2/models/playerModels.dart';
-import 'package:youmusic2/views/homeView.dart';
 import 'package:youmusic2/views/utilsView.dart';
 import '../main.dart';
 

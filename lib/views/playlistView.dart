@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:youmusic2/models/mediaQueryModels.dart';
 import 'package:youmusic2/models/playerModels.dart';
 import 'package:youmusic2/models/playlistModels.dart';
-import 'package:youmusic2/test/playlist/listdata.dart';
 
 
 import '../main.dart';

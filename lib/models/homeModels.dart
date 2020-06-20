@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/src/scheduler/ticker.dart';
 import 'package:youmusic2/client/client.dart';
 import 'package:youmusic2/client/homeUtils.dart';
 import 'package:youmusic2/views/homeView.dart';

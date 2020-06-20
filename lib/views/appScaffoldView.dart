@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:youmusic2/models/controllerModels.dart';
-import 'package:youmusic2/models/mediaQueryModels.dart';
 import 'package:youmusic2/models/playerModels.dart';
 import 'package:youmusic2/views/playerView.dart';
 import '../main.dart';
