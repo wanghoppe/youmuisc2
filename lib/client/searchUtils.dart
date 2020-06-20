@@ -70,6 +70,12 @@ Map<String, dynamic> getSearchSection(Map json){
   return sectionMap;
 }
 
+enum SearchRowType{
+  player,
+  artist,
+  playlist
+}
+
 Map<String, dynamic> getSearchRow(Map json){
   final rowMap = <String, dynamic>{};
   json = json['musicResponsiveListItemRenderer'];
@@ -88,13 +94,13 @@ Map<String, dynamic> getSearchRow(Map json){
     final browseEndpoint = json['navigationEndpoint']['browseEndpoint'];
     if (browseEndpoint['browseEndpointContextSupportedConfigs']
     ['browseEndpointContextMusicConfig']['pageType'] == 'MUSIC_PAGE_TYPE_ARTIST'){
-      rowMap['type'] = 'ARTIST';
+      rowMap['type'] = SearchRowType.artist;
     }else{
-      rowMap['type'] = 'PLAYLIST';
+      rowMap['type'] = SearchRowType.playlist;
     }
     rowMap['endpoint'] = browseEndpoint;
   }else{
-    rowMap['type'] = 'PLAYER';
+    rowMap['type'] = SearchRowType.player;
     rowMap['endpoint'] = json['doubleTapCommand']['watchEndpoint'];
   }
 

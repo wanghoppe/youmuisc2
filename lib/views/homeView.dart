@@ -263,8 +263,7 @@ class CardItem extends StatelessWidget{
       context,
       '/playlist',
       arguments: PlaylistScreenArgs(
-        idx,
-        rowName,
+        rowName + idx.toString(),
         title,
         subtitle,
         thumbnail,

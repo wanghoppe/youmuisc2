@@ -19,12 +19,10 @@ class PlaylistScreenArgs{
   final String thumbnail;
   final String title;
   final String subtitle;
-  final String rowName;
-  final int idx;
+  final String heroIdx;
 
   PlaylistScreenArgs(
-    this.idx,
-    this.rowName,
+    this.heroIdx,
     this.title,
     this.subtitle,
     this.thumbnail,
@@ -124,6 +122,7 @@ class OpaqueSliverAppBar extends StatelessWidget{
   Widget build(BuildContext context) {
     final opController = Provider.of<OpacityController>(context, listen: false);
     final screenArgs = Provider.of<PlaylistScreenArgs>(context, listen: false);
+    final mediaData = Provider.of<MediaProvider>(context, listen: false);
     return ChangeNotifierProvider.value(
       value: opController.appBar,
       child: Builder(
@@ -142,7 +141,7 @@ class OpaqueSliverAppBar extends StatelessWidget{
                   },
                   child: Text(screenArgs.title))
             ),
-            expandedHeight: 235,
+            expandedHeight: 175 + kToolbarHeight,
             flexibleSpace: Align(
               alignment: Alignment.bottomCenter,
               child: SingleChildScrollView(
@@ -181,13 +180,14 @@ class OpacityHead extends StatelessWidget{
             child: Row(
               children: <Widget>[
                 Hero(
-                  tag: screenArgs.rowName + screenArgs.idx.toString(),
+                  tag: screenArgs.heroIdx,
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image.network(
                         screenArgs.thumbnail, //Todo
                         width: 150,
                         height: 150,
+                        fit: BoxFit.fitHeight,
                       )
                   ),
                 ),
@@ -331,7 +331,6 @@ class PlaylistItem extends StatelessWidget{
         Future.value(title),
         Future.value(subtitle.split(' • ')[0]));
     animationController.animatedToS2();
-
     String videoId = navigationEndpoint['watchEndpoint']['videoId'];
     audioPlayer.playFromVideoId(videoId);
   }

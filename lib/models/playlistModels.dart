@@ -64,8 +64,8 @@ class OpacityController{
 
   void changeScrollPos(double value){
     scrollPos = value;
-    var op1 = min(max(scrollPos - 180, 0.0), 20)/20;
-    var op2 = max(min(1 - scrollPos/200, 1.0), 0.0);
+    var op1 = min(max(scrollPos - 135, 0.0), 40)/40;
+    var op2 = max(min(1 - scrollPos/175, 1.0), 0.0);
     appBar.changeOpacity(op1);
     header.changeOpacity(op2);
   }
