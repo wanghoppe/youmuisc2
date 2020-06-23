@@ -35,13 +35,17 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
   Widget build(BuildContext context) {
 //    print('[AppBottomNavigationBar]');
     final tabController = getIt<TabControllerProvider>().tabController;
-    final width =
-        Provider.of<MediaProvider>(context, listen: false).data.size.width;
+    final mediaData =
+        Provider.of<MediaProvider>(context, listen: false).data;
+    final width = mediaData.size.width;
+    final bottomPadding = mediaData.padding.bottom;
+
     return GestureDetector(
       onVerticalDragUpdate: (update) {},
       onTap: () {},
       child: Container(
         width: width,
+        height: kBottomNavigationBarHeight + bottomPadding,
         child: BottomNavigationBar(
           selectedItemColor: Colors.white,
           backgroundColor: Theme.of(context).appBarTheme.color,
@@ -115,6 +119,7 @@ class AnimateScaffold extends StatelessWidget {
     final imgBoxFinalHeight = screenHeight * 0.54;
 
     final itemHeight = (screenHeight -
+            mediaData.padding.bottom -
             imgBoxFinalHeight -
             minBottomListHeight -
             buttonOffset) /
