@@ -89,27 +89,25 @@ class PlaylistSliver extends StatelessWidget{
           opController.changeScrollPos(notification.metrics.pixels);
           return true;
         },
-        child: SafeArea(
-          child: CustomScrollView(
-            physics:
-              const AlwaysScrollableScrollPhysics(parent: const CustomScrollPhysics()),
-            slivers: <Widget>[
-              OpaqueSliverAppBar(),
-              SliverPlayButtons(),
-              FutureBuilder(
-                future: infoListModel.futureList,
-                builder: (context, snapshot){
-                  if (snapshot.hasData){
-                    return MainSliverList(snapshot.data, isAlbum: infoListModel.isAlbum);
-                  }else{
-                    return SliverToBoxAdapter(
-                      child: AlwaysActivityIndicator(),
-                    );
-                  }
+        child: CustomScrollView(
+          physics:
+            const AlwaysScrollableScrollPhysics(parent: const CustomScrollPhysics()),
+          slivers: <Widget>[
+            OpaqueSliverAppBar(),
+            SliverPlayButtons(),
+            FutureBuilder(
+              future: infoListModel.futureList,
+              builder: (context, snapshot){
+                if (snapshot.hasData){
+                  return MainSliverList(snapshot.data, isAlbum: infoListModel.isAlbum);
+                }else{
+                  return SliverToBoxAdapter(
+                    child: AlwaysActivityIndicator(),
+                  );
                 }
-              )
-            ],
-          ),
+              }
+            )
+          ],
         ),
       ),
     );

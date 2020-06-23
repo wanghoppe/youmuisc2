@@ -71,34 +71,32 @@ class _HomeScrollViewState extends State<HomeScrollView> {
   Widget build(BuildContext context) {
     final listModel = Provider.of<AnimatedListModel>(context, listen: false);
 
-    return SafeArea(
-      child: CustomScrollView(
-        physics:
-        const AlwaysScrollableScrollPhysics(parent: const CustomScrollPhysics()),
-        slivers: <Widget>[
-          SliverAppBar(
-            title: Text('YouMuisc', style: Theme.of(context).textTheme.title),
-            floating: true,
-            actions: [
-              IconButton(
-                icon: Icon(Icons.search, color: Colors.white, size: 26),
-                onPressed: () => Navigator.pushNamed(context, '/search'),
-              ),
-              SizedBox(width: 5)
-            ]
-          ),
-          CupertinoSliverRefreshControl(
-            refreshTriggerPullDistance: 100,
-            refreshIndicatorExtent: 0,
-            builder: buildSimpleRefreshIndicator,
-            onRefresh: () async {
-              listModel.resetList();
-            },
-          ),
-          HomePageListView(listModel: listModel),
-          MyOtherSliverList()
-        ],
-      ),
+    return CustomScrollView(
+      physics:
+      const AlwaysScrollableScrollPhysics(parent: const CustomScrollPhysics()),
+      slivers: <Widget>[
+        SliverAppBar(
+          title: Text('YouMuisc', style: Theme.of(context).textTheme.title),
+          floating: true,
+          actions: [
+            IconButton(
+              icon: Icon(Icons.search, color: Colors.white, size: 26),
+              onPressed: () => Navigator.pushNamed(context, '/search'),
+            ),
+            SizedBox(width: 5)
+          ]
+        ),
+        CupertinoSliverRefreshControl(
+          refreshTriggerPullDistance: 100,
+          refreshIndicatorExtent: 0,
+          builder: buildSimpleRefreshIndicator,
+          onRefresh: () async {
+            listModel.resetList();
+          },
+        ),
+        HomePageListView(listModel: listModel),
+        MyOtherSliverList()
+      ],
     );
   }
 }

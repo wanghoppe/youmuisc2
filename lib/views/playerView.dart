@@ -35,7 +35,8 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
   Widget build(BuildContext context) {
 //    print('[AppBottomNavigationBar]');
     final tabController = getIt<TabControllerProvider>().tabController;
-    final width = Provider.of<MediaProvider>(context, listen: false).data.size.width;
+    final width =
+        Provider.of<MediaProvider>(context, listen: false).data.size.width;
     return GestureDetector(
       onVerticalDragUpdate: (update) {},
       onTap: () {},
@@ -86,23 +87,21 @@ class AnimateScaffold extends StatelessWidget {
   final Widget widgetAppBottomNavigationBar = AppBottomNavigationBar();
   final Widget widgetClosedProgressBar = ClosedProgressBar();
 
-  Widget _buildImgMask(BuildContext context, double opacity){
-    final audioPlayer = Provider.of<AudioPlayerProvider>(context, listen: false);
+  Widget _buildImgMask(BuildContext context, double opacity) {
+    final audioPlayer =
+        Provider.of<AudioPlayerProvider>(context, listen: false);
     return AspectRatio(
-      aspectRatio: 16 / 9,
-      child:Container(
-        alignment: Alignment.center,
-        color: Color.fromRGBO(0, 0, 0, opacity),
-        child: StreamBuilder<bool>(
-          stream: audioPlayer.bufferingStream,
-          initialData: true,
-          builder: (context, snapshot) {
+        aspectRatio: 16 / 9,
+        child: Container(
+            alignment: Alignment.center,
+            color: Color.fromRGBO(0, 0, 0, opacity),
+            child: StreamBuilder<bool>(
+                stream: audioPlayer.bufferingStream,
+                initialData: true,
+                builder: (context, snapshot) {
 //            print('stream buffering, ${snapshot.hasError}');
-            return VisibleActivityIndicator(visible: snapshot.data);
-          }
-        )
-      )
-    );
+                  return VisibleActivityIndicator(visible: snapshot.data);
+                })));
   }
 
   @override
@@ -112,18 +111,26 @@ class AnimateScaffold extends StatelessWidget {
     final screenWidth = mediaData.size.width;
     final screenHeight = mediaData.size.height - mediaData.padding.top;
     final imgHeight = screenWidth / 16 * 9;
-    final itemHeight = (screenHeight - kToolbarHeight - imgHeight - minBottomListHeight - buttonOffset) / 3;
-    final maxSlide =
-        screenHeight - kBottomNavigationBarHeight - closedHeight / 2;
+
+    final imgBoxFinalHeight = screenHeight * 0.54;
+
+    final itemHeight = (screenHeight -
+            imgBoxFinalHeight -
+            minBottomListHeight -
+            buttonOffset) /
+        3;
+    final bottomNavigationHeight =
+        kBottomNavigationBarHeight + mediaData.padding.bottom;
+    final maxSlide = screenHeight - bottomNavigationHeight - closedHeight / 2;
 
     Animation<double> containerHeightS1 = Tween<double>(
-            begin: kBottomNavigationBarHeight,
-            end: kBottomNavigationBarHeight + closedHeight)
+            begin: bottomNavigationHeight,
+            end: bottomNavigationHeight + closedHeight)
         .animate(CurvedAnimation(
             parent: controllerProvider.controller, curve: Interval(0.0, s1)));
 
     Animation<double> containerHeightS2 = Tween<double>(
-            begin: kBottomNavigationBarHeight + closedHeight, end: screenHeight)
+            begin: bottomNavigationHeight + closedHeight, end: screenHeight)
         .animate(CurvedAnimation(
             parent: controllerProvider.controller, curve: Interval(s1, s2)));
 
@@ -137,14 +144,14 @@ class AnimateScaffold extends StatelessWidget {
                 parent: controllerProvider.controller,
                 curve: Interval(s1, s2 - 0.00)));
 
-    Animation<double> topSizedBoxHeightS1 =
-        Tween<double>(begin: 0.0, end: kToolbarHeight).animate(
+    Animation<double> imgBoxHeightS1 =
+        Tween<double>(begin: closedHeight, end: imgBoxFinalHeight).animate(
             CurvedAnimation(
                 parent: controllerProvider.controller,
                 curve: Interval(s1, s2 - 0.00)));
 
-    Animation<double> topSizedBoxHeightS2 =
-        Tween<double>(begin: kToolbarHeight, end: 0.0).animate(
+    Animation<double> imgBoxHeightS2 =
+        Tween<double>(begin: imgBoxFinalHeight, end: imgHeight).animate(
             CurvedAnimation(
                 parent: controllerProvider.controller,
                 curve: Interval(s2, 1.0)));
@@ -154,22 +161,22 @@ class AnimateScaffold extends StatelessWidget {
             parent: controllerProvider.controller, curve: Interval(s1, s2)));
 
     Animation<double> buttonTrans =
-        Tween<double>(
-            begin: 0.0,
-            end: - (imgHeight / 2 + 2.5 * itemHeight))
+        Tween<double>(begin: 0.0, end: -(imgHeight / 2 + 2.5 * itemHeight))
             .animate(CurvedAnimation(
                 parent: controllerProvider.controller,
                 curve: Interval(s2, 1.0)));
 
     Animation<double> bottomNavTrans =
-        Tween<double>(begin: 0.0, end: kBottomNavigationBarHeight).animate(
+        Tween<double>(begin: 0.0, end: bottomNavigationHeight).animate(
             CurvedAnimation(
                 parent: controllerProvider.controller,
                 curve: Interval(s1, s2)));
 
     Animation<double> bottomListTrans =
-        Tween<double>(begin: 0.0, end: - (3 * itemHeight + buttonOffset)).animate(CurvedAnimation(
-            parent: controllerProvider.controller, curve: Interval(s2, 1.0)));
+        Tween<double>(begin: 0.0, end: -(3 * itemHeight + buttonOffset))
+            .animate(CurvedAnimation(
+                parent: controllerProvider.controller,
+                curve: Interval(s2, 1.0)));
 
     Animation<double> closedRowOpacity = Tween<double>(begin: 1.0, end: 0.0)
         .animate(CurvedAnimation(
@@ -205,7 +212,6 @@ class AnimateScaffold extends StatelessWidget {
       final AnimationController _controller = controllerProvider.controller;
       final dy = details.velocity.pixelsPerSecond.dy;
 
-
       if (_controller.isDismissed ||
           _controller.isCompleted ||
           _controller.value < s1) {
@@ -221,14 +227,10 @@ class AnimateScaffold extends StatelessWidget {
       }
     }
 
-
     return Container(
-        decoration: BoxDecoration(
-          boxShadow: [CustomBoxShadow(
-            blurRadius: 10.0,
-            blurStyle: BlurStyle.outer
-          )]
-        ),
+      decoration: BoxDecoration(boxShadow: [
+        CustomBoxShadow(blurRadius: 10.0, blurStyle: BlurStyle.outer)
+      ]),
       child: AnimatedBuilder(
         child: TestImg(),
         animation: controllerProvider.controller,
@@ -250,39 +252,43 @@ class AnimateScaffold extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   child: Column(
                     children: [
-                      SizedBox(height: (animatedVal < s2)
-                          ? topSizedBoxHeightS1.value
-                          : topSizedBoxHeightS2.value),
-                      Stack(
-                        alignment: Alignment.bottomCenter,
-                        children: [
-                          FractionallySizedBox(
-                            widthFactor: closedRowWidth.value,
-                          alignment: Alignment.topLeft,
-                          child: Row(children: [
-                            Container(
-//                            color: Colors.green,
-                                height: aImgHeight.value,
-                                child: TickerMode(
-                                  enabled: animatedVal > 0.0,
-                                  child: Stack(children: [
-                                    child,
-                                    _buildImgMask(context, imgBackOpacity.value)
-                                  ]),
-                                )),
-                            SizedBox(width: 16),
-                            Expanded(
-                              child: Opacity(
-                                  opacity: closedRowOpacity.value,
-                                  child: widgetClosedTitle),
-                            )
-                          ]),
+                      Container(
+                        height: (animatedVal < s2)
+                            ? imgBoxHeightS1.value
+                            : imgBoxHeightS2.value,
+                        alignment: Alignment.center,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          physics: const NeverScrollableScrollPhysics(),
+                          child: Container(
+                            width: closedRowWidth.value * screenWidth,
+                            height: aImgHeight.value,
+                            child: Stack(
+                              alignment: Alignment.bottomCenter,
+                              children: [
+                                Row(children: [
+                                  TickerMode(
+                                    enabled: animatedVal > 0.0,
+                                    child: Stack(children: [
+                                      child,
+                                      _buildImgMask(
+                                          context, imgBackOpacity.value)
+                                    ]),
+                                  ),
+                                  SizedBox(width: 16),
+                                  Expanded(
+                                    child: Opacity(
+                                        opacity: closedRowOpacity.value,
+                                        child: widgetClosedTitle),
+                                  )
+                                ]),
+                                Opacity(
+                                    opacity: closedRowOpacity.value,
+                                    child: widgetClosedProgressBar)
+                              ],
+                            ),
+                          ),
                         ),
-                          Opacity(
-                            opacity: closedRowOpacity.value,
-                            child: widgetClosedProgressBar
-                          )
-                        ],
                       ),
                       Transform.translate(
                           offset: Offset(0, basicTrans.value),
@@ -290,7 +296,7 @@ class AnimateScaffold extends StatelessWidget {
 //                              alignment: Alignment.bottomCenter,
                               height: itemHeight,
                               child: TickerMode(
-                                enabled: animatedVal > (s1 + s2)/2,
+                                enabled: animatedVal > (s1 + s2) / 2,
                                 child: Opacity(
                                     opacity: openTitleOpacity.value,
                                     child: widgetOpenedTitle),
@@ -353,10 +359,11 @@ class AnimateScaffold extends StatelessWidget {
   }
 }
 
-class ClosedProgressBar extends StatelessWidget{
+class ClosedProgressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final audioPlayer = Provider.of<AudioPlayerProvider>(context, listen:false);
+    final audioPlayer =
+        Provider.of<AudioPlayerProvider>(context, listen: false);
     print('[$this]');
     return StreamBuilder<Duration>(
         stream: audioPlayer.durationStream,
@@ -374,8 +381,7 @@ class ClosedProgressBar extends StatelessWidget{
                           ? 0.0
                           : buffer.inMilliseconds / duration.inMilliseconds;
                       return LinearProgressIndicator(
-                          valueColor:
-                          AlwaysStoppedAnimation(Colors.blueGrey),
+                          valueColor: AlwaysStoppedAnimation(Colors.blueGrey),
                           value: bufferVal,
                           backgroundColor: Colors.white.withOpacity(0.2));
                     }),
@@ -383,11 +389,11 @@ class ClosedProgressBar extends StatelessWidget{
                     stream: audioPlayer.positionStream,
                     builder: (context, snapshot) {
                       Duration position = snapshot.data ?? Duration.zero;
-  //                            print('stream position error: ${snapshot.hasError}');
+                      //                            print('stream position error: ${snapshot.hasError}');
                       final computeVal = (duration == Duration.zero)
                           ? 0.0
                           : position.inMilliseconds / duration.inMilliseconds;
-  //                            print('position value: $computeVal');
+                      //                            print('position value: $computeVal');
                       return LinearProgressIndicator(
                         value: computeVal,
                         valueColor: AlwaysStoppedAnimation(Colors.white),
@@ -397,10 +403,8 @@ class ClosedProgressBar extends StatelessWidget{
               ],
             ),
           );
-        }
-    );
+        });
   }
-
 }
 
 class ClosedTitle extends StatelessWidget {
@@ -408,54 +412,54 @@ class ClosedTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     print('[$this]');
     final info = Provider.of<PlayerInfoProvider>(context);
-    final audioPlayer = Provider.of<AudioPlayerProvider>(context, listen: false);
+    final audioPlayer =
+        Provider.of<AudioPlayerProvider>(context, listen: false);
     return Row(
       children: <Widget>[
         Expanded(
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            FutureBuilder<String>(
-              future: info.futureTitle,
-              builder: (context, snapshot) {
-                return Text(snapshot.data ?? '',
-                  style: Theme.of(context).textTheme.bodyText1,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                );
-              }
-            ),
-            FutureBuilder<String>(
-              future: info.futureSubtitle,
-              builder: (context, snapshot) {
-                return Text(
-                  snapshot.data ?? '',
-                  style: Theme.of(context).textTheme.bodyText2,
-                  maxLines: 1,
-                );
-              }
-            )
-          ]),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                FutureBuilder<String>(
+                    future: info.futureTitle,
+                    builder: (context, snapshot) {
+                      return Text(
+                        snapshot.data ?? '',
+                        style: Theme.of(context).textTheme.bodyText1,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      );
+                    }),
+                FutureBuilder<String>(
+                    future: info.futureSubtitle,
+                    builder: (context, snapshot) {
+                      return Text(
+                        snapshot.data ?? '',
+                        style: Theme.of(context).textTheme.bodyText2,
+                        maxLines: 1,
+                      );
+                    })
+              ]),
         ),
         StreamBuilder<bool>(
-          stream: audioPlayer.playingStream,
-          builder: (context, snapshot) {
-            final _isPlaying =  snapshot.data ?? false;
+            stream: audioPlayer.playingStream,
+            builder: (context, snapshot) {
+              final _isPlaying = snapshot.data ?? false;
 
-            void onPlayPressed(){
-              print(_isPlaying);
-              if (_isPlaying){
-                audioPlayer.pause();
-              }else{
-                audioPlayer.play();
+              void onPlayPressed() {
+                print(_isPlaying);
+                if (_isPlaying) {
+                  audioPlayer.pause();
+                } else {
+                  audioPlayer.play();
+                }
               }
-            }
 
-            return IconButton(
-                icon: Icon(_isPlaying? Icons.pause : Icons.play_arrow),
-                onPressed: (snapshot.data != null) ? onPlayPressed : null
-            );
-          }
-        ),
+              return IconButton(
+                  icon: Icon(_isPlaying ? Icons.pause : Icons.play_arrow),
+                  onPressed: (snapshot.data != null) ? onPlayPressed : null);
+            }),
         IconButton(
             icon: Icon(Icons.close),
             onPressed: getIt<BottomSheetControllerProvider>().onCloseClick)
@@ -465,60 +469,59 @@ class ClosedTitle extends StatelessWidget {
 }
 
 class OpenedTitle extends StatelessWidget {
-
   static const PADDING = 30.0;
 
   @override
   Widget build(BuildContext context) {
     print('[$this]');
     final info = Provider.of<PlayerInfoProvider>(context);
-    final screenWidth = Provider.of<MediaProvider>(context, listen: false).data.size.width;
+    final screenWidth =
+        Provider.of<MediaProvider>(context, listen: false).data.size.width;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: PADDING),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           FutureBuilder<String>(
-            future: info.futureTitle,
-            builder: (context, snapshot) {
+              future: info.futureTitle,
+              builder: (context, snapshot) {
+                final text = snapshot.data ?? ' ';
+                final textStyle = Theme.of(context).textTheme.headline5;
+                final Size txtSize = textSize(text, textStyle);
 
-              final text = snapshot.data?? ' ';
-              final textStyle = Theme.of(context).textTheme.headline5;
-              final Size txtSize = textSize(text, textStyle);
+                print('$screenWidth, ${txtSize.width}');
 
-              print('$screenWidth, ${txtSize.width}');
-
-              return Container(
-                height: 30,
-                child: (screenWidth - 10 > 2 * PADDING + txtSize.width)
-                    ? Text(text,
-                        style: textStyle,
-                        overflow: TextOverflow.ellipsis,
-                      )
-                    : Marquee(text: text,
-                        style: Theme.of(context).textTheme.headline5,
-                        startPadding: 10.0,
-                        blankSpace: 50.0,
-                        fadingEdgeEndFraction: 0.1,
-                        fadingEdgeStartFraction: 0.1,
-                        showFadingOnlyWhenScrolling: false,
-                        pauseAfterRound: Duration(seconds: 1)
-                    ),
-              );
-            }
-          ),
+                return Container(
+                  height: 30,
+                  child: (screenWidth - 10 > 2 * PADDING + txtSize.width)
+                      ? Text(
+                          text,
+                          style: textStyle,
+                          overflow: TextOverflow.ellipsis,
+                        )
+                      : Marquee(
+                          text: text,
+                          style: Theme.of(context).textTheme.headline5,
+                          startPadding: 10.0,
+                          blankSpace: 50.0,
+                          fadingEdgeEndFraction: 0.1,
+                          fadingEdgeStartFraction: 0.1,
+                          showFadingOnlyWhenScrolling: false,
+                          pauseAfterRound: Duration(seconds: 1)),
+                );
+              }),
           SizedBox(height: 5),
           FutureBuilder<String>(
-            future: info.futureSubtitle,
-            builder: (context, snapshot) {
-              return Text(snapshot.data ?? '',
-                style: Theme.of(context).textTheme.bodyText1,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              );
-            }
-          )
+              future: info.futureSubtitle,
+              builder: (context, snapshot) {
+                return Text(
+                  snapshot.data ?? '',
+                  style: Theme.of(context).textTheme.bodyText1,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                );
+              })
         ],
       ),
     );
@@ -538,7 +541,9 @@ class _OpenedSliderState extends State<OpenedSlider> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    sliderWidth = Provider.of<MediaProvider>(context, listen: false).data.size.width - 2 * kPadding;
+    sliderWidth =
+        Provider.of<MediaProvider>(context, listen: false).data.size.width -
+            2 * kPadding;
   }
 
   void _onDragDown(DragDownDetails details) {
@@ -556,27 +561,27 @@ class _OpenedSliderState extends State<OpenedSlider> {
     });
   }
 
-  void _onDragEnd (Duration totalDuration) async{
-    final audioPlayer = Provider.of<AudioPlayerProvider>(context, listen: false);
+  void _onDragEnd(Duration totalDuration) async {
+    final audioPlayer =
+        Provider.of<AudioPlayerProvider>(context, listen: false);
     Duration nextDuration = Duration(
-      milliseconds: (_sliderVal * totalDuration.inMilliseconds).floor()
-    );
+        milliseconds: (_sliderVal * totalDuration.inMilliseconds).floor());
     await audioPlayer.seek(nextDuration);
     _sliderVal = null;
   }
 
-  String _durationToStr(Duration duration){
+  String _durationToStr(Duration duration) {
     var sec = duration.inSeconds;
-    final min = (sec/60).floor();
-    sec = sec%60;
-    return '$min:${sec.toString().padLeft(2,'0')}';
+    final min = (sec / 60).floor();
+    sec = sec % 60;
+    return '$min:${sec.toString().padLeft(2, '0')}';
   }
 
-  String _valueToStr(Duration totalDuration){
+  String _valueToStr(Duration totalDuration) {
     var sec = (totalDuration.inSeconds * _sliderVal).round();
-    final min = (sec/60).floor();
-    sec = sec%60;
-    return '$min:${sec.toString().padLeft(2,'0')}';
+    final min = (sec / 60).floor();
+    sec = sec % 60;
+    return '$min:${sec.toString().padLeft(2, '0')}';
   }
 
   @override
@@ -598,10 +603,12 @@ class _OpenedSliderState extends State<OpenedSlider> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: kPadding),
               child: GestureDetector(
-                onHorizontalDragDown: hasData ? _onDragDown: null,
-                onHorizontalDragUpdate: hasData ? _onDragUpdate: null,
-                onHorizontalDragEnd: hasData ? (details) => _onDragEnd(duration): null,
-                onHorizontalDragCancel: hasData ? () => _onDragEnd(duration): null,
+                onHorizontalDragDown: hasData ? _onDragDown : null,
+                onHorizontalDragUpdate: hasData ? _onDragUpdate : null,
+                onHorizontalDragEnd:
+                    hasData ? (details) => _onDragEnd(duration) : null,
+                onHorizontalDragCancel:
+                    hasData ? () => _onDragEnd(duration) : null,
                 child: Container(
                   color: Colors.white.withOpacity(.0),
                   padding: const EdgeInsets.symmetric(vertical: 8),
@@ -613,7 +620,8 @@ class _OpenedSliderState extends State<OpenedSlider> {
                             Duration buffer = snapshot.data ?? Duration.zero;
                             final bufferVal = (duration == Duration.zero)
                                 ? 0.0
-                                : buffer.inMilliseconds / duration.inMilliseconds;
+                                : buffer.inMilliseconds /
+                                    duration.inMilliseconds;
                             return LinearProgressIndicator(
                                 valueColor:
                                     AlwaysStoppedAnimation(Colors.blueGrey),
@@ -626,8 +634,9 @@ class _OpenedSliderState extends State<OpenedSlider> {
                             Duration position = snapshot.data ?? Duration.zero;
 //                            print('stream position error: ${snapshot.hasError}');
                             final computeVal = (duration == Duration.zero)
-                              ? 0.0
-                              : position.inMilliseconds / duration.inMilliseconds;
+                                ? 0.0
+                                : position.inMilliseconds /
+                                    duration.inMilliseconds;
 //                            print('position value: $computeVal');
                             return LinearProgressIndicator(
                               value: _sliderVal ?? computeVal,
@@ -668,47 +677,46 @@ class _OpenedSliderState extends State<OpenedSlider> {
 }
 
 class ButtonGroups extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     final testModel = Provider.of<AnimationTestModel>(context, listen: false);
-    final audioPlayer = Provider.of<AudioPlayerProvider>(context, listen: false);
+    final audioPlayer =
+        Provider.of<AudioPlayerProvider>(context, listen: false);
     return Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Container(),
           IconButton(
               icon: Icon(Icons.skip_previous),
-              onPressed: (){
+              onPressed: () {
                 testModel.changeTitle();
 //                audioPlayer.setUrl(AudioPlayerProvider.testUrl2);
               }),
           StreamBuilder<bool>(
-            stream: audioPlayer.playingStream,
-            builder: (context, snapshot) {
-              final _isPlaying =  snapshot.data ?? false;
+              stream: audioPlayer.playingStream,
+              builder: (context, snapshot) {
+                final _isPlaying = snapshot.data ?? false;
 
-              void onPlayPressed(){
-                print(_isPlaying);
-                if (_isPlaying){
-                  audioPlayer.pause();
-                }else{
-                  audioPlayer.play();
+                void onPlayPressed() {
+                  print(_isPlaying);
+                  if (_isPlaying) {
+                    audioPlayer.pause();
+                  } else {
+                    audioPlayer.play();
+                  }
                 }
-              }
 
 //              print('stream playing . ${snapshot.data}');
 //              print('stream playing Error:  ${snapshot.hasError}');
 
-              return IconButton(
-                icon: Icon(_isPlaying? Icons.pause : Icons.play_arrow),
-                iconSize: 50,
-                onPressed: (snapshot.data != null) ? onPlayPressed : null
-              );
-            }
-          ),
-          IconButton(icon: Icon(Icons.skip_next),
-            onPressed: (){
+                return IconButton(
+                    icon: Icon(_isPlaying ? Icons.pause : Icons.play_arrow),
+                    iconSize: 50,
+                    onPressed: (snapshot.data != null) ? onPlayPressed : null);
+              }),
+          IconButton(
+            icon: Icon(Icons.skip_next),
+            onPressed: () {
 //              audioPlayer.setUrl(AudioPlayerProvider.testUrl);
             },
           ),
@@ -730,18 +738,16 @@ class TestImg extends StatelessWidget {
   Widget build(BuildContext context) {
     final info = Provider.of<PlayerInfoProvider>(context);
     return FutureBuilder<String>(
-      future: info.futureUrl,
-      builder: (context, snapshot) {
-        return AspectRatio(
-          aspectRatio: 16 / 9,
-          child: snapshot.hasData
-              ? Image.network(
-              snapshot.data,
-              fit: BoxFit.fitHeight,
-            )
-          : Center(child: VisibleActivityIndicator(visible: true))
-        );
-      }
-    );
+        future: info.futureUrl,
+        builder: (context, snapshot) {
+          return AspectRatio(
+              aspectRatio: 16 / 9,
+              child: snapshot.hasData
+                  ? Image.network(
+                      snapshot.data,
+                      fit: BoxFit.fitHeight,
+                    )
+                  : Center(child: VisibleActivityIndicator(visible: true)));
+        });
   }
 }
