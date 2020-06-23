@@ -32,6 +32,8 @@ class PlayerClient{
     if (Platform.isAndroid){
       return _find251(mediaStreams).url.toString();
     }else if (Platform.isIOS){
+//      print('fetching 140');
+//      print(_find140(mediaStreams).urls.toString());
       return _find140(mediaStreams).url.toString();
     }
     return null;
