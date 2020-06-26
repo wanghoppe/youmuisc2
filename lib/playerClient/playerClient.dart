@@ -7,21 +7,29 @@ void main(){
 }
 
 void test() async{
-  final videoId = 'lkLViPVPUaw';
+  final videoId = 'JGwWNGJdvx8';
   final yt = PlayerClient();
   final mediaStreams = await yt._client.getVideoMediaStream(videoId);
-  final audio140 = yt._find140(mediaStreams);
-  final audio251 = yt._find251(mediaStreams);
+//  final audio140 = yt._find140(mediaStreams);
+//  final audio251 = yt._find251(mediaStreams);
 
-  print(audio140.url);
-  print(audio251.bitrate);
-
-//  AudioPlayer audioPlayer = AudioPlayer();
+//  print(audio140.container);
+//  print(audio140.audioEncoding);
 //
-//  int result = await audioPlayer.play(audio251.url.toString());
-//  if (result == 1) {
-//    print('playing');
-//  }
+//  print(audio251.container);
+//  print(audio251.audioEncoding);
+//
+//
+  print(mediaStreams.video.length);
+  for (var muxed in mediaStreams.muxed){
+//    print(muxed.container);
+//    print(muxed.itag);
+//    print(muxed.size);
+    print(muxed.toString());
+    print(muxed.size);
+//    print(muxed.);
+    print(muxed.url);
+  }
 }
 
 class PlayerClient{
@@ -30,17 +38,24 @@ class PlayerClient{
   Future<String> getStreamingUrl(String videoId) async{
     final mediaStreams = await _client.getVideoMediaStream(videoId);
     if (Platform.isAndroid){
-      return _find251(mediaStreams).url.toString();
+//      print(mediaStreams.audio.last.url.toString());
+      return mediaStreams.audio.last.url.toString();
     }else if (Platform.isIOS){
 //      print('fetching 140');
-//      print(_find140(mediaStreams).urls.toString());
-      return _find140(mediaStreams).url.toString();
+//      print(_find140(mediaStreams).url);
+//      return _find140(mediaStreams).url.toString();
+      return mediaStreams.muxed.last.url.toString();
     }
     return null;
   }
 
   AudioStreamInfo _find140(MediaStreamInfoSet mediaStreams){
     for (var audio in mediaStreams.audio) {
+      print(audio.itag);
+      print(audio.audioEncoding);
+      print(audio.bitrate);
+      print(audio.downloadStream());
+      print('\n');
       if (audio.itag == 140) {
         return audio;
       }

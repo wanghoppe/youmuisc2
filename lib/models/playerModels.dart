@@ -17,6 +17,7 @@ class AudioPlayerProvider {
   final _durationSubject = BehaviorSubject<Duration>();
 
   AudioPlayerProvider() {
+    AudioPlayer.setIosCategory(IosCategory.soloAmbient);
     _playingSubject.addStream(
         _audioPlayer.playbackEventStream
             .map((event) => event.state == AudioPlaybackState.playing)
