@@ -24,6 +24,7 @@ dependencies:
   youtube_explode_dart: ^0.0.17
   provider: ^4.0.5
   get_it: ^4.0.2
+  audio_service: ^0.11.2
   just_audio: ^0.1.10
   marquee: ^1.5.1
 
