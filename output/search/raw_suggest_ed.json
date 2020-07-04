@@ -1,0 +1,237 @@
+{
+  "responseContext": {
+    "serviceTrackingParams": [
+      {
+        "service": "CSI",
+        "params": [
+          {
+            "key": "c",
+            "value": "WEB_REMIX"
+          },
+          {
+            "key": "cver",
+            "value": "0.1"
+          },
+          {
+            "key": "yt_li",
+            "value": "0"
+          },
+          {
+            "key": "GetMusicSearchSuggestions_rid",
+            "value": "0x15080f0b5532bc06"
+          }
+        ]
+      },
+      {
+        "service": "GFEEDBACK",
+        "params": [
+          {
+            "key": "logged_in",
+            "value": "0"
+          },
+          {
+            "key": "e",
+            "value": "23910215,23834813,23861905,23709532,23874337,23836115,23914494,23876128,23897263,23915256,23896443,23901904,23909259,23913350,23882437,23912746,23862294,23891345,23865206,23880323,23900854,23902292,23884593,23897257,23869527,23833239,23888210,23910755,23832002,23842638,23907080,23834232,23857970,23894344,23897127,23896667,23913847,23797973,23914854,9473386,23862065,23804043,23912252,23882111,23886778,23859025,23915006,23768776,23874051,23869558,23898871,23853114,23858564,23892983,23909009,23908060,23871729,23904156,23897872,23839597,1714242,23848210,23804281,23890891,23862582,23903983,23904385,23837887,23882125,9473370,23854352,23801987,23905514,23870434,23891636,23915008,23811986,23882555,23891845,23908414,23916374,23882685,23895275,23874981,23913030,23909270,23865749,23895174,23897295,23908062,23748147,23816681,23906782,23882130,23895139,23910248,23907595,23907436,23877635,23884697,23890077,23910759,23885639,23909192,23872595,9473402,23861666,23789385,23902484,23790586,23890721,23896704,23884998,23906705,23899299,23841650,23902312,39320688,23912241,23906712,23910775,23915399,23794339,23904051,23841299,23884386,23854276,23755966,23874940,23914651,23860381,23897503,23862025,23898320,23744176,24650115,23894533,23886191,23842233"
+          }
+        ]
+      },
+      {
+        "service": "ECATCHER",
+        "params": [
+          {
+            "key": "client.version",
+            "value": "0.1"
+          },
+          {
+            "key": "client.name",
+            "value": "WEB_REMIX"
+          }
+        ]
+      }
+    ]
+  },
+  "contents": [
+    {
+      "searchSuggestionsSectionRenderer": {
+        "contents": [
+          {
+            "searchSuggestionRenderer": {
+              "suggestion": {
+                "runs": [
+                  {
+                    "text": "ed",
+                    "bold": true
+                  },
+                  {
+                    "text": " sheeran"
+                  }
+                ]
+              },
+              "navigationEndpoint": {
+                "clickTrackingParams": "CAcQpWEYASITCL2-4uSGiuoCFUHHxAodC_gDrA==",
+                "searchEndpoint": {
+                  "query": "ed sheeran"
+                }
+              },
+              "trackingParams": "CAcQpWEYASITCL2-4uSGiuoCFUHHxAodC_gDrA==",
+              "icon": {
+                "iconType": "SEARCH"
+              }
+            }
+          },
+          {
+            "searchSuggestionRenderer": {
+              "suggestion": {
+                "runs": [
+                  {
+                    "text": "ed",
+                    "bold": true
+                  },
+                  {
+                    "text": " sheeran perfect"
+                  }
+                ]
+              },
+              "navigationEndpoint": {
+                "clickTrackingParams": "CAYQpWEYAiITCL2-4uSGiuoCFUHHxAodC_gDrA==",
+                "searchEndpoint": {
+                  "query": "ed sheeran perfect"
+                }
+              },
+              "trackingParams": "CAYQpWEYAiITCL2-4uSGiuoCFUHHxAodC_gDrA==",
+              "icon": {
+                "iconType": "SEARCH"
+              }
+            }
+          },
+          {
+            "searchSuggestionRenderer": {
+              "suggestion": {
+                "runs": [
+                  {
+                    "text": "ed",
+                    "bold": true
+                  },
+                  {
+                    "text": "its"
+                  }
+                ]
+              },
+              "navigationEndpoint": {
+                "clickTrackingParams": "CAUQpWEYAyITCL2-4uSGiuoCFUHHxAodC_gDrA==",
+                "searchEndpoint": {
+                  "query": "edits"
+                }
+              },
+              "trackingParams": "CAUQpWEYAyITCL2-4uSGiuoCFUHHxAodC_gDrA==",
+              "icon": {
+                "iconType": "SEARCH"
+              }
+            }
+          },
+          {
+            "searchSuggestionRenderer": {
+              "suggestion": {
+                "runs": [
+                  {
+                    "text": "ed",
+                    "bold": true
+                  },
+                  {
+                    "text": "m"
+                  }
+                ]
+              },
+              "navigationEndpoint": {
+                "clickTrackingParams": "CAQQpWEYBCITCL2-4uSGiuoCFUHHxAodC_gDrA==",
+                "searchEndpoint": {
+                  "query": "edm"
+                }
+              },
+              "trackingParams": "CAQQpWEYBCITCL2-4uSGiuoCFUHHxAodC_gDrA==",
+              "icon": {
+                "iconType": "SEARCH"
+              }
+            }
+          },
+          {
+            "searchSuggestionRenderer": {
+              "suggestion": {
+                "runs": [
+                  {
+                    "text": "ed",
+                    "bold": true
+                  },
+                  {
+                    "text": "it audios"
+                  }
+                ]
+              },
+              "navigationEndpoint": {
+                "clickTrackingParams": "CAMQpWEYBSITCL2-4uSGiuoCFUHHxAodC_gDrA==",
+                "searchEndpoint": {
+                  "query": "edit audios"
+                }
+              },
+              "trackingParams": "CAMQpWEYBSITCL2-4uSGiuoCFUHHxAodC_gDrA==",
+              "icon": {
+                "iconType": "SEARCH"
+              }
+            }
+          },
+          {
+            "searchSuggestionRenderer": {
+              "suggestion": {
+                "runs": [
+                  {
+                    "text": "ed",
+                    "bold": true
+                  },
+                  {
+                    "text": "ge theme song"
+                  }
+                ]
+              },
+              "navigationEndpoint": {
+                "clickTrackingParams": "CAIQpWEYBiITCL2-4uSGiuoCFUHHxAodC_gDrA==",
+                "searchEndpoint": {
+                  "query": "edge theme song"
+                }
+              },
+              "trackingParams": "CAIQpWEYBiITCL2-4uSGiuoCFUHHxAodC_gDrA==",
+              "icon": {
+                "iconType": "SEARCH"
+              }
+            }
+          },
+          {
+            "searchSuggestionRenderer": {
+              "suggestion": {
+                "runs": [
+                  {
+                    "text": "ed",
+                    "bold": true
+                  },
+                  {
+                    "text": " sheeran thinking out loud lyrics"
+                  }
+                ]
+              },
+              "navigationEndpoint": {
+                "clickTrackingParams": "CAEQpWEYByITCL2-4uSGiuoCFUHHxAodC_gDrA==",
+                "searchEndpoint": {
+                  "query": "ed sheeran thinking out loud lyrics"
+                }
+              },
+              "trackingParams": "CAEQpWEYByITCL2-4uSGiuoCFUHHxAodC_gDrA==",
+              "icon": {
+                "iconType": "SEARCH"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "trackingParams": "CAAQi24iEwi9vuLkhorqAhVBx8QKHQv4A6w="
+}

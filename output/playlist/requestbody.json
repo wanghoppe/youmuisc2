@@ -1,0 +1,51 @@
+{
+  "context": {
+    "client": {
+      "clientName": "WEB_REMIX",
+      "clientVersion": "0.1",
+      "hl": "en",
+      "gl": "US",
+      "experimentIds": [],
+      "experimentsToken": "",
+      "locationInfo": {
+        "locationPermissionAuthorizationStatus": "LOCATION_PERMISSION_AUTHORIZATION_STATUS_UNSUPPORTED"
+      },
+      "musicAppInfo": {
+        "musicActivityMasterSwitch": "MUSIC_ACTIVITY_MASTER_SWITCH_INDETERMINATE",
+        "musicLocationMasterSwitch": "MUSIC_LOCATION_MASTER_SWITCH_INDETERMINATE",
+        "pwaInstallabilityStatus": "PWA_INSTALLABILITY_STATUS_CAN_BE_INSTALLED"
+      }
+    },
+    "capabilities": {},
+    "request": {
+      "internalExperimentFlags": [
+        {
+          "key": "force_music_enable_outertube_tastebuilder_browse",
+          "value": "true"
+        },
+        {
+          "key": "force_music_enable_outertube_playlist_detail_browse",
+          "value": "true"
+        },
+        {
+          "key": "force_music_enable_outertube_search_suggestions",
+          "value": "true"
+        }
+      ],
+      "sessionIndex": 0
+    },
+    "activePlayers": {},
+    "user": {
+      "enableSafetyMode": false
+    },
+    "clickTracking": {
+      "clickTrackingParams": "CAgQoLMCGAkiEwjt8aGV-J3pAhWT38QKHX25BLMyCG11cy1ob21l"
+    }
+  },
+  "browseId": "VLRDCLAK5uy_mplKe9BIYCO3ZuNWSHZr48bm9DUDzbWnE",
+  "browseEndpointContextSupportedConfigs": {
+    "browseEndpointContextMusicConfig": {
+      "pageType": "MUSIC_PAGE_TYPE_PLAYLIST"
+    }
+  }
+}

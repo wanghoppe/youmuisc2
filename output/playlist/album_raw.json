@@ -1,0 +1,1558 @@
+{
+  "responseContext": {
+    "serviceTrackingParams": [
+      {
+        "service": "GFEEDBACK",
+        "params": [
+          {
+            "key": "browse_id",
+            "value": "MPREb_OPkowziTdzc"
+          },
+          {
+            "key": "e",
+            "value": "23723208,23744176,23804281,23837040,23837993,23839597,23856950,23857949,23859802,23865856,23869123,23876128,23876458,23880389,23882503,23882513,23884386,23885573,23886825,23890386,23890789,23891237,23892589,23893779,23894826,23898054,23900839,23902104,23903091,23904810,23905472,9449243,9466591"
+          },
+          {
+            "key": "logged_in",
+            "value": "0"
+          }
+        ]
+      },
+      {
+        "service": "CSI",
+        "params": [
+          {
+            "key": "GetBrowse_rid",
+            "value": "0x3a0efea4f77d101b"
+          },
+          {
+            "key": "c",
+            "value": "WEB_REMIX"
+          },
+          {
+            "key": "cver",
+            "value": "0.1"
+          },
+          {
+            "key": "e",
+            "value": "23723208,23744176,23804281,23837040,23837993,23839597,23856950,23857949,23859802,23865856,23869123,23876128,23876458,23880389,23882503,23882513,23884386,23885573,23886825,23890386,23890789,23891237,23892589,23893779,23894826,23898054,23900839,23902104,23903091,23904810,23905472,9449243,9466591"
+          },
+          {
+            "key": "yt_li",
+            "value": "0"
+          }
+        ]
+      },
+      {
+        "service": "ECATCHER",
+        "params": [
+          {
+            "key": "client.name",
+            "value": "WEB_REMIX"
+          },
+          {
+            "key": "client.version",
+            "value": "0.1"
+          },
+          {
+            "key": "innertube.build.changelist",
+            "value": "312689197"
+          },
+          {
+            "key": "innertube.build.experiments.source_version",
+            "value": "312776438"
+          },
+          {
+            "key": "innertube.build.label",
+            "value": "youtube.ytfe.innertube_20200520_3_RC2"
+          },
+          {
+            "key": "innertube.build.timestamp",
+            "value": "1590080801"
+          },
+          {
+            "key": "innertube.build.variants.checksum",
+            "value": "4cda91f6b4df422cabc38ab3f0d4d6ed"
+          },
+          {
+            "key": "innertube.run.job",
+            "value": "ytfe-innertube-replica-only.ytfe"
+          }
+        ]
+      }
+    ]
+  },
+  "contents": {
+    "singleColumnBrowseResultsRenderer": {
+      "tabs": [
+        {
+          "tabRenderer": {
+            "content": {
+              "sectionListRenderer": {
+                "contents": [
+                  {
+                    "musicDataBoundSectionRenderer": {
+                      "section": {
+                        "musicDataBoundAlbumReleaseTracksShelfRenderer": {
+                          "entityReference": {
+                            "musicAlbumReleaseEntity": "Eg1iX09Qa293emlUZHpjIBEoAQ%3D%3D"
+                          },
+                          "shelfMold": {
+                            "musicShelfRenderer": {
+                              "trackingParams": "CBgQ-V4iEwiBk86VzsvpAhVHycQKHQ6mCsM=",
+                              "isEmptyShelfVisible": false
+                            }
+                          },
+                          "itemMold": {
+                            "musicListItemRenderer": {
+                              "listIndexStyle": "LIST_INDEX_STYLE_SHOW",
+                              "thumbnailStyle": "THUMBNAIL_STYLE_HIDE_THUMBNAIL",
+                              "hack": true,
+                              "overlay": {
+                                "musicItemThumbnailOverlayRenderer": {
+                                  "background": {
+                                    "verticalGradient": {
+                                      "gradientLayerColors": [
+                                        "0",
+                                        "0"
+                                      ]
+                                    }
+                                  },
+                                  "content": {
+                                    "musicPlayButtonRenderer": {
+                                      "trackingParams": "CBcQyN4CIhMIgZPOlc7L6QIVR8nECh0OpgrD",
+                                      "playIcon": {
+                                        "iconType": "PLAY_ARROW"
+                                      },
+                                      "pauseIcon": {
+                                        "iconType": "PAUSE"
+                                      },
+                                      "iconColor": 4294967295,
+                                      "backgroundColor": 0,
+                                      "activeBackgroundColor": 0,
+                                      "loadingIndicatorColor": 4294901760,
+                                      "iconLoadingColor": 0,
+                                      "activeScaleFactor": 1,
+                                      "buttonSize": "MUSIC_PLAY_BUTTON_SIZE_SMALL",
+                                      "rippleTarget": "MUSIC_PLAY_BUTTON_RIPPLE_TARGET_SELF",
+                                      "accessibilityPlayData": {
+                                        "accessibilityData": {
+                                          "label": "Play"
+                                        }
+                                      },
+                                      "accessibilityPauseData": {
+                                        "accessibilityData": {
+                                          "label": "Pause"
+                                        }
+                                      },
+                                      "playingIcon": {
+                                        "iconType": "VOLUME_UP"
+                                      }
+                                    }
+                                  },
+                                  "contentPosition": "MUSIC_ITEM_THUMBNAIL_OVERLAY_CONTENT_POSITION_CENTERED",
+                                  "displayStyle": "MUSIC_ITEM_THUMBNAIL_OVERLAY_DISPLAY_STYLE_PERSISTENT"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "trackingParams": "CBYQui8iEwiBk86VzsvpAhVHycQKHQ6mCsM="
+              }
+            },
+            "trackingParams": "CBUQ8JMBGAAiEwiBk86VzsvpAhVHycQKHQ6mCsM="
+          }
+        }
+      ]
+    }
+  },
+  "header": {
+    "musicDataBoundHeaderRenderer": {
+      "entityReference": {
+        "musicAlbumReleaseEntity": "Eg1iX09Qa293emlUZHpjIBEoAQ%3D%3D"
+      },
+      "albumReleaseArtistMold": {
+        "musicDataBoundAlbumReleaseArtistRenderer": {
+          "hack": true
+        }
+      },
+      "descriptionMold": {
+        "musicDataBoundEntityDescriptionRenderer": {
+          "descriptionShelfMold": {
+            "musicShelfRenderer": {
+              "trackingParams": "CBQQ-V4iEwiBk86VzsvpAhVHycQKHQ6mCsM=",
+              "isEmptyShelfVisible": false
+            }
+          }
+        }
+      },
+      "detailsBarMenuMold": {
+        "musicDataBoundMenuRenderer": {
+          "menuRendererMold": {
+            "menuRenderer": {
+              "trackingParams": "CAAQhGciEwiBk86VzsvpAhVHycQKHQ6mCsM=",
+              "openImmediately": false
+            }
+          },
+          "dataBoundMenuItems": [
+            {
+              "menuItemRendererMold": {
+                "menuNavigationItemRenderer": {
+                  "text": {
+                    "runs": [
+                      {
+                        "text": "Shuffle play"
+                      }
+                    ]
+                  },
+                  "icon": {
+                    "iconType": "SHUFFLE"
+                  },
+                  "trackingParams": "CAAQhGciEwiBk86VzsvpAhVHycQKHQ6mCsM="
+                }
+              },
+              "endpointMold": {
+                "watchPlaylistEndpoint": {
+                  "params": "wAEB8gECGAE%3D"
+                }
+              }
+            },
+            {
+              "menuItemRendererMold": {
+                "menuServiceItemRenderer": {
+                  "text": {
+                    "runs": [
+                      {
+                        "text": "Play next"
+                      }
+                    ]
+                  },
+                  "icon": {
+                    "iconType": "QUEUE_PLAY_NEXT"
+                  },
+                  "trackingParams": "CAAQhGciEwiBk86VzsvpAhVHycQKHQ6mCsM="
+                }
+              },
+              "endpointMold": {
+                "queueAddEndpoint": {
+                  "queueInsertPosition": "INSERT_AFTER_CURRENT_VIDEO",
+                  "commands": [
+                    {
+                      "clickTrackingParams": "CAAQhGciEwiBk86VzsvpAhVHycQKHQ6mCsM=",
+                      "addToToastAction": {
+                        "item": {
+                          "notificationTextRenderer": {
+                            "successResponseText": {
+                              "runs": [
+                                {
+                                  "text": "Album will play next"
+                                }
+                              ]
+                            },
+                            "trackingParams": "CBMQyscDIhMIgZPOlc7L6QIVR8nECh0OpgrD"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "menuItemRendererMold": {
+                "menuServiceItemRenderer": {
+                  "text": {
+                    "runs": [
+                      {
+                        "text": "Add to queue"
+                      }
+                    ]
+                  },
+                  "icon": {
+                    "iconType": "ADD_TO_REMOTE_QUEUE"
+                  },
+                  "trackingParams": "CAAQhGciEwiBk86VzsvpAhVHycQKHQ6mCsM="
+                }
+              },
+              "endpointMold": {
+                "queueAddEndpoint": {
+                  "queueInsertPosition": "INSERT_AT_END",
+                  "commands": [
+                    {
+                      "clickTrackingParams": "CAAQhGciEwiBk86VzsvpAhVHycQKHQ6mCsM=",
+                      "addToToastAction": {
+                        "item": {
+                          "notificationTextRenderer": {
+                            "successResponseText": {
+                              "runs": [
+                                {
+                                  "text": "Album added to queue"
+                                }
+                              ]
+                            },
+                            "trackingParams": "CBIQyscDIhMIgZPOlc7L6QIVR8nECh0OpgrD"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "menuItemRendererMold": {
+                "menuNavigationItemRenderer": {
+                  "text": {
+                    "runs": [
+                      {
+                        "text": "Share"
+                      }
+                    ]
+                  },
+                  "icon": {
+                    "iconType": "SHARE"
+                  },
+                  "trackingParams": "CAAQhGciEwiBk86VzsvpAhVHycQKHQ6mCsM="
+                }
+              },
+              "endpointMold": {
+                "shareEntityEndpoint": {
+                  "hack": true
+                }
+              }
+            },
+            {
+              "menuItemRendererMold": {
+                "menuNavigationItemRenderer": {
+                  "text": {
+                    "runs": [
+                      {
+                        "text": "Start radio"
+                      }
+                    ]
+                  },
+                  "icon": {
+                    "iconType": "MIX"
+                  },
+                  "trackingParams": "CAAQhGciEwiBk86VzsvpAhVHycQKHQ6mCsM="
+                }
+              },
+              "endpointMold": {
+                "watchEndpointRadio": {
+                  "continuePlayback": true
+                }
+              }
+            },
+            {
+              "menuItemRendererMold": {
+                "menuNavigationItemRenderer": {
+                  "text": {
+                    "runs": [
+                      {
+                        "text": "Add to playlist"
+                      }
+                    ]
+                  },
+                  "icon": {
+                    "iconType": "ADD_TO_PLAYLIST"
+                  },
+                  "trackingParams": "CAAQhGciEwiBk86VzsvpAhVHycQKHQ6mCsM="
+                }
+              },
+              "endpointMold": {
+                "modalEndpoint": {
+                  "modal": {
+                    "modalWithTitleAndButtonRenderer": {
+                      "title": {
+                        "runs": [
+                          {
+                            "text": "Save this for later"
+                          }
+                        ]
+                      },
+                      "content": {
+                        "runs": [
+                          {
+                            "text": "Make playlists and share them after signing in"
+                          }
+                        ]
+                      },
+                      "button": {
+                        "buttonRenderer": {
+                          "size": "SIZE_DEFAULT",
+                          "isDisabled": false,
+                          "text": {
+                            "runs": [
+                              {
+                                "text": "Sign in"
+                              }
+                            ]
+                          },
+                          "navigationEndpoint": {
+                            "clickTrackingParams": "CBEQ8FsiEwiBk86VzsvpAhVHycQKHQ6mCsM=",
+                            "signInEndpoint": {
+                              "hack": true
+                            }
+                          },
+                          "trackingParams": "CBEQ8FsiEwiBk86VzsvpAhVHycQKHQ6mCsM=",
+                          "style": "STYLE_BLUE_TEXT"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "dataBoundTopLevelMenuButtons": [
+            {
+              "menuTopLevelItemRendererMold": {
+                "buttonRenderer": {
+                  "text": {
+                    "runs": [
+                      {
+                        "text": "Play"
+                      }
+                    ]
+                  },
+                  "icon": {
+                    "iconType": "PLAY_ARROW"
+                  },
+                  "trackingParams": "CBAQ8FsiEwiBk86VzsvpAhVHycQKHQ6mCsM="
+                }
+              },
+              "endpointMold": {
+                "watchPlaylistEndpoint": {
+                  "hack": true
+                }
+              }
+            },
+            {
+              "menuTopLevelItemRendererMold": {
+                "musicTopLevelMenuItemConditionalRenderer": {
+                  "selectors": [
+                    {
+                      "condition": {
+                        "albumReleaseCondition": {
+                          "albumReleaseIsLiked": "MUSIC_BOOLEAN_CONDITION_FALSE"
+                        }
+                      },
+                      "resultTemplateRenderer": {
+                        "buttonRenderer": {
+                          "text": {
+                            "runs": [
+                              {
+                                "text": "Add to library"
+                              }
+                            ]
+                          },
+                          "serviceEndpoint": {
+                            "clickTrackingParams": "CA8Q8FsiEwiBk86VzsvpAhVHycQKHQ6mCsM=",
+                            "likeEndpoint": {
+                              "actions": [
+                                {
+                                  "clickTrackingParams": "CA8Q8FsiEwiBk86VzsvpAhVHycQKHQ6mCsM=",
+                                  "musicLibraryStatusUpdateCommand": {
+                                    "libraryStatus": "MUSIC_LIBRARY_STATUS_HIDE"
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "icon": {
+                            "iconType": "LIBRARY_ADD"
+                          },
+                          "accessibility": {
+                            "label": "Add to library"
+                          },
+                          "trackingParams": "CA8Q8FsiEwiBk86VzsvpAhVHycQKHQ6mCsM="
+                        }
+                      }
+                    },
+                    {
+                      "condition": {
+                        "albumReleaseCondition": {
+                          "albumReleaseIsLiked": "MUSIC_BOOLEAN_CONDITION_TRUE"
+                        }
+                      },
+                      "resultTemplateRenderer": {
+                        "buttonRenderer": {
+                          "text": {
+                            "runs": [
+                              {
+                                "text": "Remove from library"
+                              }
+                            ]
+                          },
+                          "serviceEndpoint": {
+                            "clickTrackingParams": "CA4Q8FsiEwiBk86VzsvpAhVHycQKHQ6mCsM=",
+                            "likeEndpoint": {
+                              "actions": [
+                                {
+                                  "clickTrackingParams": "CA4Q8FsiEwiBk86VzsvpAhVHycQKHQ6mCsM=",
+                                  "musicLibraryStatusUpdateCommand": {
+                                    "libraryStatus": "MUSIC_LIBRARY_STATUS_NOT_IN_LIBRARY"
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "icon": {
+                            "iconType": "LIBRARY_REMOVE"
+                          },
+                          "accessibility": {
+                            "label": "Remove from library"
+                          },
+                          "trackingParams": "CA4Q8FsiEwiBk86VzsvpAhVHycQKHQ6mCsM="
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "endpointMold": {
+                "modalEndpoint": {
+                  "modal": {
+                    "modalWithTitleAndButtonRenderer": {
+                      "title": {
+                        "runs": [
+                          {
+                            "text": "Save this for later"
+                          }
+                        ]
+                      },
+                      "content": {
+                        "runs": [
+                          {
+                            "text": "Add favorites to your library after signing in"
+                          }
+                        ]
+                      },
+                      "button": {
+                        "buttonRenderer": {
+                          "size": "SIZE_DEFAULT",
+                          "isDisabled": false,
+                          "text": {
+                            "runs": [
+                              {
+                                "text": "Sign in"
+                              }
+                            ]
+                          },
+                          "navigationEndpoint": {
+                            "clickTrackingParams": "CA0Q8FsiEwiBk86VzsvpAhVHycQKHQ6mCsM=",
+                            "signInEndpoint": {
+                              "hack": true
+                            }
+                          },
+                          "trackingParams": "CA0Q8FsiEwiBk86VzsvpAhVHycQKHQ6mCsM=",
+                          "style": "STYLE_BLUE_TEXT"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "moreButton": {
+        "toggleButtonRenderer": {
+          "isToggled": false,
+          "isDisabled": false,
+          "defaultIcon": {
+            "iconType": "EXPAND"
+          },
+          "defaultText": {
+            "runs": [
+              {
+                "text": "More"
+              }
+            ]
+          },
+          "toggledIcon": {
+            "iconType": "COLLAPSE"
+          },
+          "toggledText": {
+            "runs": [
+              {
+                "text": "Less"
+              }
+            ]
+          },
+          "trackingParams": "CAwQmE0iEwiBk86VzsvpAhVHycQKHQ6mCsM="
+        }
+      }
+    }
+  },
+  "trackingParams": "CAAQhGciEwiBk86VzsvpAhVHycQKHQ6mCsM=",
+  "frameworkUpdates": {
+    "entityBatchUpdate": {
+      "mutations": [
+        {
+          "entityKey": "Eg1iX09Qa293emlUZHpjIBEoAQ%3D%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicAlbumRelease": {
+              "id": "Eg1iX09Qa293emlUZHpjIBEoAQ%3D%3D",
+              "title": "Cumbiana",
+              "thumbnailDetails": {
+                "thumbnails": [
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w60-h60-l90-rj",
+                    "width": 60,
+                    "height": 60
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w120-h120-l90-rj",
+                    "width": 120,
+                    "height": 120
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w180-h180-l90-rj",
+                    "width": 180,
+                    "height": 180
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w226-h226-l90-rj",
+                    "width": 226,
+                    "height": 226
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w302-h302-l90-rj",
+                    "width": 302,
+                    "height": 302
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w544-h544-l90-rj",
+                    "width": 544,
+                    "height": 544
+                  }
+                ]
+              },
+              "primaryArtists": [
+                "EhhVQzRtaEJYTFpYTFNmZmhWc3JTc1RkQ1EgFCgB"
+              ],
+              "details": "Eg1iX09Qa293emlUZHpjIBIoAQ%3D%3D",
+              "audioPlaylistId": "OLAK5uy_n4RuaabwvqRrSaPGHkLAz5i3V3PtWHN4U",
+              "userDetails": "Eg1iX09Qa293emlUZHpjIBMoAQ%3D%3D",
+              "trackCount": "10",
+              "artistDisplayName": "Carlos Vives",
+              "durationMs": "2286000",
+              "releaseDate": {
+                "year": 2020,
+                "month": 5,
+                "day": 22
+              },
+              "contentRating": {
+                "explicitType": "MUSIC_ENTITY_EXPLICIT_TYPE_NOT_EXPLICIT"
+              },
+              "releaseType": "MUSIC_RELEASE_TYPE_ALBUM",
+              "radioPlaylistMixPlaylistId": "RDAMPLOLAK5uy_n4RuaabwvqRrSaPGHkLAz5i3V3PtWHN4U",
+              "radioAutomixPlaylistId": "RDAMPLOLAK5uy_n4RuaabwvqRrSaPGHkLAz5i3V3PtWHN4U",
+              "share": "EilPTEFLNXV5X240UnVhYWJ3dnFSclNhUEdIa0xBejVpM1YzUHRXSE40VSBkKAE%3D",
+              "loggingDirectives": {
+                "trackingParams": "CAsQnNUCIhMIgZPOlc7L6QIVR8nECh0OpgrD"
+              }
+            }
+          }
+        },
+        {
+          "entityKey": "Eg1iX09Qa293emlUZHpjIBIoAQ%3D%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicAlbumReleaseDetail": {
+              "id": "Eg1iX09Qa293emlUZHpjIBIoAQ%3D%3D",
+              "description": "",
+              "tracks": [
+                "EhdFb0xYdzBfc0dVa3xFb0xYdzBfc0dVayAcKAE%3D",
+                "EhdGQm9zZFktaF9sb3w4bDA3SU5aa05BTSAcKAE%3D",
+                "Ehdnemt0cjJXNUQ2d3w4bURRYTEwZDE2WSAcKAE%3D",
+                "EhdNd3Bzb19ua0JTb3w5emJfektyNkQtdyAcKAE%3D",
+                "EhdhejJsQmRSOHYyTXxhejJsQmRSOHYyTSAcKAE%3D",
+                "EhdKQmg4aS1SV3ZsWXxKQmg4aS1SV3ZsWSAcKAE%3D",
+                "Ehc4cTF4bXhEb0s3NHw4cTF4bXhEb0s3NCAcKAE%3D",
+                "Ehd4QVQ2ZVE2SWNKRXx4QVQ2ZVE2SWNKRSAcKAE%3D",
+                "EhdhbUxaQXZ1dlM4QXxhbUxaQXZ1dlM4QSAcKAE%3D",
+                "Ehd0bHJCT3JhSm92MHx0bHJCT3JhSm92MCAcKAE%3D"
+              ]
+            }
+          }
+        },
+        {
+          "entityKey": "Eg1iX09Qa293emlUZHpjIBMoAQ%3D%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicAlbumReleaseUserDetail": {
+              "id": "Eg1iX09Qa293emlUZHpjIBMoAQ%3D%3D",
+              "inLibrary": false,
+              "albumRelease": "Eg1iX09Qa293emlUZHpjIBEoAQ%3D%3D"
+            }
+          }
+        },
+        {
+          "entityKey": "EhhVQzRtaEJYTFpYTFNmZmhWc3JTc1RkQ1EgFCgB",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicArtist": {
+              "id": "EhhVQzRtaEJYTFpYTFNmZmhWc3JTc1RkQ1EgFCgB",
+              "name": "Carlos Vives",
+              "thumbnailDetails": {
+                "thumbnails": [
+                  {
+                    "url": "https://lh3.googleusercontent.com/pMSoVKc4QCiLZ8LpGYUa0gXAeL-juqnc-iPTenLFQ5slNnmdczNhAlIQqTbcjSoF5buG6CwSFw=w60-h60-l90-rj",
+                    "width": 60,
+                    "height": 60
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/pMSoVKc4QCiLZ8LpGYUa0gXAeL-juqnc-iPTenLFQ5slNnmdczNhAlIQqTbcjSoF5buG6CwSFw=w120-h120-l90-rj",
+                    "width": 120,
+                    "height": 120
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/pMSoVKc4QCiLZ8LpGYUa0gXAeL-juqnc-iPTenLFQ5slNnmdczNhAlIQqTbcjSoF5buG6CwSFw=w180-h180-l90-rj",
+                    "width": 180,
+                    "height": 180
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/pMSoVKc4QCiLZ8LpGYUa0gXAeL-juqnc-iPTenLFQ5slNnmdczNhAlIQqTbcjSoF5buG6CwSFw=w226-h226-l90-rj",
+                    "width": 226,
+                    "height": 226
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/pMSoVKc4QCiLZ8LpGYUa0gXAeL-juqnc-iPTenLFQ5slNnmdczNhAlIQqTbcjSoF5buG6CwSFw=w302-h302-l90-rj",
+                    "width": 302,
+                    "height": 302
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/pMSoVKc4QCiLZ8LpGYUa0gXAeL-juqnc-iPTenLFQ5slNnmdczNhAlIQqTbcjSoF5buG6CwSFw=w544-h544-l90-rj",
+                    "width": 544,
+                    "height": 544
+                  }
+                ]
+              },
+              "externalChannelId": "UC4mhBXLZXLSffhVsrSsTdCQ",
+              "details": "EhhVQzRtaEJYTFpYTFNmZmhWc3JTc1RkQ1EgFSgB",
+              "userDetails": "EhhVQzRtaEJYTFpYTFNmZmhWc3JTc1RkQ1EgFigB"
+            }
+          }
+        },
+        {
+          "entityKey": "Egs4cTF4bXhEb0s3NCBkKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicShare": {
+              "id": "Egs4cTF4bXhEb0s3NCBkKAE%3D",
+              "serializedShareEntity": "Cgs4cTF4bXhEb0s3NA%3D%3D"
+            }
+          }
+        },
+        {
+          "entityKey": "Egt0bHJCT3JhSm92MCBkKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicShare": {
+              "id": "Egt0bHJCT3JhSm92MCBkKAE%3D",
+              "serializedShareEntity": "Cgt0bHJCT3JhSm92MA%3D%3D"
+            }
+          }
+        },
+        {
+          "entityKey": "Egt4QVQ2ZVE2SWNKRSBkKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicShare": {
+              "id": "Egt4QVQ2ZVE2SWNKRSBkKAE%3D",
+              "serializedShareEntity": "Cgt4QVQ2ZVE2SWNKRQ%3D%3D"
+            }
+          }
+        },
+        {
+          "entityKey": "EgtFb0xYdzBfc0dVayBkKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicShare": {
+              "id": "EgtFb0xYdzBfc0dVayBkKAE%3D",
+              "serializedShareEntity": "CgtFb0xYdzBfc0dVaw%3D%3D"
+            }
+          }
+        },
+        {
+          "entityKey": "EgtGQm9zZFktaF9sbyBkKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicShare": {
+              "id": "EgtGQm9zZFktaF9sbyBkKAE%3D",
+              "serializedShareEntity": "CgtGQm9zZFktaF9sbw%3D%3D"
+            }
+          }
+        },
+        {
+          "entityKey": "EgtKQmg4aS1SV3ZsWSBkKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicShare": {
+              "id": "EgtKQmg4aS1SV3ZsWSBkKAE%3D",
+              "serializedShareEntity": "CgtKQmg4aS1SV3ZsWQ%3D%3D"
+            }
+          }
+        },
+        {
+          "entityKey": "EgtNd3Bzb19ua0JTbyBkKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicShare": {
+              "id": "EgtNd3Bzb19ua0JTbyBkKAE%3D",
+              "serializedShareEntity": "CgtNd3Bzb19ua0JTbw%3D%3D"
+            }
+          }
+        },
+        {
+          "entityKey": "EgthbUxaQXZ1dlM4QSBkKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicShare": {
+              "id": "EgthbUxaQXZ1dlM4QSBkKAE%3D",
+              "serializedShareEntity": "CgthbUxaQXZ1dlM4QQ%3D%3D"
+            }
+          }
+        },
+        {
+          "entityKey": "EgthejJsQmRSOHYyTSBkKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicShare": {
+              "id": "EgthejJsQmRSOHYyTSBkKAE%3D",
+              "serializedShareEntity": "CgthejJsQmRSOHYyTQ%3D%3D"
+            }
+          }
+        },
+        {
+          "entityKey": "Egtnemt0cjJXNUQ2dyBkKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicShare": {
+              "id": "Egtnemt0cjJXNUQ2dyBkKAE%3D",
+              "serializedShareEntity": "Cgtnemt0cjJXNUQ2dw%3D%3D"
+            }
+          }
+        },
+        {
+          "entityKey": "EilPTEFLNXV5X240UnVhYWJ3dnFSclNhUEdIa0xBejVpM1YzUHRXSE40VSBkKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicShare": {
+              "id": "EilPTEFLNXV5X240UnVhYWJ3dnFSclNhUEdIa0xBejVpM1YzUHRXSE40VSBkKAE%3D",
+              "serializedShareEntity": "EilPTEFLNXV5X240UnVhYWJ3dnFSclNhUEdIa0xBejVpM1YzUHRXSE40VQ%3D%3D"
+            }
+          }
+        },
+        {
+          "entityKey": "Ehc4cTF4bXhEb0s3NHw4cTF4bXhEb0s3NCAcKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicTrack": {
+              "id": "Ehc4cTF4bXhEb0s3NHw4cTF4bXhEb0s3NCAcKAE%3D",
+              "title": "Los Consejos del Difunto",
+              "thumbnailDetails": {
+                "thumbnails": [
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w60-h60-l90-rj",
+                    "width": 60,
+                    "height": 60
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w120-h120-l90-rj",
+                    "width": 120,
+                    "height": 120
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w180-h180-l90-rj",
+                    "width": 180,
+                    "height": 180
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w226-h226-l90-rj",
+                    "width": 226,
+                    "height": 226
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w302-h302-l90-rj",
+                    "width": 302,
+                    "height": 302
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w544-h544-l90-rj",
+                    "width": 544,
+                    "height": 544
+                  }
+                ]
+              },
+              "artistNames": "Carlos Vives",
+              "videoId": "8q1xmxDoK74",
+              "audioModeVersion": "Ehc4cTF4bXhEb0s3NHw4cTF4bXhEb0s3NCAcKAE%3D",
+              "userDetails": "Ehc4cTF4bXhEb0s3NHw4cTF4bXhEb0s3NCAeKAE%3D",
+              "details": "Ehc4cTF4bXhEb0s3NHw4cTF4bXhEb0s3NCAdKAE%3D",
+              "albumRelease": "Eg1iX09Qa293emlUZHpjIBEoAQ%3D%3D",
+              "albumTrackIndex": "7",
+              "lengthMs": "211000",
+              "contentRating": {
+                "explicitType": "MUSIC_ENTITY_EXPLICIT_TYPE_NOT_EXPLICIT"
+              },
+              "share": "Egs4cTF4bXhEb0s3NCBkKAE%3D",
+              "loggingDirectives": {
+                "trackingParams": "CAoQodUCIhMIgZPOlc7L6QIVR8nECh0OpgrD"
+              }
+            }
+          }
+        },
+        {
+          "entityKey": "Ehd0bHJCT3JhSm92MHx0bHJCT3JhSm92MCAcKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicTrack": {
+              "id": "Ehd0bHJCT3JhSm92MHx0bHJCT3JhSm92MCAcKAE%3D",
+              "title": "Zhigonezhi",
+              "thumbnailDetails": {
+                "thumbnails": [
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w60-h60-l90-rj",
+                    "width": 60,
+                    "height": 60
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w120-h120-l90-rj",
+                    "width": 120,
+                    "height": 120
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w180-h180-l90-rj",
+                    "width": 180,
+                    "height": 180
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w226-h226-l90-rj",
+                    "width": 226,
+                    "height": 226
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w302-h302-l90-rj",
+                    "width": 302,
+                    "height": 302
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w544-h544-l90-rj",
+                    "width": 544,
+                    "height": 544
+                  }
+                ]
+              },
+              "artistNames": "Carlos Vives",
+              "videoId": "tlrBOraJov0",
+              "audioModeVersion": "Ehd0bHJCT3JhSm92MHx0bHJCT3JhSm92MCAcKAE%3D",
+              "userDetails": "Ehd0bHJCT3JhSm92MHx0bHJCT3JhSm92MCAeKAE%3D",
+              "details": "Ehd0bHJCT3JhSm92MHx0bHJCT3JhSm92MCAdKAE%3D",
+              "albumRelease": "Eg1iX09Qa293emlUZHpjIBEoAQ%3D%3D",
+              "albumTrackIndex": "10",
+              "lengthMs": "242000",
+              "contentRating": {
+                "explicitType": "MUSIC_ENTITY_EXPLICIT_TYPE_NOT_EXPLICIT"
+              },
+              "share": "Egt0bHJCT3JhSm92MCBkKAE%3D",
+              "loggingDirectives": {
+                "trackingParams": "CAkQodUCIhMIgZPOlc7L6QIVR8nECh0OpgrD"
+              }
+            }
+          }
+        },
+        {
+          "entityKey": "Ehd4QVQ2ZVE2SWNKRXx4QVQ2ZVE2SWNKRSAcKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicTrack": {
+              "id": "Ehd4QVQ2ZVE2SWNKRXx4QVQ2ZVE2SWNKRSAcKAE%3D",
+              "title": "Rapsodia en La Mayor (para Elena)",
+              "thumbnailDetails": {
+                "thumbnails": [
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w60-h60-l90-rj",
+                    "width": 60,
+                    "height": 60
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w120-h120-l90-rj",
+                    "width": 120,
+                    "height": 120
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w180-h180-l90-rj",
+                    "width": 180,
+                    "height": 180
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w226-h226-l90-rj",
+                    "width": 226,
+                    "height": 226
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w302-h302-l90-rj",
+                    "width": 302,
+                    "height": 302
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w544-h544-l90-rj",
+                    "width": 544,
+                    "height": 544
+                  }
+                ]
+              },
+              "artistNames": "Carlos Vives",
+              "videoId": "xAT6eQ6IcJE",
+              "audioModeVersion": "Ehd4QVQ2ZVE2SWNKRXx4QVQ2ZVE2SWNKRSAcKAE%3D",
+              "userDetails": "Ehd4QVQ2ZVE2SWNKRXx4QVQ2ZVE2SWNKRSAeKAE%3D",
+              "details": "Ehd4QVQ2ZVE2SWNKRXx4QVQ2ZVE2SWNKRSAdKAE%3D",
+              "albumRelease": "Eg1iX09Qa293emlUZHpjIBEoAQ%3D%3D",
+              "albumTrackIndex": "8",
+              "lengthMs": "242000",
+              "contentRating": {
+                "explicitType": "MUSIC_ENTITY_EXPLICIT_TYPE_NOT_EXPLICIT"
+              },
+              "share": "Egt4QVQ2ZVE2SWNKRSBkKAE%3D",
+              "loggingDirectives": {
+                "trackingParams": "CAgQodUCIhMIgZPOlc7L6QIVR8nECh0OpgrD"
+              }
+            }
+          }
+        },
+        {
+          "entityKey": "EhdFb0xYdzBfc0dVa3xFb0xYdzBfc0dVayAcKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicTrack": {
+              "id": "EhdFb0xYdzBfc0dVa3xFb0xYdzBfc0dVayAcKAE%3D",
+              "title": "Hechicera",
+              "thumbnailDetails": {
+                "thumbnails": [
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w60-h60-l90-rj",
+                    "width": 60,
+                    "height": 60
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w120-h120-l90-rj",
+                    "width": 120,
+                    "height": 120
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w180-h180-l90-rj",
+                    "width": 180,
+                    "height": 180
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w226-h226-l90-rj",
+                    "width": 226,
+                    "height": 226
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w302-h302-l90-rj",
+                    "width": 302,
+                    "height": 302
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w544-h544-l90-rj",
+                    "width": 544,
+                    "height": 544
+                  }
+                ]
+              },
+              "artistNames": "Carlos Vives",
+              "videoId": "EoLXw0_sGUk",
+              "audioModeVersion": "EhdFb0xYdzBfc0dVa3xFb0xYdzBfc0dVayAcKAE%3D",
+              "userDetails": "EhdFb0xYdzBfc0dVa3xFb0xYdzBfc0dVayAeKAE%3D",
+              "details": "EhdFb0xYdzBfc0dVa3xFb0xYdzBfc0dVayAdKAE%3D",
+              "albumRelease": "Eg1iX09Qa293emlUZHpjIBEoAQ%3D%3D",
+              "albumTrackIndex": "1",
+              "lengthMs": "217000",
+              "contentRating": {
+                "explicitType": "MUSIC_ENTITY_EXPLICIT_TYPE_NOT_EXPLICIT"
+              },
+              "share": "EgtFb0xYdzBfc0dVayBkKAE%3D",
+              "loggingDirectives": {
+                "trackingParams": "CAcQodUCIhMIgZPOlc7L6QIVR8nECh0OpgrD"
+              }
+            }
+          }
+        },
+        {
+          "entityKey": "EhdGQm9zZFktaF9sb3w4bDA3SU5aa05BTSAcKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicTrack": {
+              "id": "EhdGQm9zZFktaF9sb3w4bDA3SU5aa05BTSAcKAE%3D",
+              "title": "No Te Vayas",
+              "thumbnailDetails": {
+                "thumbnails": [
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w60-h60-l90-rj",
+                    "width": 60,
+                    "height": 60
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w120-h120-l90-rj",
+                    "width": 120,
+                    "height": 120
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w180-h180-l90-rj",
+                    "width": 180,
+                    "height": 180
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w226-h226-l90-rj",
+                    "width": 226,
+                    "height": 226
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w302-h302-l90-rj",
+                    "width": 302,
+                    "height": 302
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w544-h544-l90-rj",
+                    "width": 544,
+                    "height": 544
+                  }
+                ]
+              },
+              "artistNames": "Carlos Vives",
+              "videoId": "FBosdY-h_lo",
+              "audioModeVersion": "EhdGQm9zZFktaF9sb3w4bDA3SU5aa05BTSAcKAE%3D",
+              "userDetails": "EhdGQm9zZFktaF9sb3w4bDA3SU5aa05BTSAeKAE%3D",
+              "details": "EhdGQm9zZFktaF9sb3w4bDA3SU5aa05BTSAdKAE%3D",
+              "albumRelease": "Eg1iX09Qa293emlUZHpjIBEoAQ%3D%3D",
+              "albumTrackIndex": "2",
+              "lengthMs": "226000",
+              "contentRating": {
+                "explicitType": "MUSIC_ENTITY_EXPLICIT_TYPE_NOT_EXPLICIT"
+              },
+              "share": "EgtGQm9zZFktaF9sbyBkKAE%3D",
+              "loggingDirectives": {
+                "trackingParams": "CAYQodUCIhMIgZPOlc7L6QIVR8nECh0OpgrD"
+              }
+            }
+          }
+        },
+        {
+          "entityKey": "EhdKQmg4aS1SV3ZsWXxKQmg4aS1SV3ZsWSAcKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicTrack": {
+              "id": "EhdKQmg4aS1SV3ZsWXxKQmg4aS1SV3ZsWSAcKAE%3D",
+              "title": "Vitamina En Rama",
+              "thumbnailDetails": {
+                "thumbnails": [
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w60-h60-l90-rj",
+                    "width": 60,
+                    "height": 60
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w120-h120-l90-rj",
+                    "width": 120,
+                    "height": 120
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w180-h180-l90-rj",
+                    "width": 180,
+                    "height": 180
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w226-h226-l90-rj",
+                    "width": 226,
+                    "height": 226
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w302-h302-l90-rj",
+                    "width": 302,
+                    "height": 302
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w544-h544-l90-rj",
+                    "width": 544,
+                    "height": 544
+                  }
+                ]
+              },
+              "artistNames": "Carlos Vives",
+              "videoId": "JBh8i-RWvlY",
+              "audioModeVersion": "EhdKQmg4aS1SV3ZsWXxKQmg4aS1SV3ZsWSAcKAE%3D",
+              "userDetails": "EhdKQmg4aS1SV3ZsWXxKQmg4aS1SV3ZsWSAeKAE%3D",
+              "details": "EhdKQmg4aS1SV3ZsWXxKQmg4aS1SV3ZsWSAdKAE%3D",
+              "albumRelease": "Eg1iX09Qa293emlUZHpjIBEoAQ%3D%3D",
+              "albumTrackIndex": "6",
+              "lengthMs": "213000",
+              "contentRating": {
+                "explicitType": "MUSIC_ENTITY_EXPLICIT_TYPE_NOT_EXPLICIT"
+              },
+              "share": "EgtKQmg4aS1SV3ZsWSBkKAE%3D",
+              "loggingDirectives": {
+                "trackingParams": "CAUQodUCIhMIgZPOlc7L6QIVR8nECh0OpgrD"
+              }
+            }
+          }
+        },
+        {
+          "entityKey": "EhdNd3Bzb19ua0JTb3w5emJfektyNkQtdyAcKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicTrack": {
+              "id": "EhdNd3Bzb19ua0JTb3w5emJfektyNkQtdyAcKAE%3D",
+              "title": "El Hilo",
+              "thumbnailDetails": {
+                "thumbnails": [
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w60-h60-l90-rj",
+                    "width": 60,
+                    "height": 60
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w120-h120-l90-rj",
+                    "width": 120,
+                    "height": 120
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w180-h180-l90-rj",
+                    "width": 180,
+                    "height": 180
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w226-h226-l90-rj",
+                    "width": 226,
+                    "height": 226
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w302-h302-l90-rj",
+                    "width": 302,
+                    "height": 302
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w544-h544-l90-rj",
+                    "width": 544,
+                    "height": 544
+                  }
+                ]
+              },
+              "artistNames": "Carlos Vives",
+              "videoId": "Mwpso_nkBSo",
+              "audioModeVersion": "EhdNd3Bzb19ua0JTb3w5emJfektyNkQtdyAcKAE%3D",
+              "userDetails": "EhdNd3Bzb19ua0JTb3w5emJfektyNkQtdyAeKAE%3D",
+              "details": "EhdNd3Bzb19ua0JTb3w5emJfektyNkQtdyAdKAE%3D",
+              "albumRelease": "Eg1iX09Qa293emlUZHpjIBEoAQ%3D%3D",
+              "albumTrackIndex": "4",
+              "lengthMs": "229000",
+              "contentRating": {
+                "explicitType": "MUSIC_ENTITY_EXPLICIT_TYPE_NOT_EXPLICIT"
+              },
+              "share": "EgtNd3Bzb19ua0JTbyBkKAE%3D",
+              "loggingDirectives": {
+                "trackingParams": "CAQQodUCIhMIgZPOlc7L6QIVR8nECh0OpgrD"
+              }
+            }
+          }
+        },
+        {
+          "entityKey": "EhdhbUxaQXZ1dlM4QXxhbUxaQXZ1dlM4QSAcKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicTrack": {
+              "id": "EhdhbUxaQXZ1dlM4QXxhbUxaQXZ1dlM4QSAcKAE%3D",
+              "title": "Cumbiana",
+              "thumbnailDetails": {
+                "thumbnails": [
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w60-h60-l90-rj",
+                    "width": 60,
+                    "height": 60
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w120-h120-l90-rj",
+                    "width": 120,
+                    "height": 120
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w180-h180-l90-rj",
+                    "width": 180,
+                    "height": 180
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w226-h226-l90-rj",
+                    "width": 226,
+                    "height": 226
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w302-h302-l90-rj",
+                    "width": 302,
+                    "height": 302
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w544-h544-l90-rj",
+                    "width": 544,
+                    "height": 544
+                  }
+                ]
+              },
+              "artistNames": "Carlos Vives",
+              "videoId": "amLZAvuvS8A",
+              "audioModeVersion": "EhdhbUxaQXZ1dlM4QXxhbUxaQXZ1dlM4QSAcKAE%3D",
+              "userDetails": "EhdhbUxaQXZ1dlM4QXxhbUxaQXZ1dlM4QSAeKAE%3D",
+              "details": "EhdhbUxaQXZ1dlM4QXxhbUxaQXZ1dlM4QSAdKAE%3D",
+              "albumRelease": "Eg1iX09Qa293emlUZHpjIBEoAQ%3D%3D",
+              "albumTrackIndex": "9",
+              "lengthMs": "238000",
+              "contentRating": {
+                "explicitType": "MUSIC_ENTITY_EXPLICIT_TYPE_NOT_EXPLICIT"
+              },
+              "share": "EgthbUxaQXZ1dlM4QSBkKAE%3D",
+              "loggingDirectives": {
+                "trackingParams": "CAMQodUCIhMIgZPOlc7L6QIVR8nECh0OpgrD"
+              }
+            }
+          }
+        },
+        {
+          "entityKey": "EhdhejJsQmRSOHYyTXxhejJsQmRSOHYyTSAcKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicTrack": {
+              "id": "EhdhejJsQmRSOHYyTXxhejJsQmRSOHYyTSAcKAE%3D",
+              "title": "Canción para Rubén",
+              "thumbnailDetails": {
+                "thumbnails": [
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w60-h60-l90-rj",
+                    "width": 60,
+                    "height": 60
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w120-h120-l90-rj",
+                    "width": 120,
+                    "height": 120
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w180-h180-l90-rj",
+                    "width": 180,
+                    "height": 180
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w226-h226-l90-rj",
+                    "width": 226,
+                    "height": 226
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w302-h302-l90-rj",
+                    "width": 302,
+                    "height": 302
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w544-h544-l90-rj",
+                    "width": 544,
+                    "height": 544
+                  }
+                ]
+              },
+              "artistNames": "Carlos Vives",
+              "videoId": "az2lBdR8v2M",
+              "audioModeVersion": "EhdhejJsQmRSOHYyTXxhejJsQmRSOHYyTSAcKAE%3D",
+              "userDetails": "EhdhejJsQmRSOHYyTXxhejJsQmRSOHYyTSAeKAE%3D",
+              "details": "EhdhejJsQmRSOHYyTXxhejJsQmRSOHYyTSAdKAE%3D",
+              "albumRelease": "Eg1iX09Qa293emlUZHpjIBEoAQ%3D%3D",
+              "albumTrackIndex": "5",
+              "lengthMs": "251000",
+              "contentRating": {
+                "explicitType": "MUSIC_ENTITY_EXPLICIT_TYPE_NOT_EXPLICIT"
+              },
+              "share": "EgthejJsQmRSOHYyTSBkKAE%3D",
+              "loggingDirectives": {
+                "trackingParams": "CAIQodUCIhMIgZPOlc7L6QIVR8nECh0OpgrD"
+              }
+            }
+          }
+        },
+        {
+          "entityKey": "Ehdnemt0cjJXNUQ2d3w4bURRYTEwZDE2WSAcKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicTrack": {
+              "id": "Ehdnemt0cjJXNUQ2d3w4bURRYTEwZDE2WSAcKAE%3D",
+              "title": "For Sale",
+              "thumbnailDetails": {
+                "thumbnails": [
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w60-h60-l90-rj",
+                    "width": 60,
+                    "height": 60
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w120-h120-l90-rj",
+                    "width": 120,
+                    "height": 120
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w180-h180-l90-rj",
+                    "width": 180,
+                    "height": 180
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w226-h226-l90-rj",
+                    "width": 226,
+                    "height": 226
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w302-h302-l90-rj",
+                    "width": 302,
+                    "height": 302
+                  },
+                  {
+                    "url": "https://lh3.googleusercontent.com/75TjGxEFVLKj4ZTTxppu8mIJ3GUcbe261ghO6WUdhLSKtoLVzCcnuWu-qFKMyrgNox5iEE07nIuJRr8=w544-h544-l90-rj",
+                    "width": 544,
+                    "height": 544
+                  }
+                ]
+              },
+              "artistNames": "Carlos Vives",
+              "videoId": "gzktr2W5D6w",
+              "audioModeVersion": "Ehdnemt0cjJXNUQ2d3w4bURRYTEwZDE2WSAcKAE%3D",
+              "userDetails": "Ehdnemt0cjJXNUQ2d3w4bURRYTEwZDE2WSAeKAE%3D",
+              "details": "Ehdnemt0cjJXNUQ2d3w4bURRYTEwZDE2WSAdKAE%3D",
+              "albumRelease": "Eg1iX09Qa293emlUZHpjIBEoAQ%3D%3D",
+              "albumTrackIndex": "3",
+              "lengthMs": "217000",
+              "contentRating": {
+                "explicitType": "MUSIC_ENTITY_EXPLICIT_TYPE_NOT_EXPLICIT"
+              },
+              "share": "Egtnemt0cjJXNUQ2dyBkKAE%3D",
+              "loggingDirectives": {
+                "trackingParams": "CAEQodUCIhMIgZPOlc7L6QIVR8nECh0OpgrD"
+              }
+            }
+          }
+        },
+        {
+          "entityKey": "Ehc4cTF4bXhEb0s3NHw4cTF4bXhEb0s3NCAeKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicTrackUserDetail": {
+              "id": "Ehc4cTF4bXhEb0s3NHw4cTF4bXhEb0s3NCAeKAE%3D",
+              "parentTrack": "Ehc4cTF4bXhEb0s3NHw4cTF4bXhEb0s3NCAcKAE%3D",
+              "likeState": "MUSIC_ENTITY_LIKE_STATE_UNKNOWN"
+            }
+          }
+        },
+        {
+          "entityKey": "Ehd0bHJCT3JhSm92MHx0bHJCT3JhSm92MCAeKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicTrackUserDetail": {
+              "id": "Ehd0bHJCT3JhSm92MHx0bHJCT3JhSm92MCAeKAE%3D",
+              "parentTrack": "Ehd0bHJCT3JhSm92MHx0bHJCT3JhSm92MCAcKAE%3D",
+              "likeState": "MUSIC_ENTITY_LIKE_STATE_UNKNOWN"
+            }
+          }
+        },
+        {
+          "entityKey": "Ehd4QVQ2ZVE2SWNKRXx4QVQ2ZVE2SWNKRSAeKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicTrackUserDetail": {
+              "id": "Ehd4QVQ2ZVE2SWNKRXx4QVQ2ZVE2SWNKRSAeKAE%3D",
+              "parentTrack": "Ehd4QVQ2ZVE2SWNKRXx4QVQ2ZVE2SWNKRSAcKAE%3D",
+              "likeState": "MUSIC_ENTITY_LIKE_STATE_UNKNOWN"
+            }
+          }
+        },
+        {
+          "entityKey": "EhdFb0xYdzBfc0dVa3xFb0xYdzBfc0dVayAeKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicTrackUserDetail": {
+              "id": "EhdFb0xYdzBfc0dVa3xFb0xYdzBfc0dVayAeKAE%3D",
+              "parentTrack": "EhdFb0xYdzBfc0dVa3xFb0xYdzBfc0dVayAcKAE%3D",
+              "likeState": "MUSIC_ENTITY_LIKE_STATE_UNKNOWN"
+            }
+          }
+        },
+        {
+          "entityKey": "EhdGQm9zZFktaF9sb3w4bDA3SU5aa05BTSAeKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicTrackUserDetail": {
+              "id": "EhdGQm9zZFktaF9sb3w4bDA3SU5aa05BTSAeKAE%3D",
+              "parentTrack": "EhdGQm9zZFktaF9sb3w4bDA3SU5aa05BTSAcKAE%3D",
+              "likeState": "MUSIC_ENTITY_LIKE_STATE_UNKNOWN"
+            }
+          }
+        },
+        {
+          "entityKey": "EhdKQmg4aS1SV3ZsWXxKQmg4aS1SV3ZsWSAeKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicTrackUserDetail": {
+              "id": "EhdKQmg4aS1SV3ZsWXxKQmg4aS1SV3ZsWSAeKAE%3D",
+              "parentTrack": "EhdKQmg4aS1SV3ZsWXxKQmg4aS1SV3ZsWSAcKAE%3D",
+              "likeState": "MUSIC_ENTITY_LIKE_STATE_UNKNOWN"
+            }
+          }
+        },
+        {
+          "entityKey": "EhdNd3Bzb19ua0JTb3w5emJfektyNkQtdyAeKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicTrackUserDetail": {
+              "id": "EhdNd3Bzb19ua0JTb3w5emJfektyNkQtdyAeKAE%3D",
+              "parentTrack": "EhdNd3Bzb19ua0JTb3w5emJfektyNkQtdyAcKAE%3D",
+              "likeState": "MUSIC_ENTITY_LIKE_STATE_UNKNOWN"
+            }
+          }
+        },
+        {
+          "entityKey": "EhdhbUxaQXZ1dlM4QXxhbUxaQXZ1dlM4QSAeKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicTrackUserDetail": {
+              "id": "EhdhbUxaQXZ1dlM4QXxhbUxaQXZ1dlM4QSAeKAE%3D",
+              "parentTrack": "EhdhbUxaQXZ1dlM4QXxhbUxaQXZ1dlM4QSAcKAE%3D",
+              "likeState": "MUSIC_ENTITY_LIKE_STATE_UNKNOWN"
+            }
+          }
+        },
+        {
+          "entityKey": "EhdhejJsQmRSOHYyTXxhejJsQmRSOHYyTSAeKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicTrackUserDetail": {
+              "id": "EhdhejJsQmRSOHYyTXxhejJsQmRSOHYyTSAeKAE%3D",
+              "parentTrack": "EhdhejJsQmRSOHYyTXxhejJsQmRSOHYyTSAcKAE%3D",
+              "likeState": "MUSIC_ENTITY_LIKE_STATE_UNKNOWN"
+            }
+          }
+        },
+        {
+          "entityKey": "Ehdnemt0cjJXNUQ2d3w4bURRYTEwZDE2WSAeKAE%3D",
+          "type": "ENTITY_MUTATION_TYPE_REPLACE",
+          "payload": {
+            "musicTrackUserDetail": {
+              "id": "Ehdnemt0cjJXNUQ2d3w4bURRYTEwZDE2WSAeKAE%3D",
+              "parentTrack": "Ehdnemt0cjJXNUQ2d3w4bURRYTEwZDE2WSAcKAE%3D",
+              "likeState": "MUSIC_ENTITY_LIKE_STATE_UNKNOWN"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
