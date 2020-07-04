@@ -1,3 +1,4 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -517,6 +518,12 @@ class OpenedTitle extends StatelessWidget {
                 );
               }),
           SizedBox(height: 5),
+          StreamBuilder(
+            stream: AudioService.customEventStream,
+            builder: (context, snapshot) {
+              return Text("custom event: ${snapshot.data}");
+            },
+          ),
           FutureBuilder<String>(
               future: info.futureSubtitle,
               builder: (context, snapshot) {

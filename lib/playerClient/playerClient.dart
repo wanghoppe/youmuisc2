@@ -7,14 +7,14 @@ void main(){
 }
 
 void test() async{
-  final videoId = 'JGwWNGJdvx8';
+  final videoId = 'vj9HvKC_mEU';
   final yt = PlayerClient();
   final mediaStreams = await yt._client.getVideoMediaStream(videoId);
-//  final audio140 = yt._find140(mediaStreams);
-//  final audio251 = yt._find251(mediaStreams);
+  final audio140 = yt._find140(mediaStreams);
+  final audio251 = yt._find251(mediaStreams);
 
-//  print(audio140.container);
-//  print(audio140.audioEncoding);
+  print(audio251.url);
+  print(audio140.url);
 //
 //  print(audio251.container);
 //  print(audio251.audioEncoding);

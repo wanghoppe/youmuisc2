@@ -1,3 +1,4 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -7,6 +8,7 @@ import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 import 'package:youmusic2/client/client.dart';
 import 'package:youmusic2/models/mediaQueryModels.dart';
+import 'package:youmusic2/models/playerModels.dart';
 import 'package:youmusic2/playerClient/playerClient.dart';
 import 'package:youmusic2/views/appScaffoldView.dart';
 import 'models/controllerModels.dart';
@@ -21,6 +23,7 @@ void setup() {
   getIt.registerSingleton<HomeNavigatorController>(
       HomeNavigatorController(getIt<BottomSheetControllerProvider>()));
   getIt.registerSingleton<PlayerClient>(PlayerClient());
+  getIt.registerSingleton<MediaItemMemo>(MediaItemMemo());
 }
 
 void main() {
@@ -49,7 +52,7 @@ class MyApp extends StatelessWidget {
           bodyText2: TextStyle(color: Colors.white54),
         ),
       ),
-      home: MediaQueryWrapper(),
+      home: AudioServiceWidget(child: MediaQueryWrapper()),
 //      home: ForTestScaffold(),
     );
   }
