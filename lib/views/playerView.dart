@@ -109,6 +109,10 @@ class AnimateScaffold extends StatelessWidget {
                 })));
   }
 
+  Future<void> onDownloadPressed() async {
+
+  }
+
   @override
   Widget build(BuildContext context) {
     print('[$this]');
@@ -352,6 +356,20 @@ class AnimateScaffold extends StatelessWidget {
                 ),
               ),
               Positioned(
+                right: 5,
+                height: kToolbarHeight,
+                child: Opacity(
+                  opacity: dropDownOpacity.value,
+                  child: IconButton(
+                    icon: Icon(Icons.file_download,
+                        color: Colors.white, size: 30),
+                    onPressed: (dropDownOpacity.value == 1.0)
+                        ? null
+                        : null, //todo
+                  ),
+                ),
+              ),
+              Positioned(
                 bottom: 0,
                 child: Transform.translate(
                     offset: Offset(0, bottomNavTrans.value),
@@ -567,7 +585,7 @@ class _OpenedSliderState extends State<OpenedSlider> {
     });
   }
 
-  void _onDragEnd(Duration totalDuration) async {
+  Future<void> _onDragEnd(Duration totalDuration) async {
     final audioPlayer =
         Provider.of<AudioPlayerProvider>(context, listen: false);
     Duration nextDuration = Duration(
@@ -685,7 +703,6 @@ class _OpenedSliderState extends State<OpenedSlider> {
 class ButtonGroups extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final testModel = Provider.of<AnimationTestModel>(context, listen: false);
     final audioPlayer =
         Provider.of<AudioPlayerProvider>(context, listen: false);
     return Row(

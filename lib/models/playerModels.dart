@@ -47,11 +47,11 @@ class AudioPlayerProvider {
   PlaybackState _playbackState;
 
   AudioPlayerProvider() {
-    AudioService.start(backgroundTaskEntrypoint: _audioPlayerTaskEntrypoint);
+    AudioService.start(backgroundTaskEntrypoint: _audioPlayerTaskEntryPoint);
 
     AudioService.playbackStateStream.listen((PlaybackState state) {
-      print('receive here');
-      print(state.processingState);
+//      print('receive here');
+//      print(state.processingState);
       if (state.processingState == AudioProcessingState.buffering){
         _bufferingSubject.add(true);
       }else{
@@ -60,29 +60,19 @@ class AudioPlayerProvider {
 
       _playbackState = state;
       _playingSubject.add(state.playing);
+      _positionSubject.add(state.position);
+      _bufferSubject.add(state.bufferedPosition);
     });
 
     AudioService.currentMediaItemStream.listen((event) {
-      _durationSubject.add(event.duration);
-    });
-
-    AudioService.customEventStream.listen((event) {
-//      print(event);
-      switch (event.key){
-        case 'position':
-          _positionSubject.add(event.value);
-          break;
-        case 'buffer':
-          _bufferSubject.add(event.value);
-          break;
-        case 'buffering':
-          _bufferingSubject.add(event.value);
+      if (event != null) {
+        _durationSubject.add(event.duration);
       }
     });
 
+
     Stream.periodic(Duration(milliseconds: 500)).listen((event) {
       if (_playbackState != null){
-//        print(_playbackState.currentPosition);
         _positionSubject.add(_playbackState.currentPosition);
       }
     });
@@ -101,6 +91,8 @@ class AudioPlayerProvider {
   Future<void> playFromVideoId(String videoId) async{
     _bufferingSubject.add(true);
     _durationSubject.add(null);
+    
+    AudioService.pause();
     final url = await _playerClient.getStreamingUrl(videoId);
     await AudioService.playFromMediaId(url);
   }
@@ -113,12 +105,12 @@ class AudioPlayerProvider {
     AudioService.pause();
   }
 
-  void seekTo(Duration position) {
-    AudioService.seekTo(position);
+  Future<void> seekTo(Duration position) async{
+    return await AudioService.seekTo(position);
   }
 }
 
-void _audioPlayerTaskEntrypoint() async {
+void _audioPlayerTaskEntryPoint() async {
   AudioServiceBackground.run(() => AudioPlayerTask());
 }
 
@@ -135,12 +127,7 @@ class AudioPlayerTask extends BackgroundAudioTask {
 
   MediaItem _mediaItem;
 
-  StreamSubscription<bool> _playingSubscription;
   StreamSubscription<Duration> _durationSubscription;
-  StreamSubscription<Duration> _positionSubscription;
-  StreamSubscription<Duration> _bufferSubscription;
-  StreamSubscription<bool> _bufferingSubscription;
-
   StreamSubscription<AudioPlaybackEvent> _eventSubscription;
 
   @override
@@ -151,26 +138,11 @@ class AudioPlayerTask extends BackgroundAudioTask {
 
   @override
   onStart(Map<String, dynamic> params) {
-//    _playingSubscription = _audioPlayer.playbackEventStream
-//        .map((event) => event.state == AudioPlaybackState.playing)
-//        .distinct()
-//        .listen(_sendPlaying);
 
     _durationSubscription = _audioPlayer.durationStream.listen(_sendDuration);
 
-//    _positionSubscription = _audioPlayer.getPositionStream(
-//        Duration(milliseconds: 500)
-//    ).listen(_sendPosition);
-
-    _bufferSubscription = _audioPlayer.bufferedPositionStream.distinct().listen(_sendBuffer);
-
-//    _bufferingSubscription = _audioPlayer.bufferingStream
-//        .debounceTime(Duration(milliseconds: 100))
-//        .distinct()
-//        .listen(_sendBuffering);
-
     _eventSubscription = _audioPlayer.playbackEventStream.listen((event) {
-      final bufferingState = event.buffering ? AudioProcessingState.buffering
+      final bufferingState = (event.buffering || event.state == AudioPlaybackState.connecting) ? AudioProcessingState.buffering
           : AudioProcessingState.ready;
       _setState(processingState: bufferingState);
     });
@@ -205,12 +177,8 @@ class AudioPlayerTask extends BackgroundAudioTask {
   Future<void> onStop() async{
     await _audioPlayer.stop();
     await _audioPlayer.dispose();
-
-    _playingSubscription.cancel();
     _durationSubscription.cancel();
-    _positionSubscription.cancel();
-    _bufferingSubscription.cancel();
-    _bufferSubscription.cancel();
+    _eventSubscription.cancel();
 
     // Shut down this task
     await super.onStop();
@@ -221,14 +189,14 @@ class AudioPlayerTask extends BackgroundAudioTask {
       return [
         skipToPreviousControl,
         pauseControl,
-        stopControl,
+//        stopControl,
         skipToNextControl
       ];
     } else {
       return [
         skipToPreviousControl,
         playControl,
-        stopControl,
+//        stopControl,
         skipToNextControl
       ];
     }
@@ -244,42 +212,16 @@ class AudioPlayerTask extends BackgroundAudioTask {
       systemActions: [MediaAction.seekTo],
       processingState: processingState ?? AudioServiceBackground.state.processingState,
       playing: playing ?? _audioPlayer.playbackState == AudioPlaybackState.playing,
-      position: _audioPlayer.playbackEvent.position
+      position: _audioPlayer.playbackEvent.position,
+      bufferedPosition: _audioPlayer.playbackEvent.bufferedPosition
     );
   }
 
-  void _sendPlaying(bool value){
-    print('send playing $value');
-    _setState(playing: value);
-  }
-
   void _sendDuration(Duration value){
-    print('send duration');
-
     AudioServiceBackground.setMediaItem(
       _mediaItem.copyWith(duration: value)
     );
   }
-
-//  void _sendPosition(Duration value){
-//    AudioServiceBackground.sendCustomEvent(
-//      CustomBackEvent('position', value)
-//    );
-//  }
-
-  void _sendBuffer(Duration value){
-    AudioServiceBackground.sendCustomEvent(
-        CustomBackEvent('buffer', value)
-    );
-  }
-
-  void _sendBuffering(bool value){
-    print('sending buffering $value');
-    AudioServiceBackground.sendCustomEvent(
-        CustomBackEvent('buffering', value)
-    );
-  }
-
 }
 
 class PlayerInfoProvider extends ChangeNotifier {
