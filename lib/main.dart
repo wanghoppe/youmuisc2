@@ -23,7 +23,6 @@ void setup() {
   getIt.registerSingleton<HomeNavigatorController>(
       HomeNavigatorController(getIt<BottomSheetControllerProvider>()));
   getIt.registerSingleton<PlayerClient>(PlayerClient());
-  getIt.registerSingleton<MediaItemMemo>(MediaItemMemo());
 }
 
 void main() {
@@ -52,7 +51,7 @@ class MyApp extends StatelessWidget {
           bodyText2: TextStyle(color: Colors.white54),
         ),
       ),
-      home: AudioServiceWidget(child: MediaQueryWrapper()),
+      home: CustomAudioServiceWidget(child: MediaQueryWrapper()),
 //      home: ForTestScaffold(),
     );
   }
