@@ -12,6 +12,7 @@ import 'package:youmusic2/models/playerModels.dart';
 import 'package:youmusic2/playerClient/playerClient.dart';
 import 'package:youmusic2/views/appScaffoldView.dart';
 import 'models/controllerModels.dart';
+import 'models/downloadModels.dart';
 
 final getIt = GetIt.instance;
 
@@ -23,6 +24,7 @@ void setup() {
   getIt.registerSingleton<HomeNavigatorController>(
       HomeNavigatorController(getIt<BottomSheetControllerProvider>()));
   getIt.registerSingleton<PlayerClient>(PlayerClient());
+  getIt.registerSingleton<MusicDownloader>(MusicDownloader());
 }
 
 void main() {

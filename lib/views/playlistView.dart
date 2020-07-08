@@ -322,13 +322,14 @@ class PlaylistItem extends StatelessWidget{
     final audioPlayer = Provider.of<AudioPlayerProvider>(context, listen: false);
     final infoProvider = Provider.of<PlayerInfoProvider>(context, listen: false);
     final animationController = getIt<BottomSheetControllerProvider>();
+    String videoId = navigationEndpoint['watchEndpoint']['videoId'];
 
     infoProvider.setValue(
+        Future.value(videoId),
         Future.value(thumbnails.last['url']),
         Future.value(title),
         Future.value(subtitle.split(' • ')[0]));
     animationController.animatedToS2();
-    String videoId = navigationEndpoint['watchEndpoint']['videoId'];
     audioPlayer.playFromVideoId(videoId);
   }
 

@@ -1,4 +1,5 @@
 import 'package:audio_service/audio_service.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +7,12 @@ import 'package:flutter/widgets.dart';
 import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 import 'package:youmusic2/models/controllerModels.dart';
+import 'package:youmusic2/models/downloadModels.dart';
 import 'package:youmusic2/models/mediaQueryModels.dart';
 import 'package:youmusic2/models/playerModels.dart';
 import 'package:youmusic2/views/utilsView.dart';
 import '../main.dart';
+import 'package:path_provider/path_provider.dart';
 
 class AppBottomNavigationBar extends StatefulWidget {
   @override
@@ -107,10 +110,6 @@ class AnimateScaffold extends StatelessWidget {
 //            print('stream buffering, ${snapshot.hasError}');
                   return VisibleActivityIndicator(visible: snapshot.data);
                 })));
-  }
-
-  Future<void> onDownloadPressed() async {
-
   }
 
   @override
@@ -235,6 +234,18 @@ class AnimateScaffold extends StatelessWidget {
       } else {
         controllerProvider.onZeroDrop();
       }
+    }
+
+
+    Future<void> onDownloadPressed() async {
+      print('download button is pressed');
+      final downloader = getIt<MusicDownloader>();
+      final playerInfo = Provider.of<PlayerInfoProvider>(context, listen: false);
+      final videoId = await playerInfo.futureVideoId;
+      final title = await playerInfo.futureTitle;
+      final subtitle = await playerInfo.futureSubtitle;
+      final imgUrl = await playerInfo.futureImgUrl;
+      await downloader.tempDownload(videoId: videoId, title: title, subtitle: subtitle, imgUrl: imgUrl);
     }
 
     return Container(
@@ -364,7 +375,7 @@ class AnimateScaffold extends StatelessWidget {
                     icon: Icon(Icons.file_download,
                         color: Colors.white, size: 30),
                     onPressed: (dropDownOpacity.value == 1.0)
-                        ? null
+                        ? onDownloadPressed
                         : null, //todo
                   ),
                 ),
@@ -762,7 +773,7 @@ class TestImg extends StatelessWidget {
   Widget build(BuildContext context) {
     final info = Provider.of<PlayerInfoProvider>(context);
     return FutureBuilder<String>(
-        future: info.futureUrl,
+        future: info.futureImgUrl,
         builder: (context, snapshot) {
           return AspectRatio(
               aspectRatio: 16 / 9,

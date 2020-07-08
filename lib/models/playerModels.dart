@@ -225,29 +225,35 @@ class AudioPlayerTask extends BackgroundAudioTask {
 }
 
 class PlayerInfoProvider extends ChangeNotifier {
-  Future<String> futureUrl;
 
+  Future<String> futureVideoId;
+  Future<String> futureImgUrl;
   Future<String> futureTitle;
-
   Future<String> futureSubtitle;
 
   Future<void> setValue(
-      Future<String> url, Future<String> title, Future<String> subtitle) async {
-    futureUrl = url;
-    futureTitle = title;
-    futureSubtitle = subtitle;
+      Future<String> futureVideoId,
+      Future<String> futureImgUrl,
+      Future<String> futureTitle,
+      Future<String> futureSubtitle) async
+  {
+    this.futureVideoId = futureVideoId;
+    this.futureImgUrl = futureImgUrl;
+    this.futureTitle = futureTitle;
+    this.futureSubtitle = futureSubtitle;
     notifyListeners();
 
-    final image = await url;
-    final titleVal = await title;
-    final subtitleVal = await subtitle;
+    final videoId = await futureVideoId;
+    final imgUrl = await futureImgUrl;
+    final title = await futureTitle;
+    final subtitle = await futureSubtitle;
 
     AudioService.updateMediaItem(
       MediaItem(
-        id: titleVal,
-        album: subtitleVal,
-        title: titleVal,
-        artUri: image
+        id: videoId,
+        album: subtitle,
+        title: title,
+        artUri: imgUrl
       )
     );
   }

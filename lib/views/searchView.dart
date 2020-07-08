@@ -281,14 +281,15 @@ class SearchResultRow extends StatelessWidget{
       final infoProvider = Provider.of<PlayerInfoProvider>(
           context , listen: false);
       final animationController = getIt<BottomSheetControllerProvider>();
+      String videoId = endpoint['videoId'];
 
       infoProvider.setValue(
+          Future.value(videoId),
           Future.value(thumbnail2) ,
           Future.value(title) ,
           Future.value(subtitle.split(' • ')[1]));
       animationController.animatedToS2();
 
-      String videoId = endpoint['videoId'];
       audioPlayer.playFromVideoId(videoId);
 
     } else if (type == SearchRowType.playlist){
