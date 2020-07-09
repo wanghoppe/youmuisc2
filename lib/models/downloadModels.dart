@@ -10,11 +10,9 @@ class MusicDownloader{
   final dio = Dio();
 
   Future<Directory> getMusicDirectory() async {
-    print(' in getMusicDirectory');
     final basePath = await getApplicationDocumentsDirectory();
     var dir = Directory('${basePath.path}/music');
     final exist = await dir.exists();
-    print('here is exit: $exist');
     if (! exist){
       await dir.create();
     }
@@ -47,11 +45,19 @@ class MusicDownloader{
     final extension = _getExtension();
 
     final playerClient = getIt<PlayerClient>();
-    final downloadUrl = await playerClient.getDownloadUrl(videoId);
+    final downloadUrl = await playerClient.getStreamingUrl(videoId);
 //    print(downloadUrl);
-    await dio.download(downloadUrl, '${musicDir.path}/$title:::$subtitle.$extension');
-    await dio.download(imgUrl, '${imgDir.path}/$videoId');
+    dio.download(imgUrl, '${imgDir.path}/$videoId');
+    await dio.download(downloadUrl, '${musicDir.path}/$title:::$subtitle:::$videoId.$extension');
     print('download finished');
+  }
+
+  Future<void> deleteAll() async {
+    final musicDir = await getMusicDirectory();
+    final imgDir = await getImgDirectory();
+    await musicDir.delete(recursive: true);
+    await imgDir.delete(recursive: true);
+    print('deleted all music and image');
   }
 
 }

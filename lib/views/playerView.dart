@@ -12,6 +12,7 @@ import 'package:youmusic2/models/mediaQueryModels.dart';
 import 'package:youmusic2/models/playerModels.dart';
 import 'package:youmusic2/views/utilsView.dart';
 import '../main.dart';
+import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
 class AppBottomNavigationBar extends StatefulWidget {
@@ -778,10 +779,10 @@ class TestImg extends StatelessWidget {
           return AspectRatio(
               aspectRatio: 16 / 9,
               child: snapshot.hasData
-                  ? Image.network(
+                  ? info.networkImg ? Image.network(
                       snapshot.data,
                       fit: BoxFit.fitHeight,
-                    )
+                    ) : Image.file(File(snapshot.data))
                   : Center(child: VisibleActivityIndicator(visible: true)));
         });
   }

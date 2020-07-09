@@ -314,6 +314,7 @@ class SearchResultRow extends StatelessWidget{
       child: CustomListTile(
         title: title,
         subtitle: subtitle,
+        networkImg: true,
         imgUrl: (type == SearchRowType.player)? thumbnail1: thumbnail2,
         cropCircle: cropCircle,
         heroIdx: superTitle + idx.toString(),

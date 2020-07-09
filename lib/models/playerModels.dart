@@ -97,6 +97,14 @@ class AudioPlayerProvider {
     await AudioService.playFromMediaId(url);
   }
 
+  Future<void> playFromMediaItem(MediaItem item) async{
+    _bufferingSubject.add(true);
+    _durationSubject.add(null);
+
+    AudioService.pause();
+    await AudioService.playMediaItem(item);
+  }
+
   void play() {
     AudioService.play();
   }
@@ -150,11 +158,21 @@ class AudioPlayerTask extends BackgroundAudioTask {
   }
 
   @override
-  void onPlayFromMediaId(String mediaId) async{
+  Future<void> onPlayFromMediaId(String mediaId) async{
     if (_audioPlayer.playbackState == AudioPlaybackState.playing){
       await _audioPlayer.stop();
     }
     await _audioPlayer.setUrl(mediaId);
+    await _audioPlayer.play();
+  }
+
+  @override
+  Future<void> onPlayMediaItem(MediaItem mediaItem) async {
+    onUpdateMediaItem(mediaItem);
+    if (_audioPlayer.playbackState == AudioPlaybackState.playing){
+      await _audioPlayer.stop();
+    }
+    await _audioPlayer.setFilePath(mediaItem.id);
     await _audioPlayer.play();
   }
 
@@ -226,6 +244,7 @@ class AudioPlayerTask extends BackgroundAudioTask {
 
 class PlayerInfoProvider extends ChangeNotifier {
 
+  bool networkImg;
   Future<String> futureVideoId;
   Future<String> futureImgUrl;
   Future<String> futureTitle;
@@ -235,12 +254,14 @@ class PlayerInfoProvider extends ChangeNotifier {
       Future<String> futureVideoId,
       Future<String> futureImgUrl,
       Future<String> futureTitle,
-      Future<String> futureSubtitle) async
+      Future<String> futureSubtitle,
+      {bool networkImg}) async
   {
     this.futureVideoId = futureVideoId;
     this.futureImgUrl = futureImgUrl;
     this.futureTitle = futureTitle;
     this.futureSubtitle = futureSubtitle;
+    this.networkImg = networkImg ?? true;
     notifyListeners();
 
     final videoId = await futureVideoId;

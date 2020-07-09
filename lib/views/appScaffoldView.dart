@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:youmusic2/models/controllerModels.dart';
 import 'package:youmusic2/models/playerModels.dart';
+import 'package:youmusic2/temp/localViews.dart';
 import 'package:youmusic2/views/playerView.dart';
 import '../main.dart';
 import 'homeTabView.dart';
@@ -59,8 +60,8 @@ class AppTabView extends StatelessWidget {
         children: [
           HomeUnderTab(),
 //          AnimateScaffold(),
-          Container(color: Colors.black),
-          Icon(Icons.directions_bike),
+          LocalUnderTab(),
+          ThirdTab(),
         ]);
   }
 }

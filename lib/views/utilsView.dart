@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 Size textSize(String text, TextStyle style) {
@@ -64,33 +66,42 @@ class CustomListTile extends StatelessWidget {
   final String title;
   final String subtitle;
   final String imgUrl;
+  final bool networkImg;
   final VoidCallback morePressed;
   final bool cropCircle;
   final String heroIdx;
 
   const CustomListTile(
-      {Key key, this.title, this.subtitle, this.imgUrl, this.morePressed, this.cropCircle, this.heroIdx})
+      {Key key,
+      this.title,
+      this.subtitle,
+      this.imgUrl,
+      this.networkImg,
+      this.morePressed,
+      this.cropCircle,
+      this.heroIdx})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final fromNet = networkImg ?? false;
     final widgetImg = Hero(
-      tag: heroIdx,
-      child: Image.network(imgUrl)
-    );
+        tag: heroIdx,
+        child: fromNet ? Image.network(imgUrl) : Image.file(File(imgUrl)));
 
     return ListTile(
       dense: true,
 //      isThreeLine: true,
       leading: Container(
-        width: 80,
-        child: cropCircle ? ClipOval(child: widgetImg): widgetImg
-      ),
-      title: Text(title,
+          width: 80,
+          child: cropCircle ? ClipOval(child: widgetImg) : widgetImg),
+      title: Text(
+        title,
         style: Theme.of(context).textTheme.bodyText1,
         maxLines: 2,
       ),
-      subtitle: Text(subtitle,
+      subtitle: Text(
+        subtitle,
         style: Theme.of(context).textTheme.bodyText2,
         maxLines: 1,
       ),
@@ -105,4 +116,22 @@ class CustomListTile extends StatelessWidget {
       ),
     );
   }
+}
+
+class GeneralActivityIndicatorContainer extends StatelessWidget {
+  final bool visible;
+
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+        visible: visible ?? true,
+        child: Container(
+            height: 128,
+            child: const Center(
+                child: CircularProgressIndicator(
+              valueColor: const AlwaysStoppedAnimation<Color>(Colors.white70),
+            ))));
+  }
+
+  GeneralActivityIndicatorContainer({this.visible});
 }
