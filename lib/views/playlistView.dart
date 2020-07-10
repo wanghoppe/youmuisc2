@@ -30,47 +30,74 @@ class PlaylistScreenArgs{
 }
 
 
-class PlayListScaffold extends StatelessWidget{
+class PlayListScaffold extends StatefulWidget{
 
   final PlaylistScreenArgs args;
 
   PlayListScaffold(this.args, {Key key}): super(key:key);
 
   @override
+  _PlayListScaffoldState createState() => _PlayListScaffoldState();
+}
+
+class _PlayListScaffoldState extends State<PlayListScaffold> {
+
+  bool _canPop = false;
+
+  void _onDragEnd(DragEndDetails details){
+    if (details.primaryVelocity > 360 && _canPop){
+      Navigator.pop(context);
+    }
+    _canPop = false;
+  }
+
+  void _onDragDown(DragDownDetails details){
+    if (details.globalPosition.dx < 10.0){
+      _canPop = true;
+    }else{
+      _canPop = false;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final mediaData = Provider.of<MediaProvider>(context, listen: false).data;
 
-    return Scaffold(
-      body: MultiProvider(
-        providers: [
-          Provider<OpacityController>(
-            create: (_) => OpacityController()
-          ),
-          Provider<InfolistModel>(
-            create: (_) => InfolistModel(args.navigationEndPoint)
-          ),
-          Provider<PlaylistScreenArgs>.value(value: args)
-        ],
-        child: Stack(children:[
-          PlaylistSliver(),
-          Positioned(
-            left: 5,
-            height: mediaData.padding.top * 2 + kToolbarHeight,
-            child: IconButton(
-              icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: 26),
-              onPressed: () => Navigator.pop(context),
+    return GestureDetector(
+      onHorizontalDragDown: _onDragDown,
+      onHorizontalDragEnd: _onDragEnd,
+      child: Scaffold(
+        body: MultiProvider(
+          providers: [
+            Provider<OpacityController>(
+              create: (_) => OpacityController()
             ),
-          ),
-          Positioned(
-            right: 5,
-            height: mediaData.padding.top * 2 + kToolbarHeight,
-            child: IconButton(
-              icon: Icon(Icons.search, color: Colors.white, size:26),
-              onPressed: () => Navigator.pushNamed(context, '/search'),
+            Provider<InfolistModel>(
+              create: (_) => InfolistModel(widget.args.navigationEndPoint)
             ),
-          )
-        ]),
-      )
+            Provider<PlaylistScreenArgs>.value(value: widget.args)
+          ],
+          child: Stack(children:[
+            PlaylistSliver(),
+            Positioned(
+              left: 5,
+              height: mediaData.padding.top * 2 + kToolbarHeight,
+              child: IconButton(
+                icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: 26),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ),
+            Positioned(
+              right: 5,
+              height: mediaData.padding.top * 2 + kToolbarHeight,
+              child: IconButton(
+                icon: Icon(Icons.search, color: Colors.white, size:26),
+                onPressed: () => Navigator.pushNamed(context, '/search'),
+              ),
+            )
+          ]),
+        )
+      ),
     );
   }
 }
