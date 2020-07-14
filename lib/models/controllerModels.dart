@@ -38,7 +38,7 @@ class BottomSheetControllerProvider extends TickerProvider{
 
   static const s1 = 0.3;
   static const s2 = 0.7;
-  static const durationMill = 1200;
+  static const durationMill = 1100;
 
   Ticker _ticker;
   AnimationController _controller;
@@ -120,6 +120,7 @@ class BottomSheetControllerProvider extends TickerProvider{
 class HomeNavigatorController{
   GlobalKey<NavigatorState> homeNavigator = GlobalKey<NavigatorState>();
   final BottomSheetControllerProvider bottomController;
+  final watchListController = ScrollController(keepScrollOffset: true);
 
   HomeNavigatorController(this.bottomController);
 

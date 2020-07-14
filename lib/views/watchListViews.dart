@@ -1,8 +1,12 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:youmusic2/models/controllerModels.dart';
 import 'package:youmusic2/models/playerModels.dart';
 import 'package:youmusic2/models/watchListModels.dart';
 import 'package:youmusic2/views/utilsView.dart';
+
+import '../main.dart';
 
 class WatchListFull extends StatelessWidget {
   static const minBottomListHeight = 56.0;
@@ -32,17 +36,21 @@ class WatchListFull extends StatelessWidget {
 class WatchListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print(['$this']);
+    print(getIt<HomeNavigatorController>().watchListController.initialScrollOffset);
     final watchListProvider = Provider.of<WatchListProvider>(context);
     if (watchListProvider.loading) {
       return GeneralActivityIndicatorContainer();
     } else {
       return ListView.builder(
+        controller: getIt<HomeNavigatorController>().watchListController,
         itemBuilder: (context, index) {
           return ChangeNotifierProvider<WatchItemProvider>.value(
               value: watchListProvider.watchList[index],
               child: WatchItemView(idx: index));
         },
-        itemCount: watchListProvider.watchList.length
+        itemCount: watchListProvider.watchList.length,
+        itemExtent: 66,
       );
     }
   }
@@ -64,9 +72,19 @@ class WatchItemView extends StatelessWidget {
         Future.value(itemProvider.videoId),
         Future.value(itemProvider.thumbnail2),
         Future.value(itemProvider.title),
-        Future.value(itemProvider.channel)
+        Future.value(itemProvider.channel),
+        networkImg: watchListProvider.fromNet
     );
-    player.playFromVideoId(itemProvider.videoId);
+    if (watchListProvider.fromNet){
+      player.playFromVideoId(itemProvider.videoId);
+    }else{
+      player.playFromMediaItem(MediaItem(
+        title: itemProvider.title,
+        album: itemProvider.subtitle,
+        id: itemProvider.localPath,
+        artUri: itemProvider.thumbnail2,
+      ));
+    }
   }
 
   @override
@@ -82,6 +100,7 @@ class WatchItemView extends StatelessWidget {
           subtitle: itemProvider.subtitle,
           heroIdx: itemProvider.videoId,
           imgUrl: itemProvider.thumbnail1,
+          networkImg: itemProvider.fromNet,
         ),
       ),
     );

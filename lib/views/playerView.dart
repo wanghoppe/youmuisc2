@@ -63,7 +63,7 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
               title: Text("Home"),
             ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.account_circle), title: Text("Account")),
+                icon: Icon(Icons.library_music), title: Text("Local")),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),
               title: Text("Settings"),
@@ -758,9 +758,22 @@ class _ButtonGroupsState extends State<ButtonGroups> {
         Future.value(item.videoId),
         Future.value(item.thumbnail2),
         Future.value(item.title),
-        Future.value(item.channel)
+        Future.value(item.channel),
+        networkImg: watchList.fromNet
     );
-    player.playFromVideoId(item.videoId);
+
+    if (watchList.fromNet){
+      player.playFromVideoId(item.videoId);
+    }else{
+      player.playFromMediaItem(
+        MediaItem(
+          id: item.localPath,
+          album: item.subtitle,
+          title: item.title,
+          artUri: item.thumbnail2,
+        )
+      );
+    }
   }
 
   @override

@@ -145,16 +145,19 @@ class OpaqueSliverAppBar extends StatelessWidget {
         return SliverAppBar(
           leading: Container(),
           pinned: true,
-          title: Padding(
-              padding: EdgeInsets.only(right: 40),
-              child: Consumer<OpacityModel>(
-                  builder: (context, value, child) {
-                    return Opacity(
-                      opacity: value.opacity,
-                      child: child,
-                    );
-                  },
-                  child: Text(screenArgs.title))),
+          title: Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+                padding: EdgeInsets.only(right: 40),
+                child: Consumer<OpacityModel>(
+                    builder: (context, value, child) {
+                      return Opacity(
+                        opacity: value.opacity,
+                        child: child,
+                      );
+                    },
+                    child: Text(screenArgs.title))),
+          ),
           expandedHeight: 175 + kToolbarHeight,
           flexibleSpace: Align(
             alignment: Alignment.bottomCenter,

@@ -9,6 +9,7 @@ import 'package:youmusic2/models/controllerModels.dart';
 import 'package:youmusic2/models/downloadModels.dart';
 import 'package:youmusic2/main.dart';
 import 'package:youmusic2/models/playerModels.dart';
+import 'package:youmusic2/models/watchListModels.dart';
 import 'package:youmusic2/views/homeView.dart';
 import 'package:youmusic2/views/utilsView.dart';
 
@@ -59,7 +60,7 @@ class LocalListView extends StatelessWidget{
           return ListView.builder(
             itemCount: fileList.length,
             itemBuilder: (context, index){
-              return LocalItem(fileList[index], index);
+              return LocalItem(fileList[index], index, fileList);
             },
           );
         }else{
@@ -79,7 +80,9 @@ class LocalItem extends StatelessWidget{
   String imgUrl;
   String videoId;
 
-  LocalItem(this._file, this._idx){
+  final List<File> parentList;
+
+  LocalItem(this._file, this._idx, this.parentList){
     final fileName = _file.path.split('/').last;
     final fileNameLst = fileName.split(':::');
     title = fileNameLst[0];
@@ -92,6 +95,7 @@ class LocalItem extends StatelessWidget{
     final audioPlayer = Provider.of<AudioPlayerProvider>(context, listen: false);
     final infoProvider = Provider.of<PlayerInfoProvider>(context, listen: false);
     final animationController = getIt<BottomSheetControllerProvider>();
+    final watchList = Provider.of<WatchListProvider>(context, listen: false);
 
     infoProvider.setValue(
         Future.value(videoId),
@@ -109,6 +113,7 @@ class LocalItem extends StatelessWidget{
         artUri: imgUrl,
       )
     );
+    watchList.loadFromLocal(parentList, _idx);
   }
 
   @override
