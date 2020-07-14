@@ -7,15 +7,21 @@ import 'requestConst.dart' as c;
 
 void main() {
   test();
-  test2();
-  test3();
+//  test2();
+//  test3();
 }
 
 void test() async {
   final client = ApiClient();
-  final response = await client.getWatchResponse(c.watchEndpointBody);
-//  prettyWrite(File('output/watch/raw.json'), jsonDecode(response));
-  final playMap = getPlayMapFromStr(response);
+  final test = {
+//    'videoId': "AoAm4om0wTs",
+//    'playlistId': "PLp12xt0S4J0VNJC-eGFd77RLRuQawkaZn",
+//    "params": "wAEB",
+    'videoId': 'XFkzRNyygfk', 'playlistId': 'RDCLAK5uy_m_h-nx7OCFaq9AlyXv78lG0AuloqW_NUA', 'params': '8gECGAM%3D'
+  };
+  final response = await client.getWatchResponse(test);
+  prettyWrite(File('output/watch/raw.json'), jsonDecode(response));
+  final playMap = getWatchMapFromStr(response);
   prettyWrite(File('output/watch/after1.json'), playMap);
 
 }
@@ -24,7 +30,7 @@ void test2() async {
   final client = ApiClient();
   final response = await client.getWatchResponse(c.watchEndpointBody2);
 //  prettyWrite(File('output/watch/raw_mix.json'), jsonDecode(str));
-  final playMap = getPlayMapFromStr(response);
+  final playMap = getWatchMapFromStr(response);
   prettyWrite(File('output/watch/after_mix.json'), playMap);
 }
 
@@ -32,13 +38,13 @@ void test3() async {
   final client = ApiClient();
   final response = await client.getWatchResponse(c.watchEndpointBody20);
   prettyWrite(File('output/watch/raw_20.json'), jsonDecode(response));
-  final playMap = getPlayMapFromStr(response);
+  final playMap = getWatchMapFromStr(response);
   prettyWrite(File('output/watch/after_top20.json'), playMap);
 }
 
 ///Utils Function
 
-Map<String, dynamic> getPlayMapFromStr(String response, {bool isShuffle: false}) {
+Map<String, dynamic> getWatchMapFromStr(String response, {bool isShuffle: false}) {
   final playerMap = <String, dynamic>{};
 
   final json = jsonDecode(response);
@@ -47,7 +53,7 @@ Map<String, dynamic> getPlayMapFromStr(String response, {bool isShuffle: false})
       ['playlistPanelRenderer'];
   final List contents = playlistPanelRenderer['contents'].cast<Map>();
   final bool isInfinite = playlistPanelRenderer['isInfinite'];
-  if (isInfinite){
+  if (playlistPanelRenderer.containsKey('continuations')){
     playerMap['continuation'] = playlistPanelRenderer['continuations'][0]
         ['nextRadioContinuationData']['continuation'];
   }else{

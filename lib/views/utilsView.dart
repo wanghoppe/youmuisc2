@@ -84,7 +84,8 @@ class CustomListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fromNet = networkImg ?? false;
+    final fromNet = networkImg ?? true;
+    final crop = cropCircle ?? false;
     final widgetImg = Hero(
         tag: heroIdx,
         child: fromNet ? Image.network(imgUrl) : Image.file(File(imgUrl)));
@@ -94,7 +95,7 @@ class CustomListTile extends StatelessWidget {
 //      isThreeLine: true,
       leading: Container(
           width: 80,
-          child: cropCircle ? ClipOval(child: widgetImg) : widgetImg),
+          child: crop ? ClipOval(child: widgetImg) : widgetImg),
       title: Text(
         title,
         style: Theme.of(context).textTheme.bodyText1,

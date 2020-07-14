@@ -99,6 +99,7 @@ class ApiClient{
     await isReady;
     final requestBody = {
       ...c.bodyMap,
+      ...c.watchEndpointBody,
       ...testBody
     };
     final response = await http.post(

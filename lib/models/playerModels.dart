@@ -35,7 +35,6 @@ MediaControl stopControl = MediaControl(
 );
 
 class AudioPlayerProvider {
-
   final _playerClient = getIt<PlayerClient>();
 
   final _playingSubject = BehaviorSubject<bool>();
@@ -52,9 +51,9 @@ class AudioPlayerProvider {
     AudioService.playbackStateStream.listen((PlaybackState state) {
 //      print('receive here');
 //      print(state.processingState);
-      if (state.processingState == AudioProcessingState.buffering){
+      if (state.processingState == AudioProcessingState.buffering) {
         _bufferingSubject.add(true);
-      }else{
+      } else {
         _bufferingSubject.add(false);
       }
 
@@ -70,9 +69,8 @@ class AudioPlayerProvider {
       }
     });
 
-
     Stream.periodic(Duration(milliseconds: 500)).listen((event) {
-      if (_playbackState != null){
+      if (_playbackState != null) {
         _positionSubject.add(_playbackState.currentPosition);
       }
     });
@@ -88,16 +86,16 @@ class AudioPlayerProvider {
 
   Stream<bool> get bufferingStream => _bufferingSubject.distinct();
 
-  Future<void> playFromVideoId(String videoId) async{
+  Future<void> playFromVideoId(String videoId) async {
     _bufferingSubject.add(true);
     _durationSubject.add(null);
-    
+
     AudioService.pause();
     final url = await _playerClient.getStreamingUrl(videoId);
     await AudioService.playFromMediaId(url);
   }
 
-  Future<void> playFromMediaItem(MediaItem item) async{
+  Future<void> playFromMediaItem(MediaItem item) async {
     _bufferingSubject.add(true);
     _durationSubject.add(null);
 
@@ -113,7 +111,7 @@ class AudioPlayerProvider {
     AudioService.pause();
   }
 
-  Future<void> seekTo(Duration position) async{
+  Future<void> seekTo(Duration position) async {
     return await AudioService.seekTo(position);
   }
 }
@@ -122,7 +120,7 @@ void _audioPlayerTaskEntryPoint() async {
   AudioServiceBackground.run(() => AudioPlayerTask());
 }
 
-class CustomBackEvent{
+class CustomBackEvent {
   final String key;
   final dynamic value;
 
@@ -130,7 +128,6 @@ class CustomBackEvent{
 }
 
 class AudioPlayerTask extends BackgroundAudioTask {
-
   final _audioPlayer = AudioPlayer();
 
   MediaItem _mediaItem;
@@ -146,20 +143,24 @@ class AudioPlayerTask extends BackgroundAudioTask {
 
   @override
   onStart(Map<String, dynamic> params) {
-
     _durationSubscription = _audioPlayer.durationStream.listen(_sendDuration);
 
     _eventSubscription = _audioPlayer.playbackEventStream.listen((event) {
-      final bufferingState = (event.buffering || event.state == AudioPlaybackState.connecting) ? AudioProcessingState.buffering
-          : AudioProcessingState.ready;
-      _setState(processingState: bufferingState);
+      if (event.state == AudioPlaybackState.completed) {
+        onSkipToNext();
+      } else {
+        final bufferingState =
+            (event.buffering || event.state == AudioPlaybackState.connecting)
+                ? AudioProcessingState.buffering
+                : AudioProcessingState.ready;
+        _setState(processingState: bufferingState);
+      }
     });
-
   }
 
   @override
-  Future<void> onPlayFromMediaId(String mediaId) async{
-    if (_audioPlayer.playbackState == AudioPlaybackState.playing){
+  Future<void> onPlayFromMediaId(String mediaId) async {
+    if (_audioPlayer.playbackState == AudioPlaybackState.playing) {
       await _audioPlayer.stop();
     }
     await _audioPlayer.setUrl(mediaId);
@@ -169,7 +170,7 @@ class AudioPlayerTask extends BackgroundAudioTask {
   @override
   Future<void> onPlayMediaItem(MediaItem mediaItem) async {
     onUpdateMediaItem(mediaItem);
-    if (_audioPlayer.playbackState == AudioPlaybackState.playing){
+    if (_audioPlayer.playbackState == AudioPlaybackState.playing) {
       await _audioPlayer.stop();
     }
     await _audioPlayer.setFilePath(mediaItem.id);
@@ -192,7 +193,18 @@ class AudioPlayerTask extends BackgroundAudioTask {
   }
 
   @override
-  Future<void> onStop() async{
+  void onSkipToNext() {
+    print('sending next here');
+    AudioServiceBackground.sendCustomEvent(CustomBackEvent('skipToNext', null));
+  }
+
+  @override
+  void onSkipToPrevious() {
+    AudioServiceBackground.sendCustomEvent(CustomBackEvent('skipToPrev', null));
+  }
+
+  @override
+  Future<void> onStop() async {
     await _audioPlayer.stop();
     await _audioPlayer.dispose();
     _durationSubscription.cancel();
@@ -220,30 +232,25 @@ class AudioPlayerTask extends BackgroundAudioTask {
     }
   }
 
-  Future<void> _setState ({
-    bool playing,
-    AudioProcessingState processingState
-  }) async {
-
+  Future<void> _setState(
+      {bool playing, AudioProcessingState processingState}) async {
     await AudioServiceBackground.setState(
-      controls: getControls(),
-      systemActions: [MediaAction.seekTo],
-      processingState: processingState ?? AudioServiceBackground.state.processingState,
-      playing: playing ?? _audioPlayer.playbackState == AudioPlaybackState.playing,
-      position: _audioPlayer.playbackEvent.position,
-      bufferedPosition: _audioPlayer.playbackEvent.bufferedPosition
-    );
+        controls: getControls(),
+        systemActions: [MediaAction.seekTo],
+        processingState:
+            processingState ?? AudioServiceBackground.state.processingState,
+        playing:
+            playing ?? _audioPlayer.playbackState == AudioPlaybackState.playing,
+        position: _audioPlayer.playbackEvent.position,
+        bufferedPosition: _audioPlayer.playbackEvent.bufferedPosition);
   }
 
-  void _sendDuration(Duration value){
-    AudioServiceBackground.setMediaItem(
-      _mediaItem.copyWith(duration: value)
-    );
+  void _sendDuration(Duration value) {
+    AudioServiceBackground.setMediaItem(_mediaItem.copyWith(duration: value));
   }
 }
 
 class PlayerInfoProvider extends ChangeNotifier {
-
   bool networkImg;
   Future<String> futureVideoId;
   Future<String> futureImgUrl;
@@ -255,8 +262,7 @@ class PlayerInfoProvider extends ChangeNotifier {
       Future<String> futureImgUrl,
       Future<String> futureTitle,
       Future<String> futureSubtitle,
-      {bool networkImg}) async
-  {
+      {bool networkImg}) async {
     this.futureVideoId = futureVideoId;
     this.futureImgUrl = futureImgUrl;
     this.futureTitle = futureTitle;
@@ -270,28 +276,21 @@ class PlayerInfoProvider extends ChangeNotifier {
     final subtitle = await futureSubtitle;
 
     AudioService.updateMediaItem(
-      MediaItem(
-        id: videoId,
-        album: subtitle,
-        title: title,
-        artUri: imgUrl
-      )
-    );
+        MediaItem(id: videoId, album: subtitle, title: title, artUri: imgUrl));
   }
 }
 
-class CustomAudioServiceWidget extends StatefulWidget{
-
+class CustomAudioServiceWidget extends StatefulWidget {
   final Widget child;
 
   CustomAudioServiceWidget({@required this.child});
 
   @override
-  _CustomAudioServiceWidgetState createState() => _CustomAudioServiceWidgetState();
+  _CustomAudioServiceWidgetState createState() =>
+      _CustomAudioServiceWidgetState();
 }
 
 class _CustomAudioServiceWidgetState extends State<CustomAudioServiceWidget> {
-
   @override
   void initState() {
     super.initState();
@@ -303,7 +302,6 @@ class _CustomAudioServiceWidgetState extends State<CustomAudioServiceWidget> {
     AudioService.disconnect();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {

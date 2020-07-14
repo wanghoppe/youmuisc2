@@ -6,6 +6,7 @@ import 'package:youmusic2/models/controllerModels.dart';
 import 'package:youmusic2/models/mediaQueryModels.dart';
 import 'package:youmusic2/models/playerModels.dart';
 import 'package:youmusic2/models/searchModels.dart';
+import 'package:youmusic2/models/watchListModels.dart';
 import 'package:youmusic2/views/playlistView.dart';
 import 'package:youmusic2/views/utilsView.dart';
 
@@ -281,6 +282,8 @@ class SearchResultRow extends StatelessWidget{
       final infoProvider = Provider.of<PlayerInfoProvider>(
           context , listen: false);
       final animationController = getIt<BottomSheetControllerProvider>();
+      final watchList = Provider.of<WatchListProvider>(context, listen: false);
+
       String videoId = endpoint['videoId'];
 
       infoProvider.setValue(
@@ -291,6 +294,7 @@ class SearchResultRow extends StatelessWidget{
       animationController.animatedToS2();
 
       audioPlayer.playFromVideoId(videoId);
+      watchList.loadFromEndpoint(endpoint);
 
     } else if (type == SearchRowType.playlist){
         Navigator.pushNamed(

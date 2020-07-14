@@ -7,6 +7,7 @@ import 'package:youmusic2/models/controllerModels.dart';
 import 'package:youmusic2/models/playerModels.dart';
 import 'package:youmusic2/temp/localViews.dart';
 import 'package:youmusic2/views/playerView.dart';
+import 'package:youmusic2/models/watchListModels.dart';
 import '../main.dart';
 import 'homeTabView.dart';
 
@@ -37,8 +38,11 @@ class _AppScaffoldState extends State<AppScaffold> {
         Provider<AudioPlayerProvider>.value(
           value: _audioPlayer,
         ),
-        ChangeNotifierProvider(
+        ChangeNotifierProvider<PlayerInfoProvider>(
           create: (context) => PlayerInfoProvider(),
+        ),
+        ChangeNotifierProvider<WatchListProvider>(
+          create: (context) => WatchListProvider(),
         )
       ],
       child:WillPopScope(

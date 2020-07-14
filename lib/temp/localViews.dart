@@ -121,6 +121,7 @@ class LocalItem extends StatelessWidget{
         subtitle: subtitle,
         imgUrl: imgUrl,
         morePressed: (){},
+        networkImg: false,
         cropCircle: false,
         heroIdx: 'null',
       ),

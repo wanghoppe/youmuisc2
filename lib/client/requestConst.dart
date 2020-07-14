@@ -98,9 +98,6 @@ const firstBodyMap = <String, dynamic>{
 const watchEndpointBody = {
   "enablePersistentPlaylistPanel": true,
   "tunerSettingValue": "AUTOMIX_SETTING_NORMAL",
-  "videoId": "vaknSDdG6xs",
-  "playlistId": "RDAMVMvaknSDdG6xs",
-  "params": "wAEB",
   "isAudioOnly": true
 };
 

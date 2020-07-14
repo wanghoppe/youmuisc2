@@ -10,7 +10,9 @@ import 'package:youmusic2/models/controllerModels.dart';
 import 'package:youmusic2/models/downloadModels.dart';
 import 'package:youmusic2/models/mediaQueryModels.dart';
 import 'package:youmusic2/models/playerModels.dart';
+import 'package:youmusic2/models/watchListModels.dart';
 import 'package:youmusic2/views/utilsView.dart';
+import 'package:youmusic2/views/watchListViews.dart';
 import '../main.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
@@ -95,6 +97,7 @@ class AnimateScaffold extends StatelessWidget {
   final Widget widgetButtonGroups = ButtonGroups();
   final Widget widgetAppBottomNavigationBar = AppBottomNavigationBar();
   final Widget widgetClosedProgressBar = ClosedProgressBar();
+  final Widget widgetWatchListView = WatchListFull();
 
   Widget _buildImgMask(BuildContext context, double opacity) {
     final audioPlayer =
@@ -205,6 +208,10 @@ class AnimateScaffold extends StatelessWidget {
     Animation<double> imgBackOpacity = Tween<double>(begin: 0.0, end: 0.55)
         .animate(CurvedAnimation(
             parent: controllerProvider.controller, curve: Interval(s2, 1.0)));
+
+    Animation<double> bottomPaddingHeight = Tween<double>(begin: mediaData.padding.bottom, end: 0.0)
+        .animate(CurvedAnimation(
+        parent: controllerProvider.controller, curve: Interval(s2, 1.0)));
 
     void onDragUpdate(DragUpdateDetails details) {
       final AnimationController _controller = controllerProvider.controller;
@@ -347,10 +354,18 @@ class AnimateScaffold extends StatelessWidget {
                                   : bottomListTrans.value),
                           child: Container(
                             height: screenHeight - imgHeight, //todo
-                            color: Colors.blueGrey,
+                            child: widgetWatchListView,
                           ))
                     ],
                   ),
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                child: Container(
+                  height: bottomPaddingHeight.value,
+                  width: mediaData.size.width,
+                  color: Theme.of(context).appBarTheme.color
                 ),
               ),
               Positioned(
@@ -526,7 +541,7 @@ class OpenedTitle extends StatelessWidget {
                 final textStyle = Theme.of(context).textTheme.headline5;
                 final Size txtSize = textSize(text, textStyle);
 
-                print('$screenWidth, ${txtSize.width}');
+//                print('$screenWidth, ${txtSize.width}');
 
                 return Container(
                   height: 30,
@@ -712,7 +727,42 @@ class _OpenedSliderState extends State<OpenedSlider> {
   }
 }
 
-class ButtonGroups extends StatelessWidget {
+class ButtonGroups extends StatefulWidget {
+
+  @override
+  _ButtonGroupsState createState() => _ButtonGroupsState();
+}
+
+class _ButtonGroupsState extends State<ButtonGroups> {
+
+  @override
+  void initState() {
+    AudioService.customEventStream.listen((event) {
+      switch(event.key){
+        case 'skipToNext':
+          onSkip(next: true);
+          break;
+        case 'skipToPrev':
+          onSkip(next: false);
+      }
+    });
+    super.initState();
+  }
+
+  void onSkip({bool next: true}){
+    final watchList = Provider.of<WatchListProvider>(context, listen: false);
+    final player = Provider.of<AudioPlayerProvider>(context, listen: false);
+    final playerInfo = Provider.of<PlayerInfoProvider>(context, listen: false);
+    final item = next ? watchList.getAndPlayNext() : watchList.getAndPlayPrev();
+    playerInfo.setValue(
+        Future.value(item.videoId),
+        Future.value(item.thumbnail2),
+        Future.value(item.title),
+        Future.value(item.channel)
+    );
+    player.playFromVideoId(item.videoId);
+  }
+
   @override
   Widget build(BuildContext context) {
     final audioPlayer =
@@ -723,11 +773,7 @@ class ButtonGroups extends StatelessWidget {
           Container(),
           IconButton(
               icon: Icon(Icons.skip_previous),
-              onPressed: () {
-                AudioService.stop(); //todo
-//                testModel.changeTitle();
-//                audioPlayer.setUrl(AudioPlayerProvider.testUrl2);
-              }),
+              onPressed: () => onSkip(next: false)),
           StreamBuilder<bool>(
               stream: audioPlayer.playingStream,
               builder: (context, snapshot) {
@@ -752,9 +798,7 @@ class ButtonGroups extends StatelessWidget {
               }),
           IconButton(
             icon: Icon(Icons.skip_next),
-            onPressed: () {
-//              audioPlayer.setUrl(AudioPlayerProvider.testUrl);
-            },
+            onPressed: onSkip
           ),
           Container()
         ]);
