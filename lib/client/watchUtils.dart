@@ -17,10 +17,13 @@ void test() async {
 //    'videoId': "AoAm4om0wTs",
 //    'playlistId': "PLp12xt0S4J0VNJC-eGFd77RLRuQawkaZn",
 //    "params": "wAEB",
-    'videoId': 'XFkzRNyygfk', 'playlistId': 'RDCLAK5uy_m_h-nx7OCFaq9AlyXv78lG0AuloqW_NUA', 'params': '8gECGAM%3D'
+    'videoId': '6VRioN8euIs',
+    'playlistId': 'PL0C9A38D8FA52CF4B',
+    'params': 'wAEB'
   };
   final response = await client.getWatchResponse(test);
   prettyWrite(File('output/watch/raw.json'), jsonDecode(response));
+  print('raw file is written');
   final playMap = getWatchMapFromStr(response);
   prettyWrite(File('output/watch/after1.json'), playMap);
 
@@ -54,8 +57,8 @@ Map<String, dynamic> getWatchMapFromStr(String response, {bool isShuffle: false}
   final List contents = playlistPanelRenderer['contents'].cast<Map>();
   final bool isInfinite = playlistPanelRenderer['isInfinite'];
   if (playlistPanelRenderer.containsKey('continuations')){
-    playerMap['continuation'] = playlistPanelRenderer['continuations'][0]
-        ['nextRadioContinuationData']['continuation'];
+    final Map conItem = playlistPanelRenderer['continuations'][0];
+    playerMap['continuation'] = conItem[conItem.keys.toList()[0]]['continuation'];
   }else{
     playerMap['watchPlaylistEndpoint'] = contents.last
       ['automixPreviewVideoRenderer']['content']['automixPlaylistVideoRenderer']
@@ -65,20 +68,26 @@ Map<String, dynamic> getWatchMapFromStr(String response, {bool isShuffle: false}
   playerMap['isShuffle'] = isShuffle;
   playerMap['playlist'] = contents
       .where((e) => e.containsKey('playlistPanelVideoRenderer'))
-      .map<Map>((e) => _getPlaylistItem(e['playlistPanelVideoRenderer'])).toList();
+      .map<Map>((e) => _getPlaylistItem(e['playlistPanelVideoRenderer']))
+      .where((element) => element != null).toList();
   playerMap['isInfinite'] = isInfinite;
   return playerMap;
 }
 
 Map<String, dynamic> _getPlaylistItem(Map json) {
-  final item = <String, dynamic>{};
-  List thumbnailList = json['thumbnail']['thumbnails'];
+  try{
+    final item = <String, dynamic>{};
+    List thumbnailList = json['thumbnail']['thumbnails'];
 
-  item['title'] = json['title']['runs'][0]['text'] as String;
-  item['subtitle'] = json['longBylineText']['runs'][0]['text'] as String;
-  item['channel'] = item['subtitle'].split(' • ')[0];
-  item['thumbnail1'] = thumbnailList.first['url'] as String;
-  item['thumbnail2'] = thumbnailList.last['url'] as String;
-  item['videoId'] = json['videoId'];
-  return item;
+    item['title'] = json['title']['runs'][0]['text'] as String;
+    item['subtitle'] = json['longBylineText']['runs'][0]['text'] as String;
+    item['channel'] = item['subtitle'].split(' • ')[0];
+    item['thumbnail1'] = thumbnailList.first['url'] as String;
+    item['thumbnail2'] = thumbnailList.last['url'] as String;
+    item['videoId'] = json['videoId'];
+    return item;
+  }catch(e){
+//    print(json);
+    return null;
+  }
 }

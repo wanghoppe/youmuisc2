@@ -50,7 +50,7 @@ class _PlayListScaffoldState extends State<PlayListScaffold> {
   }
 
   void _onDragDown(DragDownDetails details) {
-    if (details.globalPosition.dx < 10.0) {
+    if (details.globalPosition.dx < 20.0) {
       _canPop = true;
     } else {
       _canPop = false;

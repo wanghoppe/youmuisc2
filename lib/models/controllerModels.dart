@@ -38,7 +38,7 @@ class BottomSheetControllerProvider extends TickerProvider{
 
   static const s1 = 0.3;
   static const s2 = 0.7;
-  static const durationMill = 900;
+  static const durationMill = 1200;
 
   Ticker _ticker;
   AnimationController _controller;

@@ -13,7 +13,7 @@ class WatchListProvider extends ChangeNotifier{
 
   bool isShuffle;
   bool isInfinite;
-  Map<String, String> watchPlaylistEndpoint;
+  Map watchPlaylistEndpoint;
   String continuation;
   List<WatchItemProvider> watchList;
   int currentIdx;
@@ -26,21 +26,22 @@ class WatchListProvider extends ChangeNotifier{
   }
 
   Future<void> loadFromEndpoint(Map watchEndPoint, {currentVideoId}) async{
-//    print(watchEndPoint);
+    print(watchEndPoint);
     setLoading(true);
 
     final temp = {
       'videoId': watchEndPoint['videoId'],
       'playlistId': watchEndPoint['playlistId'],
-      'params': watchEndPoint['params']
+      'params': watchEndPoint['params'] ?? 'wAEB'
     };
     final response = await _client.getWatchResponse(temp);
-    final map = await compute(getWatchMapFromStr, response);
+    final watchMap = await compute(getWatchMapFromStr, response);
+//    print(watchMap);
 
-    final List<Map> playList = map['playlist'];
+    final List<Map> playList = watchMap['playlist'];
     watchList = [];
     for (var i = 0; i < playList.length; ++i) {
-      var map = playList[i];
+      final map = playList[i];
       if (map['videoId'] == currentVideoId){
         currentIdx = i;
         watchList.add(WatchItemProvider(map, playing: true));
@@ -52,15 +53,16 @@ class WatchListProvider extends ChangeNotifier{
       watchList[0].playing = true;
       currentIdx = 0;
     }
+    isShuffle = watchMap['isShuffle'];
+    isInfinite = watchMap['isInfinite'];
+    if (watchMap.containsKey('watchPlaylistEndpoint')){
+      watchPlaylistEndpoint = watchMap['watchPlaylistEndpoint'];
+    }
+//    print('here2');
+    if (watchMap.containsKey('continuation')){
+      continuation = watchMap['continuation'];
+    }
 
-    isShuffle = map['isShuffle'];
-    isInfinite = map['isInfinite'];
-    if (map.containsKey('watchPlaylistEndpoint')){
-      watchPlaylistEndpoint = map['watchPlaylistEndpoint'];
-    }
-    if (map.containsKey('continuation')){
-      continuation = map['continuation'];
-    }
     setLoading(false);
   }
 
