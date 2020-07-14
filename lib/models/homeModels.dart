@@ -46,7 +46,7 @@ class AnimatedListModel{
   }
 
   void _insert(Map<String, dynamic> json) {
-    _list.add(HomeRow(json: json));
+    _list.add(HomeRow(json: json, index: _list.length));
     listKey.currentState
         .insertItem(_list.length-1, duration:const Duration(milliseconds: 600));
   }

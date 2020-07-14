@@ -175,10 +175,11 @@ class ActivityIndicatorContainer extends StatelessWidget{
 
 class HomeRow extends StatefulWidget{
 
-  final itemList;
-  final title;
+  final List itemList;
+  final String title;
+  final int index;
 
-  HomeRow({@required json}):
+  HomeRow({@required json, @required this.index}):
         itemList = json['itemList'],
         title = json['title'];
 
@@ -212,7 +213,7 @@ class _HomeRowState extends State<HomeRow> with AutomaticKeepAliveClientMixin {
                 padding: EdgeInsets.symmetric(horizontal: 8.0),
                 sliver: SliverList(
                     delegate: SliverChildBuilderDelegate((context, idx) {
-                      return CardItem(widget.title, idx:idx, json: widget.itemList[idx]);
+                      return CardItem(widget.index, idx:idx, json: widget.itemList[idx]);
                     },
                         childCount: widget.itemList.length
                     )
@@ -261,7 +262,7 @@ class CardItem extends StatelessWidget{
       context,
       '/playlist',
       arguments: PlaylistScreenArgs(
-        rowName + idx.toString(),
+        '$rowName: $idx',
         title,
         subtitle,
         thumbnail,
@@ -292,7 +293,7 @@ class CardItem extends StatelessWidget{
         )
     );
     return watchable ? image: Hero(
-        tag: rowName + idx.toString(),
+        tag: '$rowName: $idx',
         child: image
     );
   }
