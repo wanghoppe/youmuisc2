@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:youmusic2/models/controllerModels.dart';
 import 'package:youmusic2/models/downloadModels.dart';
 import 'package:youmusic2/models/mediaQueryModels.dart';
@@ -98,6 +99,8 @@ class AnimateScaffold extends StatelessWidget {
   final Widget widgetAppBottomNavigationBar = AppBottomNavigationBar();
   final Widget widgetClosedProgressBar = ClosedProgressBar();
   final Widget widgetWatchListView = WatchListFull();
+
+  final opacityS2Subject = BehaviorSubject<double>();
 
   Widget _buildImgMask(BuildContext context, double opacity) {
     final audioPlayer =
@@ -201,11 +204,24 @@ class AnimateScaffold extends StatelessWidget {
             parent: controllerProvider.controller,
             curve: Interval(s1, (s1 + s2) / 2)));
 
+    Animation<double> tabViewMaskAnimation = Tween<double>(begin: 0.0, end: 1.0)
+        .animate(CurvedAnimation(
+        parent: controllerProvider.controller,
+        curve: Interval(s1, s2)));
+    final tabViewMask = Provider.of<TabViewMaskOpacity>(context, listen: false);
+    dropDownOpacity.addListener(() {
+      tabViewMask.setOpacity(tabViewMaskAnimation.value);
+    });
+
     Animation<double> openTitleOpacity = Tween<double>(begin: 1.0, end: 0.0)
         .animate(CurvedAnimation(
             parent: controllerProvider.controller, curve: Interval(s2, 1.0)));
 
-    Animation<double> imgBackOpacity = Tween<double>(begin: 0.0, end: 0.55)
+    openTitleOpacity.addListener(() {
+      opacityS2Subject.add(openTitleOpacity.value);
+    });
+
+    Animation<double> imgBackOpacity = Tween<double>(begin: 0.0, end: 0.35)
         .animate(CurvedAnimation(
             parent: controllerProvider.controller, curve: Interval(s2, 1.0)));
 
@@ -354,7 +370,10 @@ class AnimateScaffold extends StatelessWidget {
                                   : bottomListTrans.value),
                           child: Container(
                             height: screenHeight - imgHeight, //todo
-                            child: widgetWatchListView,
+                            child: StreamProvider.value(
+                              initialData: 1.0,
+                              value: opacityS2Subject.stream,
+                              child: widgetWatchListView),
                           ))
                     ],
                   ),

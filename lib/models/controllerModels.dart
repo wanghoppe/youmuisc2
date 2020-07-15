@@ -115,6 +115,14 @@ class BottomSheetControllerProvider extends TickerProvider{
     _controller.value = s1;
     _curvedAnimateTo(s2);
   }
+
+  void animatedS1AndEnd(){
+    if (_controller.value == s2){
+      _curvedAnimateTo(1.0);
+    }else if (_controller.value == 1.0){
+      _curvedAnimateTo(s2);
+    }
+  }
 }
 
 class HomeNavigatorController{
@@ -133,5 +141,16 @@ class HomeNavigatorController{
       }
     }
     return false;
+  }
+}
+
+class TabViewMaskOpacity extends ChangeNotifier{
+  double opacity = 0.0;
+
+  void setOpacity (double value){
+    if (opacity != value){
+      opacity = value;
+      notifyListeners();
+    }
   }
 }

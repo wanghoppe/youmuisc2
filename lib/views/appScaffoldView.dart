@@ -43,6 +43,9 @@ class _AppScaffoldState extends State<AppScaffold> {
         ),
         ChangeNotifierProvider<WatchListProvider>(
           create: (context) => WatchListProvider(),
+        ),
+        ChangeNotifierProvider<TabViewMaskOpacity>(
+          create: (context) => TabViewMaskOpacity(),
         )
       ],
       child:WillPopScope(
@@ -58,14 +61,31 @@ class _AppScaffoldState extends State<AppScaffold> {
 class AppTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return TabBarView(
-        controller: getIt<TabControllerProvider>().tabController,
-        physics: const NeverScrollableScrollPhysics(),
-        children: [
-          HomeUnderTab(),
+    return Stack(
+      children: [
+        TabBarView(
+          controller: getIt<TabControllerProvider>().tabController,
+          physics: const NeverScrollableScrollPhysics(),
+          children: [
+            HomeUnderTab(),
 //          AnimateScaffold(),
-          LocalUnderTab(),
-          ThirdTab(),
-        ]);
+            LocalUnderTab(),
+            ThirdTab(),
+          ]),
+        TabViewMask()
+      ]
+    );
+  }
+}
+
+class TabViewMask extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    final opacity = Provider.of<TabViewMaskOpacity>(context).opacity;
+    return Expanded(
+      child: Container(
+        color: (opacity == 0.0) ? null : Color.fromRGBO(0, 0, 0, opacity)
+      )
+    );
   }
 }

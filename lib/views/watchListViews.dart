@@ -11,22 +11,53 @@ import '../main.dart';
 class WatchListFull extends StatelessWidget {
   static const minBottomListHeight = 56.0;
 
+  void onArrowPressed() {
+    final animationController = getIt<BottomSheetControllerProvider>();
+    animationController.animatedS1AndEnd();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          color: Theme.of(context).appBarTheme.color,
-          alignment: Alignment.centerLeft,
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
-          height: minBottomListHeight,
-          child: Row(
-            children: [
-              Icon(Icons.queue_music, size: 34),
-              SizedBox(width: 8),
-              Text('Up Next', style: Theme.of(context).textTheme.headline5),
-            ],
-          )),
+        GestureDetector(
+          onTap: onArrowPressed,
+          child: Container(
+            color: Theme.of(context).appBarTheme.color,
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            height: minBottomListHeight,
+            child: Row(
+              children: [
+                Icon(Icons.queue_music, size: 34),
+                SizedBox(width: 8),
+                Text('Up Next', style: Theme.of(context).textTheme.headline5),
+                Expanded(child: Container()),
+                Stack(
+                  children: <Widget>[
+                    Consumer<double>(
+                      child: IconButton(
+                        icon: Icon(Icons.keyboard_arrow_down, color: Colors.white, size: 30),
+                        onPressed: onArrowPressed,
+                      ),
+                      builder:(context, value, child) {
+                        return Opacity(opacity: 1-value, child: child,);
+                      },
+                    ),
+                    Consumer<double>(
+                      child: IconButton(
+                        icon: Icon(Icons.keyboard_arrow_up, color: Colors.white, size: 30),
+                        onPressed: onArrowPressed,
+                      ),
+                      builder:(context, value, child) {
+                        return Opacity(opacity: value, child: child,);
+                      },
+                    ),
+                  ],
+                )
+              ],
+            )),
+        ),
         Expanded(child: WatchListView())
       ],
     );
@@ -94,7 +125,7 @@ class WatchItemView extends StatelessWidget {
     return InkWell(
       onTap: () => _onItemTap(context, itemProvider),
       child: Container(
-        color: itemProvider.playing ? Colors.white12 : null,
+        color: itemProvider.playing ? Color.fromRGBO(255, 255, 255, 0.18) : null,
         child: CustomListTile(
           title: itemProvider.title,
           subtitle: itemProvider.subtitle,
