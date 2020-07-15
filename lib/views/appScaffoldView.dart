@@ -82,7 +82,7 @@ class TabViewMask extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     final opacity = Provider.of<TabViewMaskOpacity>(context).opacity;
-    return Expanded(
+    return Positioned.fill(
       child: Container(
         color: (opacity == 0.0) ? null : Color.fromRGBO(0, 0, 0, opacity)
       )
