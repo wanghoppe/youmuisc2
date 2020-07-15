@@ -406,12 +406,15 @@ class AnimateScaffold extends StatelessWidget {
                 height: kToolbarHeight,
                 child: Opacity(
                   opacity: dropDownOpacity.value,
-                  child: IconButton(
-                    icon: Icon(Icons.file_download,
-                        color: Colors.white, size: 30),
-                    onPressed: (dropDownOpacity.value == 1.0)
-                        ? onDownloadPressed
-                        : null, //todo
+                  child: Visibility(
+                    visible: dropDownOpacity.value != 0.0,
+                    child: IconButton(
+                      icon: Icon(Icons.file_download,
+                          color: Colors.white, size: 30),
+                      onPressed: (dropDownOpacity.value == 1.0)
+                          ? onDownloadPressed
+                          : null, //todo
+                    ),
                   ),
                 ),
               ),
@@ -531,8 +534,8 @@ class ClosedTitle extends StatelessWidget {
                   onPressed: (snapshot.data != null) ? onPlayPressed : null);
             }),
         IconButton(
-            icon: Icon(Icons.close),
-            onPressed: getIt<BottomSheetControllerProvider>().onCloseClick)
+          icon: Icon(Icons.close),
+          onPressed: getIt<BottomSheetControllerProvider>().onCloseClick)
       ],
     );
   }

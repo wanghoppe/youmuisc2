@@ -1,3 +1,4 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -104,7 +105,10 @@ class BottomSheetControllerProvider extends TickerProvider{
     }
   }
 
-  void onCloseClick() => _controller.animateTo(0.0);
+  void onCloseClick() {
+    _controller.animateTo(0.0);
+    AudioService.pause();
+  }
 
   void quickToS1(){
     _controller.value = s2;
