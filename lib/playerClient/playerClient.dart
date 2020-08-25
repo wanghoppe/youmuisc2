@@ -9,7 +9,7 @@ void main(){
 void test() async{
   final videoId = 'vj9HvKC_mEU';
   final yt = PlayerClient();
-  final mediaStreams = await yt._client.getVideoMediaStream(videoId);
+  final mediaStreams = await yt._client.videos.streamsClient.getManifest(videoId);
   final audio140 = yt._find140(mediaStreams);
   final audio251 = yt._find251(mediaStreams);
 
@@ -36,7 +36,7 @@ class PlayerClient{
   final _client = YoutubeExplode();
 
   Future<String> getStreamingUrl(String videoId) async{
-    final mediaStreams = await _client.getVideoMediaStream(videoId);
+    final mediaStreams = await _client.videos.streamsClient.getManifest(videoId);
     if (Platform.isAndroid){
       return mediaStreams.audio.last.url.toString();
     }else if (Platform.isIOS){
@@ -46,7 +46,7 @@ class PlayerClient{
   }
 
   Future<String> getDownloadUrl(String videoId) async{
-    final mediaStreams = await _client.getVideoMediaStream(videoId);
+    final mediaStreams = await _client.videos.streamsClient.getManifest(videoId);
     if (Platform.isAndroid){
       return mediaStreams.audio.last.url.toString();
     }else if (Platform.isIOS){
@@ -55,23 +55,23 @@ class PlayerClient{
     return null;
   }
 
-  AudioStreamInfo _find140(MediaStreamInfoSet mediaStreams){
+  AudioStreamInfo _find140(StreamManifest mediaStreams){
     for (var audio in mediaStreams.audio) {
 //      print(audio.itag);
 //      print(audio.audioEncoding);
 //      print(audio.bitrate);
 //      print(audio.downloadStream());
 //      print('\n');
-      if (audio.itag == 140) {
+      if (audio.tag == 140) {
         return audio;
       }
     }
     return null;
   }
 
-  AudioStreamInfo _find251(MediaStreamInfoSet mediaStreams){
+  AudioStreamInfo _find251(StreamManifest mediaStreams){
     for (var audio in mediaStreams.audio) {
-      if (audio.itag == 251) {
+      if (audio.tag == 251) {
         return audio;
       }
     }
