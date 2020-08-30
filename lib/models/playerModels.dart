@@ -178,28 +178,28 @@ class AudioPlayerTask extends BackgroundAudioTask {
   }
 
   @override
-  void onPlay() {
+  onPlay() {
     _audioPlayer.play();
   }
 
   @override
-  void onPause() {
+  onPause() {
     _audioPlayer.pause();
   }
 
   @override
-  void onSeekTo(Duration position) {
+  onSeekTo(Duration position) {
     _audioPlayer.seek(position);
   }
 
   @override
-  void onSkipToNext() {
+  onSkipToNext() {
     print('sending next here');
     AudioServiceBackground.sendCustomEvent(CustomBackEvent('skipToNext', null));
   }
 
   @override
-  void onSkipToPrevious() {
+  onSkipToPrevious() {
     AudioServiceBackground.sendCustomEvent(CustomBackEvent('skipToPrev', null));
   }
 
