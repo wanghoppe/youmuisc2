@@ -14,14 +14,14 @@ description: A new Flutter application.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.2.2 <3.0.0"
+  sdk: ">=2.8.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   google_fonts: ^1.0.0
   http: ^0.12.1
-  youtube_explode_dart: ^1.4.3
+  youtube_explode_dart: ^1.7.1
   provider: ^4.0.5
   get_it: ^4.0.2
   audio_service: ^0.13.0
